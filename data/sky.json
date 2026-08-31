@@ -1,0 +1,2004 @@
+{
+ "schema": 1,
+ "generated": "2026-08-31",
+ "game": "EverQuest Legends",
+ "source": "https://eqlwiki.com/Plane_of_Sky",
+ "zone": {
+  "name": "Plane of Sky",
+  "zone_short": "airplane",
+  "entry": "Click the orb in East Freeport bay, on a rock at approximately -425, -1200.",
+  "min_level": 46,
+  "turnin_location": "Efreeti Chamber - north teleport pad on Island 1, approximately 1600, 520. Requires Efreeti's Key (free from the Key Master on Island 1, purchased once).",
+  "efreeti_cycle": [
+   "Noble Dojorn (I1.5)",
+   "Overseer of Air (I4)",
+   "The Hand of Veeshan (I8)"
+  ],
+  "notes": [
+   "Keys are permanent on the keyring once used - right-click to reclaim the inventory slot.",
+   "Island bosses drop the progression keys directly. There is no token hand-in NPC in Legends.",
+   "Boss NPCs no longer have a deathtouch in Legends.",
+   "Turn-ins CONSUME the component - a shared item must be farmed once per Test that uses it.",
+   "Wind Runes drop from all Sky mobs and are class-restricted.",
+   "Completing a class's Sky Tests unlocks that class as a Primary Class option in loadouts.",
+   "Farm components at D0 - difficulty scales random loot quality, not whether a named quest drop appears.",
+   "Island jumps (one-way portals aside): 7->2 easiest, 4->2, 4->3, 6->5 hardest. Low gravity, no fall damage.",
+   "Most boss-dropped components are NO DROP; Efreeti-cycle items are mostly Attunable and tradeable - so a guildmate can hand you an Efreeti item but not a boss component.",
+   "There are no documented prerequisites between Tests within a class. The only ordering is physical: island access via the key chain."
+  ]
+ },
+ "islands": [
+  {
+   "id": "I1",
+   "name": "Fairy Island",
+   "boss": "Thunder Spirit Princess",
+   "needs_key": null,
+   "yields": [
+    "Key of Swords",
+    "Key of the Misplaced"
+   ],
+   "trash": [
+    "a thunder spirit"
+   ],
+   "notes": "Entry point. Fairies are NOT KOS - safe staging and buff area. Succor returns here. Good Wind Rune farm."
+  },
+  {
+   "id": "I1.5",
+   "name": "Noble Island",
+   "boss": "Noble Dojorn",
+   "needs_key": "Key of Swords",
+   "yields": [],
+   "trash": [
+    "a blade storm"
+   ],
+   "notes": "TRAP: no keys drop here. Carry the Key of the Misplaced before entering. First boss of the Efreeti Cycle - killing Dojorn spawns Overseer of Air on Island 4. Blade storms assist."
+  },
+  {
+   "id": "I2",
+   "name": "Azarack Island",
+   "boss": "Protector of Sky",
+   "needs_key": "Key of the Misplaced",
+   "yields": [
+    "Key of Misfortune"
+   ],
+   "trash": [
+    "an azarack"
+   ],
+   "notes": "Initially aggressive. Azaracks are social - expect adds."
+  },
+  {
+   "id": "I3",
+   "name": "Harpy Island",
+   "boss": "Gorgalosk",
+   "needs_key": "Key of Misfortune",
+   "yields": [
+    "Key of Beasts"
+   ],
+   "trash": [
+    "a gorgalask",
+    "a crystalline cloud",
+    "a gust of wind",
+    "a shimmering meteor",
+    "an avenging gazer",
+    "heart harpie",
+    "a watchful guard",
+    "a spirited harpie"
+   ],
+   "notes": "Gorgalosk casts Stone Breath, a 12-15 second stun. Watchful guards and avenging gazers rarely cast Mana Detonation (knockback) - do not fight near the edge. Fighting inside the structure is safest."
+  },
+  {
+   "id": "I4",
+   "name": "Pegasus Island",
+   "boss": "Keeper of Souls",
+   "needs_key": "Key of Beasts",
+   "yields": [
+    "Avian Key"
+   ],
+   "trash": [
+    "a soul carrier",
+    "an essence carrier",
+    "an essence tamer",
+    "a soul harvester",
+    "a soul tamer"
+   ],
+   "notes": "Split mobs: each death spawns a replacement, so expect to tank two at once. Some proc a Whirl Till You Hurl stun that breaks tank aggro. Overseer of Air (Efreeti Cycle #2) also spawns here."
+  },
+  {
+   "id": "I5",
+   "name": "Spiroc Island",
+   "boss": "The Spiroc Lord",
+   "needs_key": "Avian Key",
+   "yields": [
+    "Key of the Swarm"
+   ],
+   "trash": [
+    "a spiroc arbiter",
+    "a spiroc banisher",
+    "a spiroc caller",
+    "a spiroc expulser",
+    "a spiroc revolter",
+    "a spiroc walker",
+    "a spiroc vanquisher"
+   ],
+   "notes": "ENDLESSLY FARMABLE - respawns quickly. Kill a banisher, walker or revolter to spawn The Spiroc Guardian, which spawns The Spiroc Lord. Spirocs cast directional Dark Terror knockbacks - face the tank toward island centre."
+  },
+  {
+   "id": "I6",
+   "name": "Bee Island",
+   "boss": "Bazzt Zzzt",
+   "needs_key": "Key of the Swarm",
+   "yields": [
+    "Key of Scale"
+   ],
+   "trash": [
+    "Bzzazzt",
+    "Bazzzazzt",
+    "Bizazzt",
+    "Bzzzt"
+   ],
+   "notes": "Only a 1-SPLIT chains to the Queen: Bzzazzt -> Bazzzazzt -> Bzzzt (mini-queen) -> Bazzt Zzzt. A 2-split or 3-split dead-ends. Bees do not see invis but are social with a huge aggro radius; they proc ~100hp/tick poison DoTs. On a wipe the boss relocates to the previous mob's death spot."
+  },
+  {
+   "id": "I7",
+   "name": "Drake Island",
+   "boss": "Sister of the Spire",
+   "needs_key": "Key of Scale",
+   "yields": [
+    "Veeshan's Key"
+   ],
+   "trash": [
+    "a heartsbane drake",
+    "a fatestealer drake",
+    "a windrider drake",
+    "a greater sphinx",
+    "undine spirit"
+   ],
+   "notes": "Highest-value single boss - the most Tests draw from her table. Clear greater sphinxes first, they aggro socially through walls. Windrider drakes cast gravity flux and will shoot you off the island."
+  },
+  {
+   "id": "I8",
+   "name": "Veeshan Island",
+   "boss": "Eye of Veeshan",
+   "needs_key": "Veeshan's Key",
+   "yields": [],
+   "trash": [],
+   "notes": "Final boss. 32,000 HP in a solo instance at difficulty 0. Spams lifetaps with unpredictable damage spikes and resists slow without mote-upgraded spells. The Hand of Veeshan (Efreeti Cycle #3) also spawns here - engage it at the north end to split it from the Eye."
+  }
+ ],
+ "keys": [
+  {
+   "key": "Key of Swords",
+   "from": "Thunder Spirit Princess (I1)",
+   "to": "I1.5"
+  },
+  {
+   "key": "Key of the Misplaced",
+   "from": "Thunder Spirit Princess (I1)",
+   "to": "I2"
+  },
+  {
+   "key": "Key of Misfortune",
+   "from": "Protector of Sky (I2)",
+   "to": "I3"
+  },
+  {
+   "key": "Key of Beasts",
+   "from": "Gorgalosk (I3)",
+   "to": "I4"
+  },
+  {
+   "key": "Avian Key",
+   "from": "Keeper of Souls (I4)",
+   "to": "I5"
+  },
+  {
+   "key": "Key of the Swarm",
+   "from": "The Spiroc Lord (I5)",
+   "to": "I6"
+  },
+  {
+   "key": "Key of Scale",
+   "from": "Bazzt Zzzt (I6)",
+   "to": "I7"
+  },
+  {
+   "key": "Veeshan's Key",
+   "from": "Sister of the Spire (I7)",
+   "to": "I8"
+  }
+ ],
+ "classes": [
+  {
+   "name": "Bard",
+   "achievement_name": "Bard",
+   "turnin_npc": "Cilin Spellsinger",
+   "tests": [
+    {
+     "test": "Test of Tone",
+     "trigger": "tone",
+     "rune": "Wind Rune Meda",
+     "rune_classes": "BRD CLR DRU ENC RNG SHM",
+     "rune_unverified": true,
+     "reward": "Mask of Song",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Light Woolen Mask",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Voice",
+     "trigger": "voice",
+     "rune": "Wind Rune Kala",
+     "rune_classes": "CLR RNG SHD DRU BRD SHM BST",
+     "rune_unverified": false,
+     "reward": "Mantle of the Songweaver",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Light Woolen Mantle",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Pitch",
+     "trigger": "pitch",
+     "rune": "Wind Rune Azia",
+     "rune_classes": "WAR RNG DRU BRD NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Ervaj's Flute of Flight",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Crude Wooden Flute",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Wind",
+     "trigger": "wind",
+     "rune": "Wind Rune Caza",
+     "rune_classes": "CLR MNK BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Fae Amulet",
+     "reward_alias": "Amulet of the Fae",
+     "components": [
+      {
+       "item": "Amulet of Woven Hair",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Brass",
+     "trigger": "brass",
+     "rune": "Wind Rune Fana",
+     "rune_classes": "WAR SHD BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Denon's Horn of Disaster",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Glowing Diamond",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Efreeti War Horn",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Harmony",
+     "trigger": "harmony",
+     "rune": "Wind Rune Heda",
+     "rune_classes": "RNG SHD BRD SHM MAG BST",
+     "rune_unverified": false,
+     "reward": "Spear of Harmony",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Nebulous Diamond",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti War Spear",
+       "source": "Efreeti cycle: Dojorn / Overseer only",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Beastlord",
+   "achievement_name": "Beastlord",
+   "turnin_npc": "Animist Kratho",
+   "tests": [
+    {
+     "test": "Test of Aviak",
+     "trigger": "aviak",
+     "rune": "Wind Rune Beza",
+     "rune_classes": "WAR SHD MNK SHM ENC BST",
+     "rune_unverified": false,
+     "reward": "Spiroc Beak Earcuff",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Spiroc Elder's Totem",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Azarack",
+     "trigger": "azarack",
+     "rune": "Wind Rune Heda",
+     "rune_classes": "RNG SHD BRD SHM MAG BST",
+     "rune_unverified": false,
+     "reward": "Azarack Skin Wristwraps",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Azarack Skin",
+       "source": "I2 Protector of Sky",
+       "island": "I2"
+      }
+     ]
+    },
+    {
+     "test": "Test of Claw",
+     "trigger": "claw",
+     "rune": "Wind Rune Izah",
+     "rune_classes": "PAL SHD DRU ROG WIZ ENC BST",
+     "rune_unverified": false,
+     "reward": "Windhowl and Spirit Render",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Sphinx Claw",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Mithril Bands",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Brass Knuckles",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Harpy",
+     "trigger": "harpy",
+     "rune": "Wind Rune Kala",
+     "rune_classes": "CLR RNG SHD DRU BRD SHM BST",
+     "rune_unverified": false,
+     "reward": "Griffon-Hide Armguards",
+     "reward_alias": "Griffin-Hide Armguards",
+     "components": [
+      {
+       "item": "Leather Cord",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Wind",
+     "trigger": "wind",
+     "rune": "Wind Rune Geza",
+     "rune_classes": "PAL MNK ROG SHM WIZ BST",
+     "rune_unverified": false,
+     "reward": "Diaphonous Waistband",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Silken Wrap",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Berserker",
+   "achievement_name": "Berserker",
+   "turnin_npc": "Stragen The Hewer",
+   "tests": [
+    {
+     "test": "Test of Sharpness",
+     "trigger": "sharpness",
+     "rune": "Wind Rune Jaka",
+     "rune_classes": "WAR MNK ROG WIZ BER",
+     "rune_unverified": false,
+     "reward": "Skycleaver",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Djinni War Blade",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Efreeti Standard",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Will",
+     "trigger": "will",
+     "rune": "Wind Rune Ena",
+     "rune_classes": "CLR RNG DRU ROG SHM MAG BER",
+     "rune_unverified": false,
+     "reward": "Molten Coil",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Pulsating Ruby",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Ferocity",
+     "trigger": "ferocity",
+     "rune": "Wind Rune Ozah",
+     "rune_classes": "PAL SHD ROG NEC ENC BER",
+     "rune_unverified": false,
+     "reward": "Sash of Ferocity",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "High Quality Raiment",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Burden",
+     "trigger": "burden",
+     "rune": "Wind Rune Azia",
+     "rune_classes": "WAR RNG DRU BRD NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Shroud of the Sky",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Feathered Cape",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Blood",
+     "trigger": "blood",
+     "rune": "Wind Rune Lena",
+     "rune_classes": "CLR PAL MNK NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Blood-Drawn Runes",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Azarack Blood",
+       "source": "I2 Protector of Sky",
+       "island": "I2"
+      }
+     ]
+    },
+    {
+     "test": "Test of Fools Errand",
+     "trigger": "fools errand",
+     "rune": "Wind Rune Dena",
+     "rune_classes": "WAR SHD DRU ROG WIZ MAG BER",
+     "rune_unverified": false,
+     "reward": "Cudgel of the Fool",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Jester's Mask",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      },
+      {
+       "item": "Efreeti Great Staff",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Cleric",
+   "achievement_name": "Cleric",
+   "turnin_npc": "Josin Faithbringer",
+   "tests": [
+    {
+     "test": "Test of Courage",
+     "trigger": "courage",
+     "rune": "Wind Rune Lena",
+     "rune_classes": "CLR PAL MNK NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Truewind Earring",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Silver Hoop",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Skill",
+     "trigger": "skill",
+     "rune": "Wind Rune Meda",
+     "rune_classes": "BRD CLR DRU ENC RNG SHM",
+     "rune_unverified": true,
+     "reward": "Aegis of the Wind",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Small Shield",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Protection",
+     "trigger": "protection",
+     "rune": "Wind Rune Caza",
+     "rune_classes": "CLR MNK BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Pauldrons of Piety",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Shiny Pauldrons",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Resolution",
+     "trigger": "resolution",
+     "rune": "Wind Rune Neza",
+     "rune_classes": "WAR CLR RNG MNK NEC MAG",
+     "rune_unverified": false,
+     "reward": "Necklace of Resolution",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Silvered Spiroc Necklace",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Theurgy",
+     "trigger": "theurgy",
+     "rune": "Wind Rune Kala",
+     "rune_classes": "CLR RNG SHD DRU BRD SHM BST",
+     "rune_unverified": false,
+     "reward": "Theurgist's Star",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Djinni Aura",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Efreeti Mace",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of The Weak",
+     "trigger": "weak",
+     "rune": "Wind Rune Ena",
+     "rune_classes": "CLR RNG DRU ROG SHM MAG BER",
+     "rune_unverified": false,
+     "reward": "Baton of the Sky",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Mithril Bands",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti Standard",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Druid",
+   "achievement_name": "Druid",
+   "turnin_npc": "Strandar Pinemist",
+   "tests": [
+    {
+     "test": "Test of Wolf",
+     "trigger": "wolf",
+     "rune": "Wind Rune Meda",
+     "rune_classes": "BRD CLR DRU ENC RNG SHM",
+     "rune_unverified": true,
+     "reward": "Drake-Hide Mask",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Worn Leather Mask",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Bear",
+     "trigger": "bear",
+     "rune": "Wind Rune Kala",
+     "rune_classes": "CLR RNG SHD DRU BRD SHM BST",
+     "rune_unverified": false,
+     "reward": "Nature Walker's Mantle",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Mantle of Woven Grass",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Tree",
+     "trigger": "tree",
+     "rune": "Wind Rune Azia",
+     "rune_classes": "WAR RNG DRU BRD NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Shillelagh",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Spiroc Battle Staff",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      },
+      {
+       "item": "Efreeti Statuette",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of The Bee",
+     "trigger": "bee",
+     "rune": "Wind Rune Dena",
+     "rune_classes": "WAR SHD DRU ROG WIZ MAG BER",
+     "rune_unverified": false,
+     "reward": "Honeycomb Belt",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Divine Honeycomb",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Eagle",
+     "trigger": "eagle",
+     "rune": "Wind Rune Ena",
+     "rune_classes": "CLR RNG DRU ROG SHM MAG BER",
+     "rune_unverified": false,
+     "reward": "Spiroc Banisher Focus",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Ethereal Ruby",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Spiroc Elder's Totem",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Nature",
+     "trigger": "nature",
+     "rune": "Wind Rune Izah",
+     "rune_classes": "PAL SHD DRU ROG WIZ ENC BST",
+     "rune_unverified": false,
+     "reward": "Espri",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Storm Sky Opal",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti Scimitar",
+       "source": "Efreeti cycle: Dojorn / Overseer only",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Enchanter",
+   "achievement_name": "Enchanter",
+   "turnin_npc": "Enchanter Jolas",
+   "tests": [
+    {
+     "test": "Test of Illusion",
+     "trigger": "illusion",
+     "rune": "Wind Rune Meda",
+     "rune_classes": "BRD CLR DRU ENC RNG SHM",
+     "rune_unverified": true,
+     "reward": "Sphinx Hair Cord",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Finely Woven Cloth Cord",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Metamorphism",
+     "trigger": "metamorphism",
+     "rune": "Wind Rune Ozah",
+     "rune_classes": "PAL SHD ROG NEC ENC BER",
+     "rune_unverified": false,
+     "reward": "Wind Walker's Mantle",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Light Cloth Mantle",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Deception",
+     "trigger": "deception",
+     "rune": "Wind Rune Beza",
+     "rune_classes": "WAR SHD MNK SHM ENC BST",
+     "rune_unverified": false,
+     "reward": "Ivory Mask",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Silken Mask",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Dislocation",
+     "trigger": "dislocation",
+     "rune": "Wind Rune Caza",
+     "rune_classes": "CLR MNK BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Earring of Displacement",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Adamantium Earring",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Memorization",
+     "trigger": "memorization",
+     "rune": "Wind Rune Fana",
+     "rune_classes": "WAR SHD BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Necklace of Whispering Winds",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Glowing Necklace",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of Incapacitation",
+     "trigger": "incapacitation",
+     "rune": "Wind Rune Izah",
+     "rune_classes": "PAL SHD DRU ROG WIZ ENC BST",
+     "rune_unverified": false,
+     "reward": "Rod of the Protecting Winds",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Large Sky Sapphire",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti Wind Staff",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Magician",
+   "achievement_name": "Magician",
+   "turnin_npc": "Magus Frinon",
+   "tests": [
+    {
+     "test": "Test of Clarification",
+     "trigger": "clarification",
+     "rune": "Wind Rune Lena",
+     "rune_classes": "CLR PAL MNK NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Bracelet of Clarification",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Feathered Cape",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Empowerment",
+     "trigger": "empowerment",
+     "rune": "Wind Rune Neza",
+     "rune_classes": "WAR CLR RNG MNK NEC MAG",
+     "rune_unverified": false,
+     "reward": "Mask of Empowerment",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Ceramic Mask",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Shielding",
+     "trigger": "shielding",
+     "rune": "Wind Rune Azia",
+     "rune_classes": "WAR RNG DRU BRD NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Gold White Pendant",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Golden Coffer",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Summoning",
+     "trigger": "summoning",
+     "rune": "Wind Rune Dena",
+     "rune_classes": "WAR SHD DRU ROG WIZ MAG BER",
+     "rune_unverified": false,
+     "reward": "Drake-Hide Amice",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Large Diamond",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Interpretation",
+     "trigger": "interpretation",
+     "rune": "Wind Rune Ena",
+     "rune_classes": "CLR RNG DRU ROG SHM MAG BER",
+     "rune_unverified": false,
+     "reward": "Duennan Shielding Ring",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Golden Efreeti Ring",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of Gesticulation",
+     "trigger": "gesticulation",
+     "rune": "Wind Rune Jaka",
+     "rune_classes": "WAR MNK ROG WIZ BER",
+     "rune_unverified": false,
+     "reward": "Staff of The Magister",
+     "reward_alias": "Staff of the Magister",
+     "components": [
+      {
+       "item": "Hazy Opal",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti Magi Staff",
+       "source": "Efreeti cycle: Dojorn / Overseer only",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Displacement",
+     "trigger": "displacement",
+     "rune": "Wind Rune Heda",
+     "rune_classes": "RNG SHD BRD SHM MAG BST",
+     "rune_unverified": false,
+     "reward": "Staff of Elemental Mastery: Air",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Crown of Elemental Mastery",
+       "source": "I7 trash",
+       "island": "I7"
+      },
+      {
+       "item": "Large Opal",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Djinni Stave",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Monk",
+   "achievement_name": "Monk",
+   "turnin_npc": "Holwin",
+   "tests": [
+    {
+     "test": "Test of Strength",
+     "trigger": "strength",
+     "rune": "Wind Rune Caza",
+     "rune_classes": "CLR MNK BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Back Straps of Mastery",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Silken Strands",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Sight",
+     "trigger": "sight",
+     "rune": "Wind Rune Geza",
+     "rune_classes": "PAL MNK ROG SHM WIZ BST",
+     "rune_unverified": false,
+     "reward": "Ton Po's Eye Patch",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Cracked Leather Eyepatch",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Speed",
+     "trigger": "speed",
+     "rune": "Wind Rune Jaka",
+     "rune_classes": "WAR MNK ROG WIZ BER",
+     "rune_unverified": false,
+     "reward": "Sandals of Alacrity",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Dove Slippers",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Tears",
+     "trigger": "tears",
+     "rune": "Wind Rune Beza",
+     "rune_classes": "WAR SHD MNK SHM ENC BST",
+     "rune_unverified": false,
+     "reward": "Ton Po's Shoulder Wraps",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Silken Wrap",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Fists",
+     "trigger": "fists",
+     "rune": "Wind Rune Neza",
+     "rune_classes": "WAR CLR RNG MNK NEC MAG",
+     "rune_unverified": false,
+     "reward": "Wu's Fist of Mastery",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Nebulous Sapphire",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Brass Knuckles",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Tranquility",
+     "trigger": "tranquility",
+     "rune": "Wind Rune Lena",
+     "rune_classes": "CLR PAL MNK NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Golden Sash of Tranquility",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Tear of Quellious",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Necromancer",
+   "achievement_name": "Necromancer",
+   "turnin_npc": "Drakis Bloodcaster",
+   "tests": [
+    {
+     "test": "Test of Flight",
+     "trigger": "flight",
+     "rune": "Wind Rune Lena",
+     "rune_classes": "CLR PAL MNK NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Bloody Griffon-Hide Wrist Guard",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Griffon's Beak",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Power",
+     "trigger": "power",
+     "rune": "Wind Rune Neza",
+     "rune_classes": "WAR CLR RNG MNK NEC MAG",
+     "rune_unverified": false,
+     "reward": "Cloak of Spiroc Feathers",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Black Silk Cape",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Mind",
+     "trigger": "mind",
+     "rune": "Wind Rune Ozah",
+     "rune_classes": "PAL SHD ROG NEC ENC BER",
+     "rune_unverified": false,
+     "reward": "Bloodsoaked Raiment",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Fine Cloth Raiment",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Heart",
+     "trigger": "heart",
+     "rune": "Wind Rune Azia",
+     "rune_classes": "WAR RNG DRU BRD NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Sphinx Heart Amulet",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Pulsating Ruby",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Finger",
+     "trigger": "finger",
+     "rune": "Wind Rune Caza",
+     "rune_classes": "CLR MNK BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Band of Wailing Winds",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Ring of Veeshan",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of Hands",
+     "trigger": "hands",
+     "rune": "Wind Rune Fana",
+     "rune_classes": "WAR SHD BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Gorgon Head Staff",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Gorgon Head",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      },
+      {
+       "item": "Efreeti Great Staff",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Paladin",
+   "achievement_name": "Paladin",
+   "turnin_npc": "Dason Goldblade",
+   "tests": [
+    {
+     "test": "Test of Spirit",
+     "trigger": "spirit",
+     "rune": "Wind Rune Lena",
+     "rune_classes": "CLR PAL MNK NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Girdle of Faith",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Ivory Sky Diamond",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Sacrifice",
+     "trigger": "sacrifice",
+     "rune": "Wind Rune Ozah",
+     "rune_classes": "PAL SHD ROG NEC ENC BER",
+     "rune_unverified": false,
+     "reward": "Aldryn, Blade of the Ocean",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Bixie Sword Blade",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Love",
+     "trigger": "love",
+     "rune": "Wind Rune Geza",
+     "rune_classes": "PAL MNK ROG SHM WIZ BST",
+     "rune_unverified": false,
+     "reward": "Thelvorn, Blade of Light",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Golden Hilt",
+       "source": "I7 trash",
+       "island": "I7"
+      },
+      {
+       "item": "Sphinx Claw",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of Compassion",
+     "trigger": "compassion",
+     "rune": "Wind Rune Izah",
+     "rune_classes": "PAL SHD DRU ROG WIZ ENC BST",
+     "rune_unverified": false,
+     "reward": "Truvinan",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Large Sky Diamond",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti Zweihander",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Ranger",
+   "achievement_name": "Ranger",
+   "turnin_npc": "Ranger Spirit",
+   "tests": [
+    {
+     "test": "Test of Body",
+     "trigger": "body",
+     "rune": "Wind Rune Meda",
+     "rune_classes": "BRD CLR DRU ENC RNG SHM",
+     "rune_unverified": true,
+     "reward": "Griffon Talon Necklace",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Griffon Talon",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Defense",
+     "trigger": "defense",
+     "rune": "Wind Rune Neza",
+     "rune_classes": "WAR CLR RNG MNK NEC MAG",
+     "rune_unverified": false,
+     "reward": "Dark Cloak of the Sky",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Fine Velvet Cloak",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of The Earth",
+     "trigger": "elemental earth",
+     "rune": "Wind Rune Kala",
+     "rune_classes": "CLR RNG SHD DRU BRD SHM BST",
+     "rune_unverified": false,
+     "reward": "Earthshaker's Mantle",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Spiroc Earth Totem",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Thunder",
+     "trigger": "elemental thunder",
+     "rune": "Wind Rune Azia",
+     "rune_classes": "WAR RNG DRU BRD NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Thunderforged Earring",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "White Gold Earring",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Blade",
+     "trigger": "blade",
+     "rune": "Wind Rune Ena",
+     "rune_classes": "CLR RNG DRU ROG SHM MAG BER",
+     "rune_unverified": false,
+     "reward": "Arydryidriyorn",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Circlet of Brambles",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Efreeti Long Sword",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Ranged Attack",
+     "trigger": "ranged attack",
+     "rune": "Wind Rune Heda",
+     "rune_classes": "RNG SHD BRD SHM MAG BST",
+     "rune_unverified": false,
+     "reward": "Windstriker",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Shimmering Pearl",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti War Bow",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Rogue",
+   "achievement_name": "Rogue",
+   "turnin_npc": "Thalik Silenthand",
+   "tests": [
+    {
+     "test": "Test of Thievery",
+     "trigger": "thievery",
+     "rune": "Wind Rune Ozah",
+     "rune_classes": "PAL SHD ROG NEC ENC BER",
+     "rune_unverified": false,
+     "reward": "Wispy Choker of Vigor",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Inlaid Choker",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Trickery",
+     "trigger": "trickery",
+     "rune": "Wind Rune Izah",
+     "rune_classes": "PAL SHD DRU ROG WIZ ENC BST",
+     "rune_unverified": false,
+     "reward": "Renard's Belt of Quickness",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Sphinxian Circlet",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of Silence",
+     "trigger": "silence",
+     "rune": "Wind Rune Ena",
+     "rune_classes": "CLR RNG DRU ROG SHM MAG BER",
+     "rune_unverified": false,
+     "reward": "Griffon Wing Spaulders",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Spiroc Sky Totem",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Cunning",
+     "trigger": "cunning",
+     "rune": "Wind Rune Dena",
+     "rune_classes": "WAR SHD DRU ROG WIZ MAG BER",
+     "rune_unverified": false,
+     "reward": "Crystal Mask",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Jester's Mask",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Stealth",
+     "trigger": "stealth",
+     "rune": "Wind Rune Geza",
+     "rune_classes": "PAL MNK ROG SHM WIZ BST",
+     "rune_unverified": false,
+     "reward": "Shimmering Bracer of Protection",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Fine Wool Cloak",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Deception",
+     "trigger": "deception",
+     "rune": "Wind Rune Jaka",
+     "rune_classes": "WAR MNK ROG WIZ BER",
+     "rune_unverified": false,
+     "reward": "Thornstinger",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Bixie Stinger",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      },
+      {
+       "item": "Bloodsky Sapphire",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Shadow Knight",
+   "achievement_name": "Shadowknight",
+   "turnin_npc": "Sarkis Ebonblade",
+   "tests": [
+    {
+     "test": "Test of Bash",
+     "trigger": "bash",
+     "rune": "Wind Rune Ozah",
+     "rune_classes": "PAL SHD ROG NEC ENC BER",
+     "rune_unverified": false,
+     "reward": "Amulet of the Sphinx Eye",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Finely Crafted Amulet",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Smash",
+     "trigger": "smash",
+     "rune": "Wind Rune Beza",
+     "rune_classes": "WAR SHD MNK SHM ENC BST",
+     "rune_unverified": false,
+     "reward": "Crimson Ring of the Djinni",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Silvery Ring",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Slash",
+     "trigger": "slash",
+     "rune": "Wind Rune Dena",
+     "rune_classes": "WAR SHD DRU ROG WIZ MAG BER",
+     "rune_unverified": false,
+     "reward": "Pegasus-Hide Belt",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Finely Woven Cloth Belt",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Disempowerment",
+     "trigger": "disempowerment",
+     "rune": "Wind Rune Fana",
+     "rune_classes": "WAR SHD BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Blood Sky Face Plate",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Rusted Pauldrons",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      }
+     ]
+    },
+    {
+     "test": "Test of Envenoming",
+     "trigger": "envenoming",
+     "rune": "Wind Rune Heda",
+     "rune_classes": "RNG SHD BRD SHM MAG BST",
+     "rune_unverified": false,
+     "reward": "Obtenebrate Mithril Guard",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Efreeti War Shield",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Raising of the Dead",
+     "trigger": "raising of the dead",
+     "rune": "Wind Rune Izah",
+     "rune_classes": "PAL SHD DRU ROG WIZ ENC BST",
+     "rune_unverified": false,
+     "reward": "Pearlescent Pauldrons",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Sphinxian Ring",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Fae Pauldrons",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      }
+     ]
+    },
+    {
+     "test": "Test of Necropotence",
+     "trigger": "necropotence",
+     "rune": "Wind Rune Kala",
+     "rune_classes": "CLR RNG SHD DRU BRD SHM BST",
+     "rune_unverified": false,
+     "reward": "Khyldorn the Blood Drinker",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Blood Sky Ruby",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti War Axe",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Shaman",
+   "achievement_name": "Shaman",
+   "turnin_npc": "Medicine Man Veetra",
+   "tests": [
+    {
+     "test": "Test of Might",
+     "trigger": "might",
+     "rune": "Wind Rune Meda",
+     "rune_classes": "BRD CLR DRU ENC RNG SHM",
+     "rune_unverified": true,
+     "reward": "Amulet of the Fang",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Leather Cord",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Health",
+     "trigger": "health",
+     "rune": "Wind Rune Kala",
+     "rune_classes": "CLR RNG SHD DRU BRD SHM BST",
+     "rune_unverified": false,
+     "reward": "Bracelet of the Spirits",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Ceremonial Belt",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Sight",
+     "trigger": "sight",
+     "rune": "Wind Rune Beza",
+     "rune_classes": "WAR SHD MNK SHM ENC BST",
+     "rune_unverified": false,
+     "reward": "Fairy-Hide Mantle",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Light Damask Mantle",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Shrink",
+     "trigger": "shrink",
+     "rune": "Wind Rune Ena",
+     "rune_classes": "CLR RNG DRU ROG SHM MAG BER",
+     "rune_unverified": false,
+     "reward": "Warhammer of the Wind",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Corrosive Venom",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      },
+      {
+       "item": "Efreeti War Club",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Snake",
+     "trigger": "snake",
+     "rune": "Wind Rune Heda",
+     "rune_classes": "RNG SHD BRD SHM MAG BST",
+     "rune_unverified": false,
+     "reward": "Vermilion Sky Ring",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Bixie Essence",
+       "source": "I6 split bees (not the Queen)",
+       "island": "I6"
+      },
+      {
+       "item": "Spiritualist's Ring",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of The Witch Doctor",
+     "trigger": "witch doctor",
+     "rune": "Wind Rune Geza",
+     "rune_classes": "PAL MNK ROG SHM WIZ BST",
+     "rune_unverified": false,
+     "reward": "Garduk",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Symbol of Veeshan",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti War Maul",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Warrior",
+   "achievement_name": "Warrior",
+   "turnin_npc": "Torgon Blademaster",
+   "tests": [
+    {
+     "test": "Test of Skill",
+     "trigger": "skill",
+     "rune": "Wind Rune Neza",
+     "rune_classes": "WAR CLR RNG MNK NEC MAG",
+     "rune_unverified": false,
+     "reward": "Azure Ruby Ring",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Azure Ring",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Strength",
+     "trigger": "strength",
+     "rune": "Wind Rune Azia",
+     "rune_classes": "WAR RNG DRU BRD NEC MAG BER",
+     "rune_unverified": false,
+     "reward": "Runed Wind Amulet",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Stone Amulet",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Force",
+     "trigger": "force",
+     "rune": "Wind Rune Beza",
+     "rune_classes": "WAR SHD MNK SHM ENC BST",
+     "rune_unverified": false,
+     "reward": "Pauldrons of the Blue Sky",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Spiroc Air Totem",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Think",
+     "trigger": "think",
+     "rune": "Wind Rune Fana",
+     "rune_classes": "WAR SHD BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Belt of the Four Winds",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Wind Tablet",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      },
+      {
+       "item": "Efreeti Belt",
+       "source": "Efreeti cycle: Dojorn / Hand only",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Smash",
+     "trigger": "smash",
+     "rune": "Wind Rune Jaka",
+     "rune_classes": "WAR MNK ROG WIZ BER",
+     "rune_unverified": false,
+     "reward": "Dagas",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Djinni War Blade",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      },
+      {
+       "item": "Gem of Invigoration",
+       "source": "I7 trash",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of Bash",
+     "trigger": "bash",
+     "rune": "Wind Rune Dena",
+     "rune_classes": "WAR SHD DRU ROG WIZ MAG BER",
+     "rune_unverified": false,
+     "reward": "Fangol",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Ethereal Emerald",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti Battle Axe",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Wizard",
+   "achievement_name": "Wizard",
+   "turnin_npc": "Wizard Schrock",
+   "tests": [
+    {
+     "test": "Test of Concentration",
+     "trigger": "concentration",
+     "rune": "Wind Rune Dena",
+     "rune_classes": "WAR SHD DRU ROG WIZ MAG BER",
+     "rune_unverified": false,
+     "reward": "Augmentor's Mask",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Grey Damask Cloak",
+       "source": "I3 Gorgalosk",
+       "island": "I3"
+      }
+     ]
+    },
+    {
+     "test": "Test of Focus",
+     "trigger": "focus",
+     "rune": "Wind Rune Fana",
+     "rune_classes": "WAR SHD BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Al'Kabor's Cap of Binding",
+     "reward_alias": "Al`Kabor's Cap of Binding",
+     "components": [
+      {
+       "item": "Woven Skull Cap",
+       "source": "I4 Keeper of Souls",
+       "island": "I4"
+      }
+     ]
+    },
+    {
+     "test": "Test of Meditation",
+     "trigger": "meditation",
+     "rune": "Wind Rune Geza",
+     "rune_classes": "PAL MNK ROG SHM WIZ BST",
+     "rune_unverified": false,
+     "reward": "Raiment of Thunder",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "High Quality Raiment",
+       "source": "I5 Spiroc Lord",
+       "island": "I5"
+      }
+     ]
+    },
+    {
+     "test": "Test of Conception",
+     "trigger": "conception",
+     "rune": "Wind Rune Izah",
+     "rune_classes": "PAL SHD DRU ROG WIZ ENC BST",
+     "rune_unverified": false,
+     "reward": "Solidate Mithril Ring",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Box of Winds",
+       "source": "I6 Bazzt Zzzt",
+       "island": "I6"
+      },
+      {
+       "item": "Efreeti Statuette",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    },
+    {
+     "test": "Test of Visualization",
+     "trigger": "visualization",
+     "rune": "Wind Rune Jaka",
+     "rune_classes": "WAR MNK ROG WIZ BER",
+     "rune_unverified": false,
+     "reward": "Amulet of the Void",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Amethyst Amulet",
+       "source": "I7 Sister of the Spire",
+       "island": "I7"
+      }
+     ]
+    },
+    {
+     "test": "Test of Preparation",
+     "trigger": "preparation",
+     "rune": "Wind Rune Caza",
+     "rune_classes": "CLR MNK BRD NEC WIZ ENC",
+     "rune_unverified": false,
+     "reward": "Nargon's Staff",
+     "reward_alias": null,
+     "components": [
+      {
+       "item": "Large Sky Lapis",
+       "source": "I8 Eye of Veeshan",
+       "island": "I8"
+      },
+      {
+       "item": "Efreeti War Staff",
+       "source": "Efreeti cycle",
+       "island": "EFREETI"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
