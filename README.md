@@ -1,20 +1,29 @@
 # EQL Sky Tracker
 
+[![Download](https://img.shields.io/badge/Download-EQLSkyTracker.exe-2ea44f?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Onica5000/EQLSkyTracker/releases/latest/download/EQLSkyTracker.exe)
+[![Latest release](https://img.shields.io/github/v/release/Onica5000/EQLSkyTracker?style=flat-square)](https://github.com/Onica5000/EQLSkyTracker/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Onica5000/EQLSkyTracker/total?style=flat-square)](https://github.com/Onica5000/EQLSkyTracker/releases)
+[![Licence](https://img.shields.io/github/license/Onica5000/EQLSkyTracker?style=flat-square)](LICENSE)
+
 **Plane of Sky progress tracker for [EverQuest Legends](https://www.everquestlegends.com/).**
 Tells you which class you're closest to unlocking, exactly what you still need, and which boss
 drops it.
 
-Single `.exe`. No install, no Python, nothing to configure. It reads the two text files the
-game already writes.
+## ⬇️ Download
+
+### **[Download EQLSkyTracker.exe](https://github.com/Onica5000/EQLSkyTracker/releases/latest/download/EQLSkyTracker.exe)**
+
+That link always gives you the newest build. Single file, ~38 MB. No install, no Python,
+nothing to configure — save it anywhere and double-click.
+
+> **Windows will warn you on first run.** The exe isn't code-signed, so SmartScreen shows
+> "Windows protected your PC". Click **More info → Run anyway**. This is expected for any
+> unsigned hobby tool.
+
+Or browse [all releases](https://github.com/Onica5000/EQLSkyTracker/releases).
 
 > Completing a class's Plane of Sky Tests unlocks that class as a **Primary Class** option in
 > your loadouts. This app exists to make that grind legible.
-
-## Download
-
-Grab **`EQLSkyTracker.exe`** from the [latest release](../../releases/latest).
-
-Windows SmartScreen will warn on first run — the exe isn't code-signed. *More info → Run anyway.*
 
 ## Using it
 
