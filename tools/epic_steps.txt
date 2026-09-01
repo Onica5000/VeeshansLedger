@@ -37,13 +37,13 @@ step|item|from_mob|zone|era|notes
 20|Amygdalan Tendril|an Amygdalan warrior|Plane of Fear|NOW|lvl 48
 21|Petrified Werewolf Skull|Drolvarg Warlord|Karnor's Castle|KUNARK|lvl 52
 22|Forpar's Note to Himself|Forpar Fizfla|Steamfont Mountains|NOW|say "What Components"
-23|Mystical Lute Head|Forpar Fizfla|Steamfont Mountains|NOW|turn in note + backbone + tendril + skull
+23|Mystical Lute Head|Forpar Fizfla|Steamfont Mountains|KUNARK|gated: needs Petrified Werewolf Skull from Karnor's Castle
 24|Red Dragon Scales|Lord Nagafen|Nagafen's Lair|NOW|Nagafen is the safest pre-Kunark source
 25|White Dragon Scales|Lady Vox|Permafrost|NOW|Vox is the pre-Kunark source; Gorenaire is Kunark
 26|metal bits|crafted|-|NOW|smithing
 27|Mystical Lute Body|Forpar Fizfla|Steamfont Mountains|NOW|turn in metal bits + red scales + white scales
 28|Undead Dragongut Strings|Trakanon (triggered)|Old Sebilis|KUNARK|via An Undead Bard; this is the REVAMPED bard epic route
-29|Mystical Lute|Forpar Fizfla|Steamfont Mountains|NOW|turn in head + body + strings; gated by the Sebilis step
+29|Mystical Lute|Forpar Fizfla|Steamfont Mountains|KUNARK|gated: needs the Old Sebilis strings and the Lute Head
 30|Singing Short Sword|Baldric Slezaf|Dreadlands|KUNARK|turn in Pages 24 Top, 24 Bottom, 25 + Mystical Lute
 
 CLASS: Berserker
@@ -66,7 +66,7 @@ step|item|from_mob|zone|era|notes
 14|Medal of Hunting|Keras McArik|Lake of Ill Omen|KUNARK|give Burning Essence of Rage + Medal of Fervid Rage
 15|McArik Reagent Bag|Keras McArik|Lake of Ill Omen|KUNARK|dialog
 16|Decaying Liver|Disease-Ridden Gorilla|The Emerald Jungle|KUNARK|pre-lootable per wiki but the zone is Kunark
-17|Gnashing Kobold Paw|Gnashing Kobold|Stonebrunt Mountains|KUNARK|Odus, but shipped WITH Kunark - verify on server
+17|Gnashing Kobold Paw|Gnashing Kobold|Stonebrunt Mountains|NOW|Stonebrunt is Classic on the Zones page
 18|Scent Gland|Reeking Skunk|Toxxulia Forest|NOW|genuinely farmable today
 19|Philter of Major Translocation|crafted|-|NOW|Alchemy (shaman)
 20|Bag of Image Essence Dust|crafted|-|KUNARK|combine inside the McArik Reagent Bag
@@ -83,7 +83,7 @@ step|item|from_mob|zone|era|notes
 3|Damaged Goblin Crown|a spirit of flame|Lake Rathetear|NOW|spawns on Shmendrik's corpse; do not let Natasha land the killing blow
 4|Ornate Sea Shell|Natasha Whitewater|Lake Rathetear|NOW|Lore I; she despawns ~5 min after spawning unless in combat
 5|Coral Statue of Tarew Marr|Omat Vastsea|Timorous Deep|KUNARK|
-6|Blood Soaked Plasmatic Priest Robe|a plasmatic priest|The Temple of Solusek Ro|UNKNOWN|zone is Antonica-side but was added AFTER Kunark - may not exist in Legends
+6|Blood Soaked Plasmatic Priest Robe|a plasmatic priest|The Temple of Solusek Ro|KUNARK|the zone IS Classic, but this step is gated on the Coral Statue from Timorous Deep
 7|Lord Gimblox's Signet Ring|Lord Gimblox|Solusek's Eye|NOW|lvl 30; rare spawn
 8|Orb of Frozen Water|Omat Vastsea|Timorous Deep|KUNARK|give the priest robe
 9|Ornate Sea Shell (v2)|Natasha Whitewater|Timorous Deep|KUNARK|Lore II; give Lord Gimblox's Signet Ring
@@ -390,9 +390,9 @@ CLASS: Shadow Knight
 REWARD: Innoruuk's Curse
 SUMMARY: Everything can be farmed pre-Kunark except the final kill in City of Mist. You can arrive at Kunark launch holding all four final turn-in items.
 step|item|from_mob|zone|era|notes
-1|Darkforge Breastplate|quest turn-in|-|UNKNOWN|via Darkforge Armor Quests; zone not stated on the wiki
-2|Darkforge Greaves|quest turn-in|-|UNKNOWN|as above
-3|Darkforge Helm|quest turn-in|-|UNKNOWN|as above
+1|Darkforge Breastplate|an undead knight|The Temple of Solusek Ro|NOW|Darkforge Armor Quests is tagged Classic Era; needs 2x Decayed Armor from Cazic Thule
+2|Darkforge Greaves|an undead knight|The Temple of Solusek Ro|NOW|right-hand knight forges Gauntlets, Greaves, Boots
+3|Darkforge Helm|an undead knight|The Temple of Solusek Ro|NOW|left-hand knight forges Helm, Breastplate, Vambraces, Bracers
 4|Dusty Tome|a ratman guard|The Hole|NOW|OPTIONAL; give to Duriek Bloodpool
 5|Ghoulbane|The froglok shin lord|Upper Guk|NOW|Ruins of Upper Guk
 6|Soul Leech, Dark Sword of Blood|Fright, Dread or Terror|Plane of Fear|NOW|post-Fear-revamp source; formerly Cazic-Thule
@@ -401,7 +401,8 @@ step|item|from_mob|zone|era|notes
 9|Decrepit Hide|An ashenbone drake|Plane of Hate|NOW|
 10|Enchanted Platinum Bar|crafted|-|NOW|buy a Platinum Bar, have an enchanter enchant it
 11|Decrepit Sheath|Teydar|Qeynos Aqueducts|NOW|evil guild area; MUST con indifferent, use Hide
-12|Corrupted Ghoulbane|Duriek Bloodpool|Paineel|NOW|Ghoulbane + Soul Leech + Blade of Abrogation + Decrepit Sheath
+11b|Letter to Duriek|Kurron Ni|The Overthere|KUNARK|hail, give 3 Darkforge pieces + 900pp, then kill him. GATES the Corrupted Ghoulbane
+12|Corrupted Ghoulbane|Duriek Bloodpool|Paineel|KUNARK|gated: Duriek only corrupts it after the Letter from Kurron Ni
 13|Seal of Kastane|Marl Kastane|Kerra Isle|NOW|OPTIONAL; say "I have the will of innoruuk"
 14|Soulcase|Knarthenne Skurl|Toxxulia Forest|NOW|say "what heart of an innocent?"
 15|Cell Key|a mimic|The Hole|NOW|looks like a chest, in the city bank

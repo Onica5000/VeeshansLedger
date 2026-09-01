@@ -177,7 +177,9 @@ class TestTracker(unittest.TestCase):
 
 EPIC_DATA = {
     "schema": 1,
-    "availability": {"kunark_released": False, "note": "Kunark is not out yet."},
+    "availability": {"kunark_released": False, "epics_released": False,
+                     "note": "Epics are a later era than Kunark.",
+                     "exception_note": "", "data_warning": ""},
     "eras": {
         "NOW": {"label": "Available now", "blocked": False},
         "KUNARK": {"label": "Needs Kunark", "blocked": True},
@@ -187,17 +189,21 @@ EPIC_DATA = {
          "completable": False, "counts": {"total": 3, "now": 2, "blocked": 1},
          "steps": [
              {"step": "1", "item": "Efreeti Standard", "mob": "Noble Dojorn",
-              "zone": "Plane of Sky", "era": "NOW", "blocked": False, "notes": ""},
+              "zone": "Plane of Sky", "era": "NOW", "blocked": True,
+              "zone_live": True, "notes": ""},
              {"step": "2", "item": "Nonexistent Thing", "mob": "a mob",
-              "zone": "Kithicor Forest", "era": "NOW", "blocked": False, "notes": ""},
+              "zone": "Kithicor Forest", "era": "NOW", "blocked": True,
+              "zone_live": True, "notes": ""},
              {"step": "3", "item": "Kunark Thing", "mob": "a sarnak",
-              "zone": "Chardok", "era": "KUNARK", "blocked": True, "notes": ""},
+              "zone": "Chardok", "era": "KUNARK", "blocked": True,
+              "zone_live": False, "notes": ""},
          ]},
         {"name": "Cleric", "reward": "Water Sprinkler of Nem Ankh", "summary": "",
          "completable": False, "counts": {"total": 1, "now": 0, "blocked": 1},
          "steps": [
              {"step": "1", "item": "Kunark Thing", "mob": "a sarnak",
-              "zone": "Chardok", "era": "KUNARK", "blocked": True, "notes": ""},
+              "zone": "Chardok", "era": "KUNARK", "blocked": True,
+              "zone_live": False, "notes": ""},
          ]},
     ],
 }
@@ -209,18 +215,20 @@ class TestEpics(unittest.TestCase):
                "locations": {"Efreeti Standard": {"Bank"}}}
         self.et = model.EpicTracker(EPIC_DATA, inv)
 
-    def test_blocked_steps_are_flagged_while_kunark_is_unreleased(self):
-        self.assertFalse(self.et.kunark_released)
+    def test_nothing_is_completable_while_the_epics_era_is_unreleased(self):
+        """Epics land AFTER Kunark in EQL, so a live zone never means completable."""
+        self.assertFalse(self.et.epics_released)
         s = self.et.summary()
-        self.assertEqual(s["blocked"], 2)
-        self.assertEqual(s["collectable_now"], 2)
+        self.assertEqual(s["blocked"], 4, "every step blocked until the Epics era")
+        self.assertEqual(s["zone_live"], 2, "but two zones are reachable today")
+        self.assertEqual(s["completable"], [])
 
-    def test_only_now_filter_hides_blocked_steps(self):
+    def test_only_now_filter_keeps_live_zones(self):
         allsteps = self.et.steps_for("Warrior")
         nowsteps = self.et.steps_for("Warrior", only_now=True)
         self.assertEqual(len(allsteps), 3)
         self.assertEqual(len(nowsteps), 2)
-        self.assertTrue(all(not s["blocked"] for s in nowsteps))
+        self.assertTrue(all(s["zone_live"] for s in nowsteps))
 
     def test_held_comes_from_inventory(self):
         steps = {s["item"]: s for s in self.et.steps_for("Warrior")}
@@ -228,12 +236,12 @@ class TestEpics(unittest.TestCase):
         self.assertFalse(steps["Nonexistent Thing"]["held"])
         self.assertEqual(steps["Efreeti Standard"]["where"], "Bank")
 
-    def test_shopping_list_excludes_held_and_blocked(self):
+    def test_shopping_list_excludes_held_and_unreachable_zones(self):
         sl = self.et.shopping_list()
         items = [i["item"] for rows in sl.values() for i in rows]
         self.assertIn("Nonexistent Thing", items)
         self.assertNotIn("Efreeti Standard", items, "already held")
-        self.assertNotIn("Kunark Thing", items, "blocked until Kunark")
+        self.assertNotIn("Kunark Thing", items, "zone not reachable")
 
     def test_manual_override_marks_epic_item_held(self):
         self.et.overrides["epic_have:Nonexistent Thing"] = True
@@ -245,17 +253,79 @@ class TestEpics(unittest.TestCase):
         rows = self.et.class_rows()
         self.assertEqual(rows[0]["name"], "Warrior")
 
-    def test_flipping_kunark_flag_unblocks_everything(self):
+    def test_flipping_both_era_flags_unblocks_everything(self):
+        """Both flags must flip: Epics is a separate, later era than Kunark."""
         import copy
         data = copy.deepcopy(EPIC_DATA)
         data["availability"]["kunark_released"] = True
+        data["availability"]["epics_released"] = True
         for c in data["classes"]:
             for s in c["steps"]:
-                if s["era"] == "KUNARK":
-                    s["blocked"] = False
+                s["blocked"] = False
         et = model.EpicTracker(data, {"counts": {}, "locations": {}})
-        self.assertTrue(et.kunark_released)
+        self.assertTrue(et.epics_released)
         self.assertEqual(et.summary()["blocked"], 0)
+
+
+
+class TestSearch(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        sky = model.load_dataset(DATA)
+        epics = model.load_dataset(os.path.join(ROOT, "data", "epics.json"))
+        inv = {"counts": {"Efreeti Standard": 1, "Ball of Everliving Golem": 1},
+               "locations": {"Efreeti Standard": {"Bank"},
+                             "Ball of Everliving Golem": {"Equipment"}}}
+        cls.idx = model.build_index(model.Tracker(sky, None, inv),
+                                    model.EpicTracker(epics, inv))
+
+    def test_index_spans_both_datasets(self):
+        kinds = {r["dataset"] for r in self.idx}
+        self.assertEqual(kinds, {model.SKY, model.EPIC})
+        self.assertGreater(len(self.idx), 400)
+
+    def test_empty_query_returns_nothing(self):
+        self.assertEqual(model.search(self.idx, ""), [])
+        self.assertEqual(model.search(self.idx, "   "), [])
+
+    def test_item_search_finds_every_test_that_needs_it(self):
+        hits = model.search(self.idx, "Mithril Bands")
+        classes = {h["cls"] for h in hits}
+        self.assertIn("Cleric", classes)
+        self.assertIn("Beastlord", classes)
+
+    def test_mob_search_spans_classes(self):
+        """One Phinigel kill serves several different epics - the app should say so."""
+        hits = model.search(self.idx, "Phinigel")
+        self.assertGreaterEqual(len({h["cls"] for h in hits}), 3)
+
+    def test_zone_search(self):
+        hits = model.search(self.idx, "Plane of Hate")
+        self.assertTrue(hits)
+        self.assertTrue(all("hate" in h["zone"].lower() for h in hits))
+
+    def test_terms_narrow_rather_than_widen(self):
+        broad = model.search(self.idx, "plane")
+        narrow = model.search(self.idx, "plane hate")
+        self.assertLess(len(narrow), len(broad))
+
+    def test_held_state_is_reported(self):
+        hits = model.search(self.idx, "Ball of Everliving Golem")
+        self.assertTrue(hits)
+        self.assertTrue(hits[0]["held"])
+        self.assertEqual(hits[0]["where"], "Equipment")
+
+    def test_exact_item_match_ranks_first(self):
+        hits = model.search(self.idx, "Ragebringer")
+        self.assertEqual(hits[0]["item"], "Ragebringer")
+
+    def test_blocked_results_rank_after_available(self):
+        hits = model.search(self.idx, "Kunark") or model.search(self.idx, "Chardok")
+        if hits:
+            blocked = [i for i, h in enumerate(hits) if h["blocked"]]
+            avail = [i for i, h in enumerate(hits) if not h["blocked"]]
+            if blocked and avail:
+                self.assertGreater(min(blocked), max(avail))
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

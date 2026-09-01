@@ -7,8 +7,8 @@
 
 **Plane of Sky and class epic quest tracker for
 [EverQuest Legends](https://www.everquestlegends.com/).**
-Tells you which class you are closest to unlocking, exactly what you still need, which boss
-drops it - and for epics, what you can collect right now versus what is waiting on Kunark.
+Tells you which class you are closest to unlocking, exactly what you still need, and which boss
+drops it - with a search box across everything.
 
 ## Download
 
@@ -64,6 +64,64 @@ Or browse [all releases](https://github.com/Onica5000/EQLSkyTracker/releases).
 - **Your achievements file is the truth.** Rewards you sold or merged away still count toward
   the unlock, so the app trusts achievements over your current bags.
 
+## Privacy
+
+Everything is local. The app reads two text files the game writes, and stores your folder
+choice in `%APPDATA%\EQLSkyTracker\`. Nothing is sent anywhere.
+
+## Building from source
+
+```
+python tools/build_dataset.py
+python build/build_exe.py
+```
+
+Requires Python 3.11+ with `reportlab` and `pyinstaller`. Output: `dist/EQLSkyTracker.exe`.
+
+## Epic quests — read this before you farm
+
+**No class epic can be completed in EverQuest Legends yet, and Kunark launching will not change
+that.** Epics are their own content era: the EQL timeline puts **Epics at Patch 18** and **Ruins
+of Kunark at Patch 13**, so epics arrive *after* Kunark.
+
+The wiki's `Template:PageEra` marks `epics` and `epicquests` as **out of era**, alongside
+`kunark` and `velious`. Many epic NPCs and quest items are epic-era tagged and **do not exist
+yet even in zones you can already walk into** — General V`ghera stands in Kithicor Forest, a
+Classic zone, but is himself tagged Kunark Era.
+
+So the Epic Quests tab is a **route-planning aid, not a shopping list**. It shows which steps sit
+in zones that are reachable today (278 of 407), which is genuinely useful for planning, but a
+reachable zone does not promise the item exists.
+
+**One documented exception:** the Paladin prerequisite chain **SoulFire → Ghoulbane → Fiery
+Avenger** is tagged Classic Era and carries a live EQL confirmation dated 2026-08-08, so it is
+believed doable today. It needs Warmly Deepwater Knights and Plane of Sky Island 4 access. The
+Fiery Defender chain that follows it is epic-era and is not available.
+
+> **Corrected in v1.2.0.** v1.1.0 claimed Paladin and Rogue were completable today. That was
+> wrong — see [`docs/AUDIT-EPICS-2026-08-31.md`](docs/AUDIT-EPICS-2026-08-31.md) for the full
+> retraction and evidence. Apologies to anyone who started farming on it.
+
+> **Data quality.** The Plane of Sky data was audited field-by-field and is solid. The epic data
+> is weaker: eqlwiki's epic pages are largely unconverted classic-EQ content tagged Out of Era.
+> Known gaps are listed in the audit. If the game disagrees with the app, the game is right.
+
+When the eras land, two flags in `tools/build_epics.py` unblock everything.
+
+## Privacy
+
+Everything is local. The app reads two text files the game writes, and stores your folder
+choice in `%APPDATA%\EQLSkyTracker\`. Nothing is sent anywhere.
+
+## Building from source
+
+```
+python tools/build_dataset.py
+python build/build_exe.py
+```
+
+Requires Python 3.11+ with `reportlab` and `pyinstaller`. Output: `dist/EQLSkyTracker.exe`.
+
 ## Epic quests and Kunark
 
 **Kunark is not released in EverQuest Legends yet**, so most epic chains cannot be finished.
@@ -82,20 +140,6 @@ Of 406 epic steps across 15 classes, **281 are collectable today**.
 > guide**. If the game disagrees with it, the game is right — please open an issue.
 
 When Kunark launches, one flag in `tools/build_epics.py` unblocks everything.
-
-## Privacy
-
-Everything is local. The app reads two text files the game writes, and stores your folder
-choice in `%APPDATA%\EQLSkyTracker\`. Nothing is sent anywhere.
-
-## Building from source
-
-```
-python tools/build_dataset.py
-python build/build_exe.py
-```
-
-Requires Python 3.11+ with `reportlab` and `pyinstaller`. Output: `dist/EQLSkyTracker.exe`.
 
 ## Data
 

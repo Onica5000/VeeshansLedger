@@ -53,9 +53,11 @@ class App(tk.Tk):
                       if self.epic_data else None)
         self.paths = {"achievements": None, "inventory": None,
                       "character": None, "server": None}
+        self.index = []
 
         self._style()
         self._build()
+        self.bind_all("<Control-f>", self._focus_search)
         if self._needs_confirm:
             self.after(120, self.detect_install)
         else:
@@ -116,17 +118,20 @@ class App(tk.Tk):
         self.nb = ttk.Notebook(self)
         self.nb.pack(fill="both", expand=True, padx=10, pady=(0, 4))
 
+        self.tab_search = ttk.Frame(self.nb)
         self.tab_classes = ttk.Frame(self.nb)
         self.tab_farm = ttk.Frame(self.nb)
         self.tab_zone = ttk.Frame(self.nb)
         self.tab_epics = ttk.Frame(self.nb)
         self.tab_setup = ttk.Frame(self.nb)
+        self.nb.add(self.tab_search, text="  Search  ")
         self.nb.add(self.tab_classes, text="  Class Unlocks  ")
         self.nb.add(self.tab_farm, text="  Farming List  ")
         self.nb.add(self.tab_zone, text="  Zone Guide  ")
         self.nb.add(self.tab_epics, text="  Epic Quests  ")
         self.nb.add(self.tab_setup, text="  Setup & Help  ")
 
+        self._build_search()
         self._build_classes()
         self._build_farm()
         self._build_zone()
@@ -323,7 +328,7 @@ class App(tk.Tk):
         bar = ttk.Frame(f, padding=(4, 2))
         bar.pack(fill="x")
         self.var_only_now = tk.BooleanVar(value=True)
-        ttk.Checkbutton(bar, text="Show only what I can collect now",
+        ttk.Checkbutton(bar, text="Show only steps whose zone is live now",
                         variable=self.var_only_now, style="Ck.TCheckbutton",
                         command=self._on_epic_select).pack(side="left")
         ttk.Label(bar, text="   Double-click a step to mark the item as held.",
@@ -335,8 +340,8 @@ class App(tk.Tk):
         self.tv_epic = ttk.Treeview(left, columns=cols, show="tree headings")
         self.tv_epic.heading("#0", text="Class")
         self.tv_epic.heading("reward", text="Epic reward")
-        self.tv_epic.heading("now", text="Collectable now")
-        self.tv_epic.heading("blocked", text="Blocked")
+        self.tv_epic.heading("now", text="Zone live")
+        self.tv_epic.heading("blocked", text="Not reachable")
         self.tv_epic.column("#0", width=120, anchor="w")
         self.tv_epic.column("reward", width=230, anchor="w")
         self.tv_epic.column("now", width=120, anchor="center")
@@ -374,24 +379,24 @@ class App(tk.Tk):
         et = self.epics
         s = et.summary()
         comp = s.get("completable") or []
-        if et.kunark_released:
+        allzones = s.get("zones_all_live") or []
+        if et.epics_released:
             self.lbl_epic_warn_h.configure(
-                text="Kunark is live - full epic chains are available")
+                text="Epics are live" + (" - Kunark too" if et.kunark_released else ""))
             body = et.availability_note()
         else:
-            if comp:
-                head = ("%s can be completed TODAY - every other epic is blocked until Kunark"
-                        % " and ".join(comp))
-            else:
-                head = "No epic weapon can be completed yet - Kunark is not released"
-            self.lbl_epic_warn_h.configure(text=head)
-            body = ("{note}\n\n{now} of {total} steps across {classes} classes are "
-                    "collectable now; you hold {held} of them. {blocked} need Kunark."
-                    "\n\n{warn}").format(
-                        note=et.availability_note(), now=s["collectable_now"],
-                        total=s["steps_total"], classes=s["classes"],
-                        held=s["held_now"], blocked=s["blocked"],
-                        warn=et.data_warning())
+            self.lbl_epic_warn_h.configure(
+                text="NO class epic can be completed yet - epics are a later era than Kunark")
+            parts = [et.availability_note(), ""]
+            line = ("%d of %d steps are in zones you can already reach - useful for planning "
+                    "routes, but NOT a shopping list: the epic items and NPCs do not exist yet."
+                    % (s["zone_live"], s["steps_total"]))
+            if allzones:
+                line += (" Every zone in the %s chains is already live, so those are the "
+                         "first that become doable when the Epics era lands."
+                         % " and ".join(allzones))
+            parts += [line, "", et.exception_note(), "", et.data_warning()]
+            body = "\n".join(parts)
         self.lbl_epic_warn_b.configure(text=body)
 
         tv = self.tv_epic
@@ -476,6 +481,119 @@ class App(tk.Tk):
             self.overrides[key] = True
         model.save_overrides(self.overrides)
         self.reload()
+
+    # ---------------- tab: search ----------------
+
+    def _build_search(self):
+        f = self.tab_search
+        head = ttk.Frame(f, padding=(6, 10))
+        head.pack(fill="x")
+        ttk.Label(head, text="Search everything", style="H2.TLabel").pack(anchor="w")
+        ttk.Label(head, style="Dim.TLabel", justify="left", text=(
+            "Searches the Plane of Sky Tests and all 15 epic chains at once. "
+            "Match an item, a mob, a zone, a class or a Test name.\n"
+            "Try a zone before you go there - \"Plane of Hate\" lists everything worth "
+            "watching for. Ctrl+F focuses this box, Esc clears it.")
+        ).pack(anchor="w", pady=(2, 8))
+
+        row = ttk.Frame(head)
+        row.pack(fill="x")
+        self.var_query = tk.StringVar()
+        self.ent_search = ttk.Entry(row, textvariable=self.var_query,
+                                    font=("Segoe UI", 12))
+        self.ent_search.pack(side="left", fill="x", expand=True, ipady=3)
+        self.ent_search.bind("<KeyRelease>", self._do_search)
+        self.ent_search.bind("<Escape>", lambda _e: (self.var_query.set(""),
+                                                     self._do_search()))
+        ttk.Button(row, text="Clear",
+                   command=lambda: (self.var_query.set(""), self._do_search())
+                   ).pack(side="left", padx=6)
+
+        opts = ttk.Frame(head)
+        opts.pack(fill="x", pady=(6, 0))
+        self.var_hide_held = tk.BooleanVar(value=False)
+        self.var_hide_blocked = tk.BooleanVar(value=False)
+        ttk.Checkbutton(opts, text="Hide what I already hold",
+                        variable=self.var_hide_held, style="Ck.TCheckbutton",
+                        command=self._do_search).pack(side="left")
+        ttk.Checkbutton(opts, text="Hide Kunark-blocked",
+                        variable=self.var_hide_blocked, style="Ck.TCheckbutton",
+                        command=self._do_search).pack(side="left", padx=14)
+        self.lbl_hits = ttk.Label(opts, text="", style="Dim.TLabel")
+        self.lbl_hits.pack(side="right")
+
+        cols = ("item", "source", "zone", "cls", "context", "status")
+        self.tv_search = ttk.Treeview(f, columns=cols, show="headings")
+        for c, t, w in (("item", "Item", 210), ("source", "From", 165),
+                        ("zone", "Zone / island", 190), ("cls", "Class", 100),
+                        ("context", "For", 230), ("status", "Status", 110)):
+            self.tv_search.heading(c, text=t)
+            self.tv_search.column(c, width=w, anchor="w")
+        self.tv_search.pack(fill="both", expand=True, padx=6, pady=(6, 8))
+        self.tv_search.tag_configure("held", foreground=OK)
+        self.tv_search.tag_configure("blocked", foreground=DIM)
+        self.tv_search.tag_configure("done", foreground=DIM)
+        self.tv_search.bind("<Double-1>", self._jump_from_search)
+
+    def _focus_search(self, _evt=None):
+        self.nb.select(self.tab_search)
+        self.ent_search.focus_set()
+        self.ent_search.select_range(0, "end")
+        return "break"
+
+    def _do_search(self, _evt=None):
+        tv = self.tv_search
+        tv.delete(*tv.get_children())
+        q = self.var_query.get().strip()
+        if not q:
+            self.lbl_hits.configure(text="")
+            return
+        hits = model.search(self.index, q)
+        shown = 0
+        for r in hits:
+            if self.var_hide_held.get() and r["held"]:
+                continue
+            if self.var_hide_blocked.get() and r["blocked"]:
+                continue
+            if r["done"]:
+                status, tag = "done", "done"
+            elif r["held"]:
+                status, tag = "held: " + (r["where"] or "yes"), "held"
+            elif r["blocked"]:
+                status, tag = "needs Kunark", "blocked"
+            else:
+                status, tag = "not held", ""
+            tv.insert("", "end", tags=(tag,) if tag else (), values=(
+                r["item"], r["mob"], r["zone"], "%s %s" % (r["dataset"], r["cls"]),
+                r["context"], status))
+            shown += 1
+        extra = "" if shown == len(hits) else " (%d hidden by filters)" % (len(hits) - shown)
+        self.lbl_hits.configure(text="%d result%s%s"
+                                     % (shown, "" if shown == 1 else "s", extra))
+
+    def _jump_from_search(self, _evt=None):
+        """Double-click a result to open its class in the relevant tab."""
+        sel = self.tv_search.selection()
+        if not sel:
+            return
+        vals = self.tv_search.item(sel[0], "values")
+        if len(vals) < 4:
+            return
+        dataset, _, cls = vals[3].partition(" ")
+        if dataset == model.EPIC and self.epics:
+            self.nb.select(self.tab_epics)
+            for iid in self.tv_epic.get_children():
+                if self.tv_epic.item(iid, "text").strip() == cls:
+                    self.tv_epic.selection_set(iid)
+                    self.tv_epic.see(iid)
+                    break
+        else:
+            self.nb.select(self.tab_classes)
+            for iid in self.tv_class.get_children():
+                if self.tv_class.item(iid, "text").strip() == cls:
+                    self.tv_class.selection_set(iid)
+                    self.tv_class.see(iid)
+                    break
 
     # ---------------- tab: setup ----------------
 
@@ -610,6 +728,10 @@ class App(tk.Tk):
 
         if self.epic_data:
             self.epics = model.EpicTracker(self.epic_data, inv, self.overrides)
+
+        self.index = model.build_index(self.tracker, self.epics)
+        if hasattr(self, "tv_search"):
+            self._do_search()
 
         self._fill_classes()
         self._fill_farm()

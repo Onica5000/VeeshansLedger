@@ -29,44 +29,68 @@ ROOT = os.path.dirname(HERE)
 SRC = os.path.join(HERE, "epic_steps.txt")
 OUT = os.path.join(ROOT, "data", "epics.json")
 
-# ---------------------------------------------------------------- the flag
-KUNARK_RELEASED = False
+# ---------------------------------------------------------------- the flags
+#
+# CORRECTION 2026-08-31: epics are gated by CONTENT ERA, not by zone.
+# eqlwiki's Template:PageEra sets   epics = out   epicquests = out
+# alongside kunark = out and velious = out, while classic/fear/hate/hole/sky/
+# paineel are "in". EQL's own EverQuest Timeline puts Epics at Patch 18
+# (Sept-2000 equivalent) and Ruins of Kunark at Patch 13 - so epics arrive
+# AFTER Kunark, not with it.
+#
+# Consequence: a live zone does NOT mean the component exists. Many epic
+# quest-giver NPCs and quest items are themselves epic-era and simply are not
+# in the game yet, even in zones you can walk into today.
+
+EPICS_RELEASED = False      # flip when EQL reaches Patch 18 (Epics)
+KUNARK_RELEASED = False     # flip when EQL reaches Patch 13 (Ruins of Kunark)
+
 KUNARK_NOTE = (
-    "Kunark has not been released in EverQuest Legends yet, so most epic chains cannot be "
-    "finished. Paladin and Rogue are the exceptions - both run entirely through original "
-    "zones and can be completed today. Everything else has components you can collect now "
-    "and bank until Kunark launches."
+    "No class epic can be completed yet. Epics are their own content era in EverQuest "
+    "Legends and release AFTER Kunark - the EQL timeline puts Epics at Patch 18 and Ruins "
+    "of Kunark at Patch 13. Many epic NPCs and quest items are epic-era tagged and do not "
+    "exist yet even in zones you can already walk into."
 )
 DATA_WARNING = (
-    "Epic data quality warning: every epic page on eqlwiki carries the {{Epics Era}} tag, "
-    "which the wiki itself defines as the last sub-era of Kunark. These pages are largely "
-    "unconverted classic-EQ content with some live-EQ edits mixed in, and only a handful of "
-    "lines carry Legends verification stamps. Treat this as a best-effort guide, not verified "
-    "Legends fact - and if the game disagrees with it, the game is right."
+    "Epic data quality warning: eqlwiki's epic pages are largely unconverted classic-EQ "
+    "content and are tagged Out of Era. The zone column below tells you whether the ZONE is "
+    "live today - it does NOT promise the item or the NPC exists yet. Treat this as a "
+    "planning aid for when epics arrive, not a shopping list you can complete now. If the "
+    "game disagrees with it, the game is right."
+)
+EXCEPTION_NOTE = (
+    "One documented exception: the Paladin prerequisite chain SoulFire -> Ghoulbane -> "
+    "Fiery Avenger is tagged Classic Era and carries a live EQL confirmation dated "
+    "2026-08-08, so it is believed doable today. It needs Warmly Deepwater Knights and "
+    "Plane of Sky Island 4 access. The Fiery Defender chain that follows it is epic-era "
+    "and is NOT available."
 )
 CHECKED = "2026-08-31"
-# --------------------------------------------------------------------------
-
 ERAS = {
     "NOW": {
-        "label": "Available now",
-        "blurb": "Drops in an original (pre-Kunark) zone. You can farm this today.",
-        "blocked": False,
+        "label": "Zone is live now",
+        "blurb": ("The zone is in-era and reachable today. The epic ITEM may still not exist "
+                  "- epic-era items and NPCs arrive with the Epics patch."),
+        "blocked": not EPICS_RELEASED,
+        "zone_live": True,
     },
     "KUNARK": {
-        "label": "Needs Kunark",
-        "blurb": "Drops in a Kunark zone. Not reachable until Kunark launches.",
-        "blocked": not KUNARK_RELEASED,
+        "label": "Zone needs Kunark",
+        "blurb": "Kunark zone. Not reachable until Ruins of Kunark launches.",
+        "blocked": not (KUNARK_RELEASED and EPICS_RELEASED),
+        "zone_live": False,
     },
     "LATER": {
         "label": "Later expansion",
         "blurb": "From an expansion after Kunark. Not reachable yet.",
         "blocked": True,
+        "zone_live": False,
     },
     "UNKNOWN": {
-        "label": "Unconfirmed",
+        "label": "Zone unconfirmed",
         "blurb": "Source zone not established - treat with caution.",
-        "blocked": False,
+        "blocked": not EPICS_RELEASED,
+        "zone_live": False,
     },
 }
 
@@ -118,6 +142,7 @@ def parse(path):
                 "zone": zone,
                 "era": era,
                 "blocked": ERAS[era]["blocked"],
+                "zone_live": ERAS[era]["zone_live"],
                 "notes": notes,
             })
     return classes, problems
@@ -131,10 +156,12 @@ def main():
         steps = c["steps"]
         c["counts"] = {
             "total": len(steps),
-            "now": sum(1 for s in steps if s["era"] == "NOW"),
+            "now": sum(1 for s in steps if s.get("zone_live")),
             "blocked": sum(1 for s in steps if s["blocked"]),
         }
-        c["completable"] = c["counts"]["blocked"] == 0
+        # Nothing is "completable" until the Epics era lands, regardless of zones.
+        c["completable"] = EPICS_RELEASED and c["counts"]["blocked"] == 0
+        c["zones_all_live"] = all(s.get("zone_live") for s in steps)
 
     data = {
         "schema": 1,
@@ -143,11 +170,14 @@ def main():
         "source": "https://eqlwiki.com/Class_Epic_Quest_List",
         "availability": {
             "kunark_released": KUNARK_RELEASED,
+            "epics_released": EPICS_RELEASED,
+            "exception_note": EXCEPTION_NOTE,
             "note": KUNARK_NOTE,
             "data_warning": DATA_WARNING,
             "checked": CHECKED,
-            "how_to_update": ("Set KUNARK_RELEASED = True in tools/build_epics.py and re-run "
-                              "it, then rebuild the exe."),
+            "how_to_update": ("In tools/build_epics.py set EPICS_RELEASED = True when EQL "
+                              "reaches the Epics patch, and KUNARK_RELEASED = True when it "
+                              "reaches Ruins of Kunark. Re-run the script, rebuild the exe."),
         },
         "eras": ERAS,
         "classes": classes,

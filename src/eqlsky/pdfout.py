@@ -187,17 +187,17 @@ def export_epics(epics, path):
                             title="EQL Epic Quest Tracker")
     story = []
     s = epics.summary()
-    story.append(Paragraph("Class Epic Quests - what you can collect now", ss["H1x"]))
+    story.append(Paragraph("Class Epic Quests - route planning", ss["H1x"]))
     story.append(Paragraph(
         "%d classes &middot; %d steps &middot; <b>%d collectable now</b> "
         "(%d held) &middot; %d blocked"
         % (s["classes"], s["steps_total"], s["collectable_now"],
            s["held_now"], s["blocked"]), ss["Sub"]))
 
-    if not epics.kunark_released:
+    if not epics.epics_released:
         box = Table([[Paragraph(
-            "<b>No epic weapon can be completed yet.</b> " + epics.availability_note(),
-            ss["Cell"])]], colWidths=[182 * mm])
+            "<b>No class epic can be completed yet.</b> " + epics.availability_note()
+            + "<br/><br/>" + epics.data_warning(), ss["Cell"])]], colWidths=[182 * mm])
         box.setStyle(TableStyle([
             ("BOX", (0, 0), (-1, -1), 1.1, BLACK),
             ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#f0ece2")),
@@ -210,9 +210,11 @@ def export_epics(epics, path):
         story.append(Spacer(1, 6))
 
     # ---- shopping list first: it is the actionable part ----
-    story.append(Paragraph("Collectable now, by zone", ss["H2x"]))
+    story.append(Paragraph("Steps whose zone is reachable today, by zone", ss["H2x"]))
     story.append(Paragraph(
-        "Items you do not yet hold that drop in zones available today.", ss["Note"]))
+        "Items you do not hold, whose source zone is in-era today. A reachable zone does "
+        "NOT mean the item exists yet - most epic items and NPCs arrive with the Epics era.",
+        ss["Note"]))
     shopping = epics.shopping_list()
     if not shopping:
         story.append(Paragraph("Nothing outstanding - you hold every collectable "
@@ -238,10 +240,9 @@ def export_epics(epics, path):
         story.append(Spacer(1, 5))
         story.append(Paragraph("%s &nbsp;&mdash;&nbsp; %s" % (row["name"], row["reward"]),
                                ss["CellB"]))
-        bits = "%d of %d collectable steps held" % (row["held_now"], row["now"])
+        bits = "%d of %d steps in live zones held" % (row["held_now"], row["now"])
         if row["blocked"]:
-            bits += " &middot; %d step%s blocked until Kunark" % (
-                row["blocked"], "" if row["blocked"] == 1 else "s")
+            bits += " &middot; chain not completable until the Epics era"
         story.append(Paragraph(bits, ss["Note"]))
         rows = [[Paragraph(h, ss["CellB"]) for h in
                  ("", "#", "Item", "From", "Zone", "Status")]]
@@ -252,8 +253,9 @@ def export_epics(epics, path):
                 Paragraph(st["item"], ss["Cell"]),
                 Paragraph(st["mob"] or "?", ss["Cell"]),
                 Paragraph(st["zone"] or "?", ss["Cell"]),
-                Paragraph("held" if st["held"] else
-                          ("BLOCKED" if st["blocked"] else "available"), ss["Cell"]),
+                Paragraph("held" if st["held"]
+                          else ("zone live" if st.get("zone_live") else "zone not reachable"),
+                          ss["Cell"]),
             ])
         story.append(_table(rows, [8 * mm, 8 * mm, 52 * mm, 44 * mm, 40 * mm, 20 * mm]))
 

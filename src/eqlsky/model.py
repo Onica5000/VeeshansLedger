@@ -372,6 +372,14 @@ class EpicTracker:
     def kunark_released(self):
         return bool(self.data["availability"]["kunark_released"])
 
+    @property
+    def epics_released(self):
+        """Epics are their own content era in EQL and land AFTER Kunark."""
+        return bool(self.data["availability"].get("epics_released"))
+
+    def exception_note(self):
+        return self.data["availability"].get("exception_note", "")
+
     def availability_note(self):
         return self.data["availability"]["note"]
 
@@ -404,7 +412,7 @@ class EpicTracker:
         """One row per class, ordered by how much is collectable right now."""
         rows = []
         for c in self.data["classes"]:
-            now = [s for s in c["steps"] if not s["blocked"]]
+            now = [s for s in c["steps"] if s.get("zone_live")]
             got = [s for s in now if self.held(s["item"])]
             rows.append({
                 "name": c["name"],
@@ -415,6 +423,7 @@ class EpicTracker:
                 "held_now": len(got),
                 "blocked": sum(1 for s in c["steps"] if s["blocked"]),
                 "completable": c.get("completable", False),
+                "zones_all_live": c.get("zones_all_live", False),
             })
         # Most still-collectable items first; that is the actionable end.
         rows.sort(key=lambda r: (-(r["now"] - r["held_now"]), r["name"]))
@@ -426,7 +435,7 @@ class EpicTracker:
             return []
         out = []
         for s in c["steps"]:
-            if only_now and s["blocked"]:
+            if only_now and not s.get("zone_live"):
                 continue
             d = dict(s)
             d["held"] = self.held(s["item"])
@@ -441,7 +450,7 @@ class EpicTracker:
         want = {}
         for c in self.data["classes"]:
             for s in c["steps"]:
-                if s["blocked"] or self.held(s["item"]):
+                if not s.get("zone_live") or self.held(s["item"]):
                     continue
                 key = (s["zone"], s["item"], s["mob"])
                 want.setdefault(key, []).append(c["name"])
@@ -462,9 +471,95 @@ class EpicTracker:
         return {
             "classes": len(rows),
             "steps_total": sum(r["total"] for r in rows),
+            "zone_live": sum(r["now"] for r in rows),
             "collectable_now": sum(r["now"] for r in rows),
             "held_now": sum(r["held_now"] for r in rows),
             "blocked": sum(r["blocked"] for r in rows),
             "kunark_released": self.kunark_released,
+            "epics_released": self.epics_released,
             "completable": self.completable_now(),
+            "zones_all_live": [c["name"] for c in self.data["classes"]
+                               if c.get("zones_all_live")],
         }
+
+
+# ============================ search ============================
+#
+# One index across BOTH datasets. A player does not think "Sky tab" vs "Epics
+# tab" - they think "what is this item for", or "I am going to Plane of Hate,
+# what should I watch for". So a single query spans everything.
+
+SKY, EPIC = "Sky", "Epic"
+
+
+def build_index(tracker=None, epics=None):
+    """Flat searchable records across the Sky Tests and the epic chains."""
+    rows = []
+
+    if tracker is not None:
+        for cls in tracker.data["classes"]:
+            for t in cls["tests"]:
+                status, have, need = tracker.test_status(cls, t)
+                for c in t["components"]:
+                    isl = tracker.island_by_id(c["island"])
+                    zone = "%s %s" % (isl.get("id", ""), isl.get("name", ""))
+                    if isl.get("boss"):
+                        zone += " - " + isl["boss"]
+                    rows.append({
+                        "dataset": SKY,
+                        "cls": cls["name"],
+                        "context": t["test"],
+                        "item": c["item"],
+                        "mob": c["source"],
+                        "zone": zone.strip(),
+                        "held": tracker.held(c["item"]),
+                        "where": tracker.where(c["item"]),
+                        "blocked": False,
+                        "note": "%s - turn in to %s" % (STATUS_LABEL[status],
+                                                        cls["turnin_npc"]),
+                        "done": status == DONE,
+                    })
+
+    if epics is not None:
+        for cls in epics.data["classes"]:
+            for s in cls["steps"]:
+                rows.append({
+                    "dataset": EPIC,
+                    "cls": cls["name"],
+                    "context": "step %s -> %s" % (s["step"], cls["reward"]),
+                    "item": s["item"],
+                    "mob": s["mob"],
+                    "zone": s["zone"],
+                    "held": epics.held(s["item"]),
+                    "where": epics.where(s["item"]),
+                    "blocked": s["blocked"],
+                    "note": epics.data["eras"][s["era"]]["label"],
+                    "done": False,
+                })
+    return rows
+
+
+def search(index, query, fields=("item", "mob", "zone", "cls", "context")):
+    """Case-insensitive substring match across the given fields.
+
+    Every whitespace-separated term must match somewhere in the record, so
+    "hate cloak" narrows rather than widens.
+    """
+    terms = [t for t in (query or "").lower().split() if t]
+    if not terms:
+        return []
+    out = []
+    for r in index:
+        hay = " ".join(str(r.get(f, "")) for f in fields).lower()
+        if all(t in hay for t in terms):
+            out.append(r)
+
+    def rank(r):
+        # exact item-name hits first, then unheld before held, then blocked last
+        exact = 0 if r["item"].lower() == query.strip().lower() else 1
+        starts = 0 if r["item"].lower().startswith(terms[0]) else 1
+        return (exact, starts, r["blocked"], r["held"], r["dataset"],
+                r["cls"], r["item"])
+
+    out.sort(key=rank)
+    return out

@@ -44,9 +44,20 @@ The app also tracks the 15 **class epic quests**. The organising fact:
 Every step carries an `era`: `NOW` (original pre-Kunark zone), `KUNARK`, `LATER`, or `UNKNOWN`.
 `build_epics.py` turns `era` into a `blocked` boolean using the release flag.
 
-### When Kunark launches
+### Zone availability is NOT the same as item availability
 
-1. Set `KUNARK_RELEASED = True` in `tools/build_epics.py`
+**The mistake that shipped in v1.1.0.** Epics are gated by **content era**, not by zone.
+`Template:PageEra` on eqlwiki sets `epics = out` and `epicquests = out` alongside
+`kunark = out`; the EQL timeline puts Epics at **Patch 18** and Kunark at **Patch 13**, so
+epics arrive AFTER Kunark. An NPC can stand in a Classic zone and still be out of era -
+General V`ghera is in Kithicor Forest and tagged Kunark Era.
+
+Always check the entity's own era tag, not just its zone. There are two flags now:
+`EPICS_RELEASED` and `KUNARK_RELEASED`, and both must be true before anything is completable.
+
+### When the eras land
+
+1. Set `EPICS_RELEASED = True` (and `KUNARK_RELEASED = True`) in `tools/build_epics.py`
 2. `python tools/build_epics.py`
 3. `python build/build_exe.py`
 

@@ -5,31 +5,37 @@
  "source": "https://eqlwiki.com/Class_Epic_Quest_List",
  "availability": {
   "kunark_released": false,
-  "note": "Kunark has not been released in EverQuest Legends yet, so most epic chains cannot be finished. Paladin and Rogue are the exceptions - both run entirely through original zones and can be completed today. Everything else has components you can collect now and bank until Kunark launches.",
-  "data_warning": "Epic data quality warning: every epic page on eqlwiki carries the {{Epics Era}} tag, which the wiki itself defines as the last sub-era of Kunark. These pages are largely unconverted classic-EQ content with some live-EQ edits mixed in, and only a handful of lines carry Legends verification stamps. Treat this as a best-effort guide, not verified Legends fact - and if the game disagrees with it, the game is right.",
+  "epics_released": false,
+  "exception_note": "One documented exception: the Paladin prerequisite chain SoulFire -> Ghoulbane -> Fiery Avenger is tagged Classic Era and carries a live EQL confirmation dated 2026-08-08, so it is believed doable today. It needs Warmly Deepwater Knights and Plane of Sky Island 4 access. The Fiery Defender chain that follows it is epic-era and is NOT available.",
+  "note": "No class epic can be completed yet. Epics are their own content era in EverQuest Legends and release AFTER Kunark - the EQL timeline puts Epics at Patch 18 and Ruins of Kunark at Patch 13. Many epic NPCs and quest items are epic-era tagged and do not exist yet even in zones you can already walk into.",
+  "data_warning": "Epic data quality warning: eqlwiki's epic pages are largely unconverted classic-EQ content and are tagged Out of Era. The zone column below tells you whether the ZONE is live today - it does NOT promise the item or the NPC exists yet. Treat this as a planning aid for when epics arrive, not a shopping list you can complete now. If the game disagrees with it, the game is right.",
   "checked": "2026-08-31",
-  "how_to_update": "Set KUNARK_RELEASED = True in tools/build_epics.py and re-run it, then rebuild the exe."
+  "how_to_update": "In tools/build_epics.py set EPICS_RELEASED = True when EQL reaches the Epics patch, and KUNARK_RELEASED = True when it reaches Ruins of Kunark. Re-run the script, rebuild the exe."
  },
  "eras": {
   "NOW": {
-   "label": "Available now",
-   "blurb": "Drops in an original (pre-Kunark) zone. You can farm this today.",
-   "blocked": false
+   "label": "Zone is live now",
+   "blurb": "The zone is in-era and reachable today. The epic ITEM may still not exist - epic-era items and NPCs arrive with the Epics patch.",
+   "blocked": true,
+   "zone_live": true
   },
   "KUNARK": {
-   "label": "Needs Kunark",
-   "blurb": "Drops in a Kunark zone. Not reachable until Kunark launches.",
-   "blocked": true
+   "label": "Zone needs Kunark",
+   "blurb": "Kunark zone. Not reachable until Ruins of Kunark launches.",
+   "blocked": true,
+   "zone_live": false
   },
   "LATER": {
    "label": "Later expansion",
    "blurb": "From an expansion after Kunark. Not reachable yet.",
-   "blocked": true
+   "blocked": true,
+   "zone_live": false
   },
   "UNKNOWN": {
-   "label": "Unconfirmed",
+   "label": "Zone unconfirmed",
    "blurb": "Source zone not established - treat with caution.",
-   "blocked": false
+   "blocked": true,
+   "zone_live": false
   }
  },
  "classes": [
@@ -44,7 +50,8 @@
      "mob": "Konia Swiftfoot",
      "zone": "Western Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "guard tower #4; quest start"
     },
     {
@@ -53,7 +60,8 @@
      "mob": "Fajio Knejo",
      "zone": "Misty Thicket",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in Torch of Misty"
     },
     {
@@ -62,7 +70,8 @@
      "mob": "Andad Filla",
      "zone": "Southern Desert of Ro",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in Torch of Ro"
     },
     {
@@ -71,7 +80,8 @@
      "mob": "Misty Tekchita",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "ring; turn in Torch of Rathe"
     },
     {
@@ -80,7 +90,8 @@
      "mob": "Konia Swiftfoot",
      "zone": "Western Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in Proof of Speed"
     },
     {
@@ -89,7 +100,8 @@
      "mob": "Baenar Swiftsong",
      "zone": "South Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "say \"what doll\""
     },
     {
@@ -98,7 +110,8 @@
      "mob": "Marfen Binkdirple",
      "zone": "Solusek's Eye",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in invoice"
     },
     {
@@ -107,7 +120,8 @@
      "mob": "Serra",
      "zone": "Unrest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "wiki flags a turn-in that did not give the 2nd item"
     },
     {
@@ -116,7 +130,8 @@
      "mob": "Baenar Swiftsong",
      "zone": "South Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in Note for Baenar"
     },
     {
@@ -125,7 +140,8 @@
      "mob": "Maligar's Enraged Doppleganger",
      "zone": "Western Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 45; give Note to Maligar to spawn"
     },
     {
@@ -134,7 +150,8 @@
      "mob": "Baenar Swiftsong",
      "zone": "South Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in Maligar's Head"
     },
     {
@@ -143,7 +160,8 @@
      "mob": "Konia Swiftfoot",
      "zone": "Western Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in bongos"
     },
     {
@@ -152,7 +170,8 @@
      "mob": "Blackwing",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 36"
     },
     {
@@ -162,6 +181,7 @@
      "zone": "Burning Woods",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -171,6 +191,7 @@
      "zone": "Skyfire Mountains",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -179,7 +200,8 @@
      "mob": "Kelkim Menkia",
      "zone": "South Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in all three guts"
     },
     {
@@ -188,7 +210,8 @@
      "mob": "Quag Maelstrom",
      "zone": "Ocean of Tears",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "OPTIONAL intro branch; lvl 45"
     },
     {
@@ -197,7 +220,8 @@
      "mob": "Vedico Windwhisper",
      "zone": "Butcherblock Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "OPTIONAL; turn in Alluring Horn"
     },
     {
@@ -206,7 +230,8 @@
      "mob": "Phinigel Autropos",
      "zone": "Kedge Keep",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 53"
     },
     {
@@ -215,7 +240,8 @@
      "mob": "an Amygdalan warrior",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 48"
     },
     {
@@ -225,6 +251,7 @@
      "zone": "Karnor's Castle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "lvl 52"
     },
     {
@@ -233,7 +260,8 @@
      "mob": "Forpar Fizfla",
      "zone": "Steamfont Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "say \"What Components\""
     },
     {
@@ -241,9 +269,10 @@
      "item": "Mystical Lute Head",
      "mob": "Forpar Fizfla",
      "zone": "Steamfont Mountains",
-     "era": "NOW",
-     "blocked": false,
-     "notes": "turn in note + backbone + tendril + skull"
+     "era": "KUNARK",
+     "blocked": true,
+     "zone_live": false,
+     "notes": "gated: needs Petrified Werewolf Skull from Karnor's Castle"
     },
     {
      "step": "24",
@@ -251,7 +280,8 @@
      "mob": "Lord Nagafen",
      "zone": "Nagafen's Lair",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Nagafen is the safest pre-Kunark source"
     },
     {
@@ -260,7 +290,8 @@
      "mob": "Lady Vox",
      "zone": "Permafrost",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Vox is the pre-Kunark source; Gorenaire is Kunark"
     },
     {
@@ -269,7 +300,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "smithing"
     },
     {
@@ -278,7 +310,8 @@
      "mob": "Forpar Fizfla",
      "zone": "Steamfont Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "turn in metal bits + red scales + white scales"
     },
     {
@@ -288,6 +321,7 @@
      "zone": "Old Sebilis",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "via An Undead Bard; this is the REVAMPED bard epic route"
     },
     {
@@ -295,9 +329,10 @@
      "item": "Mystical Lute",
      "mob": "Forpar Fizfla",
      "zone": "Steamfont Mountains",
-     "era": "NOW",
-     "blocked": false,
-     "notes": "turn in head + body + strings; gated by the Sebilis step"
+     "era": "KUNARK",
+     "blocked": true,
+     "zone_live": false,
+     "notes": "gated: needs the Old Sebilis strings and the Lute Head"
     },
     {
      "step": "30",
@@ -306,15 +341,17 @@
      "zone": "Dreadlands",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "turn in Pages 24 Top, 24 Bottom, 25 + Mystical Lute"
     }
    ],
    "counts": {
     "total": 30,
-    "now": 25,
-    "blocked": 5
+    "now": 23,
+    "blocked": 30
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Berserker",
@@ -328,6 +365,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "quest giver; also gives Medal of Blood"
     },
     {
@@ -337,6 +375,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "x3; spawns Impervious Bloodbeast"
     },
     {
@@ -346,6 +385,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -355,6 +395,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "x3; also gives Medal of Mirages"
     },
     {
@@ -364,6 +405,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "dialog"
     },
     {
@@ -373,6 +415,7 @@
      "zone": "trial room via Field of Bone",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "say \"Return\" afterward"
     },
     {
@@ -382,6 +425,7 @@
      "zone": "Field of Bone",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "hail"
     },
     {
@@ -391,6 +435,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Medal of Mirages + Image Essence"
     },
     {
@@ -400,6 +445,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "dialog"
     },
     {
@@ -408,7 +454,8 @@
      "mob": "Praklion of the Cauldron",
      "zone": "Dagnor's Cauldron",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Note for Treanik to Treanik Ireblade first"
     },
     {
@@ -417,7 +464,8 @@
      "mob": "Treanik Ireblade",
      "zone": "Dagnor's Cauldron",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Treanik's Tarnished Axe"
     },
     {
@@ -427,6 +475,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Bone Trinket + Medal of Strategy"
     },
     {
@@ -435,7 +484,8 @@
      "mob": "Ireblind Imp",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "chain: a scareling then Enraged Imp then Ireblind Imp"
     },
     {
@@ -445,6 +495,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Burning Essence of Rage + Medal of Fervid Rage"
     },
     {
@@ -454,6 +505,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "dialog"
     },
     {
@@ -463,6 +515,7 @@
      "zone": "The Emerald Jungle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "pre-lootable per wiki but the zone is Kunark"
     },
     {
@@ -470,9 +523,10 @@
      "item": "Gnashing Kobold Paw",
      "mob": "Gnashing Kobold",
      "zone": "Stonebrunt Mountains",
-     "era": "KUNARK",
+     "era": "NOW",
      "blocked": true,
-     "notes": "Odus, but shipped WITH Kunark - verify on server"
+     "zone_live": true,
+     "notes": "Stonebrunt is Classic on the Zones page"
     },
     {
      "step": "18",
@@ -480,7 +534,8 @@
      "mob": "Reeking Skunk",
      "zone": "Toxxulia Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "genuinely farmable today"
     },
     {
@@ -489,7 +544,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Alchemy (shaman)"
     },
     {
@@ -499,6 +555,7 @@
      "zone": "-",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "combine inside the McArik Reagent Bag"
     },
     {
@@ -508,6 +565,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Bag of Image Essence Dust + Medal of Hunting"
     },
     {
@@ -517,6 +575,7 @@
      "zone": "Warsliks Woods",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "spawn via Lurking Hopeful + 1000pp; 5 timed waves"
     },
     {
@@ -526,15 +585,17 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Maniac's Garbled Tome + Medal of Mastery"
     }
    ],
    "counts": {
     "total": 23,
-    "now": 5,
-    "blocked": 18
+    "now": 6,
+    "blocked": 23
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Cleric",
@@ -547,7 +608,8 @@
      "mob": "Lord Bergurgle",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "underwater goblin cave tower; rare spawn, casts CH"
     },
     {
@@ -556,7 +618,8 @@
      "mob": "Shmendrik Lavawalker",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "3hr spawn; give Bergurgle's Crown. Spawns Natasha Whitewater"
     },
     {
@@ -565,7 +628,8 @@
      "mob": "a spirit of flame",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "spawns on Shmendrik's corpse; do not let Natasha land the killing blow"
     },
     {
@@ -574,7 +638,8 @@
      "mob": "Natasha Whitewater",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Lore I; she despawns ~5 min after spawning unless in combat"
     },
     {
@@ -584,6 +649,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -591,9 +657,10 @@
      "item": "Blood Soaked Plasmatic Priest Robe",
      "mob": "a plasmatic priest",
      "zone": "The Temple of Solusek Ro",
-     "era": "UNKNOWN",
-     "blocked": false,
-     "notes": "zone is Antonica-side but was added AFTER Kunark - may not exist in Legends"
+     "era": "KUNARK",
+     "blocked": true,
+     "zone_live": false,
+     "notes": "the zone IS Classic, but this step is gated on the Coral Statue from Timorous Deep"
     },
     {
      "step": "7",
@@ -601,7 +668,8 @@
      "mob": "Lord Gimblox",
      "zone": "Solusek's Eye",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 30; rare spawn"
     },
     {
@@ -611,6 +679,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give the priest robe"
     },
     {
@@ -620,6 +689,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "Lore II; give Lord Gimblox's Signet Ring"
     },
     {
@@ -629,6 +699,7 @@
      "zone": "Burning Woods",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "spawns Ixiblat Fer"
     },
     {
@@ -638,6 +709,7 @@
      "zone": "Burning Woods",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "lvl 62; 100% drop"
     },
     {
@@ -647,6 +719,7 @@
      "zone": "Chardok",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "lvl 63; 100% drop"
     },
     {
@@ -656,6 +729,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Sceptre + Singed Scroll"
     },
     {
@@ -665,6 +739,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Message to Natasha"
     },
     {
@@ -673,7 +748,8 @@
      "mob": "Zordakalicus Ragefire",
      "zone": "Nagafen's Lair",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Shimmering Pearl to Zordak Ragefire; he repops as the dragon"
     },
     {
@@ -683,6 +759,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "do not do this until ready for the final turn-in"
     },
     {
@@ -692,6 +769,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give all three orbs; spawns Avatar of Water"
     },
     {
@@ -701,15 +779,17 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "wait until the Avatar stands next to Jhassad or you forfeit the quest XP"
     }
    ],
    "counts": {
     "total": 18,
     "now": 6,
-    "blocked": 11
+    "blocked": 18
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Druid",
@@ -723,6 +803,7 @@
      "zone": "Burning Wood",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "say \"I will take action\""
     },
     {
@@ -731,7 +812,8 @@
      "mob": "Faelin Bloodbriar",
      "zone": "Greater Faydark",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "must be spawned; give Worn note"
     },
     {
@@ -740,7 +822,8 @@
      "mob": "Giz X`Tin",
      "zone": "Kithicor Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Faelin's Ring"
     },
     {
@@ -750,6 +833,7 @@
      "zone": "Burning Wood",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Dark Metal Coin"
     },
     {
@@ -758,7 +842,8 @@
      "mob": "Althele",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Worn Dark Metal Coin"
     },
     {
@@ -767,7 +852,8 @@
      "mob": "Dark Elf Corruptor",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "spawned via Teloa; they run at near-SoW speed"
     },
     {
@@ -776,7 +862,8 @@
      "mob": "Althele",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Fleshbound Tome"
     },
     {
@@ -785,7 +872,8 @@
      "mob": "Ella Foodcrafter",
      "zone": "Misty Thicket",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Earth Stained Note"
     },
     {
@@ -794,7 +882,8 @@
      "mob": "forage",
      "zone": "Everfrost",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -803,7 +892,8 @@
      "mob": "forage",
      "zone": "Greater Faydark",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -812,7 +902,8 @@
      "mob": "forage",
      "zone": "Innothule Swamp",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -821,7 +912,8 @@
      "mob": "forage",
      "zone": "Misty Thicket",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -830,7 +922,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "combine all four forages in the Shiny Tin Bowl"
     },
     {
@@ -840,6 +933,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "say \"I will take the artifact\""
     },
     {
@@ -848,7 +942,8 @@
      "mob": "Farios Elianos",
      "zone": "South Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Crushed Pot"
     },
     {
@@ -857,7 +952,8 @@
      "mob": "Merchant Nora",
      "zone": "Northern Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Grocery List"
     },
     {
@@ -866,7 +962,8 @@
      "mob": "Farios Elianos",
      "zone": "South Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Bag of Provisions"
     },
     {
@@ -876,6 +973,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Receipt"
     },
     {
@@ -885,6 +983,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -893,7 +992,8 @@
      "mob": "Merdan Fleetfoot",
      "zone": "Surefall Glade",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "hail, ask \"Who is Niera?\", give Rose of Firiona"
     },
     {
@@ -903,6 +1003,7 @@
      "zone": "Frontier Mountains",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "behind the giant fort; give Wood Painting"
     },
     {
@@ -911,7 +1012,8 @@
      "mob": "Niera Farbreeze",
      "zone": "Surefall Glade",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Silver Chained Locket"
     },
     {
@@ -921,6 +1023,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -929,7 +1032,8 @@
      "mob": "Kinlo Strongarm",
      "zone": "North Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Jade Reaver"
     },
     {
@@ -938,7 +1042,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Pottery Wheel: Ancient Pattern + Platinum Speckled Powder + Enchanted Clay"
     },
     {
@@ -947,7 +1052,8 @@
      "mob": "Ella Foodcrafter",
      "zone": "Misty Thicket",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Hardened Mixture + Runecrested Bowl"
     },
     {
@@ -956,7 +1062,8 @@
      "mob": "self-cast",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 1 Druid spell, NO RENT, castable only 7pm-4am"
     },
     {
@@ -965,7 +1072,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 49 Cleric spell scroll"
     },
     {
@@ -975,6 +1083,7 @@
      "zone": "Karnor's Castle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "via Venril Sathir Remains then Spirit of Venril Sathir"
     },
     {
@@ -984,6 +1093,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Pulsing Green Stone + Softly Glowing Stone"
     },
     {
@@ -992,7 +1102,8 @@
      "mob": "Ella Foodcrafter",
      "zone": "Misty Thicket",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Warmly Glowing Stone"
     },
     {
@@ -1001,7 +1112,8 @@
      "mob": "corrupted wooly mammoth",
      "zone": "Everfrost Peaks",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 30"
     },
     {
@@ -1010,7 +1122,8 @@
      "mob": "corrupted shaman",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 40"
     },
     {
@@ -1019,7 +1132,8 @@
      "mob": "corrupted hill giant",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 40"
     },
     {
@@ -1028,7 +1142,8 @@
      "mob": "Withered treant",
      "zone": "Northern Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give tundra + lakewater + rock"
     },
     {
@@ -1037,7 +1152,8 @@
      "mob": "Yeka Ias",
      "zone": "Southern Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Warm Pulsing Treant Heart"
     },
     {
@@ -1046,7 +1162,8 @@
      "mob": "Corrupted Seahorse",
      "zone": "Kedge Keep",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 53"
     },
     {
@@ -1055,7 +1172,8 @@
      "mob": "Corrupted seafury cyclops",
      "zone": "Ocean of Tears",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 52"
     },
     {
@@ -1064,7 +1182,8 @@
      "mob": "Corrupted brownie",
      "zone": "Lesser Faydark",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 51"
     },
     {
@@ -1073,7 +1192,8 @@
      "mob": "Pained Unicorn",
      "zone": "Lesser Faydark",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give crystals + seavines + branch"
     },
     {
@@ -1082,7 +1202,8 @@
      "mob": "Silox Azrix",
      "zone": "Ak'Anon",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Gleaming Unicorn Horn"
     },
     {
@@ -1092,6 +1213,7 @@
      "zone": "Swamp of No Hope",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "lvl 55"
     },
     {
@@ -1101,6 +1223,7 @@
      "zone": "Emerald Jungle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "lvl 47"
     },
     {
@@ -1110,6 +1233,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "lvl 46"
     },
     {
@@ -1119,6 +1243,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "spawned via Dolgin Codslayer"
     },
     {
@@ -1128,6 +1253,7 @@
      "zone": "The Overthere",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give essence + seawater + bark + lakewater"
     },
     {
@@ -1136,16 +1262,18 @@
      "mob": "Xanuusus",
      "zone": "North Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Elaborate Scimitar + all three cleansed spirits"
     }
    ],
    "counts": {
     "total": 47,
     "now": 33,
-    "blocked": 14
+    "blocked": 47
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Enchanter",
@@ -1158,7 +1286,8 @@
      "mob": "Reania Jukle",
      "zone": "Qeynos Catacombs",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "quest starts by hailing Stofo Olan in Erudin at level 50"
     },
     {
@@ -1167,7 +1296,8 @@
      "mob": "a ghoul scribe",
      "zone": "Lower Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "CHARM him, then give the Empty Ink Vial"
     },
     {
@@ -1176,7 +1306,8 @@
      "mob": "the ghoul arch magus",
      "zone": "Lower Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1185,7 +1316,8 @@
      "mob": "Rilgor Plegnog",
      "zone": "Ak'Anon",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Shining Metallic Robes"
     },
     {
@@ -1194,7 +1326,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1203,7 +1336,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1212,7 +1346,8 @@
      "mob": "Thrackin Griften",
      "zone": "Western Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Quill + Parchment to Chrislin Baker to spawn him"
     },
     {
@@ -1221,7 +1356,8 @@
      "mob": "Stofo Olan",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Ink of the Dark + Mechanical Pen + White Paper"
     },
     {
@@ -1231,6 +1367,7 @@
      "zone": "Burning Woods",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "a sarnak imitator; give Copy of Notes"
     },
     {
@@ -1239,7 +1376,8 @@
      "mob": "Mizzle Gepple or Polzin Mrid",
      "zone": "Ak'Anon or The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "masters are reachable now but Jeb's Seal itself is Kunark-gated"
     },
     {
@@ -1249,6 +1387,7 @@
      "zone": "Cabilis East",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1257,7 +1396,8 @@
      "mob": "Verina Tomb",
      "zone": "Neriak",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1267,6 +1407,7 @@
      "zone": "Chardok",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1275,7 +1416,8 @@
      "mob": "Joren Nobleheart",
      "zone": "Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Head of a Prince"
     },
     {
@@ -1284,7 +1426,8 @@
      "mob": "ground pickup",
      "zone": "Oggok",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1293,7 +1436,8 @@
      "mob": "Bozlum Blossom",
      "zone": "Oggok",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Large Muddy Sandals"
     },
     {
@@ -1302,7 +1446,8 @@
      "mob": "Brokk Boxtripper",
      "zone": "Oggok",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Scribbled Parchment"
     },
     {
@@ -1311,7 +1456,8 @@
      "mob": "Bozlum Blossom",
      "zone": "Oggok",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Gift to Bozlum"
     },
     {
@@ -1321,6 +1467,7 @@
      "zone": "The Overthere",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "combine chalice + rod + blossoms + word in an Enchanters Sack"
     },
     {
@@ -1329,7 +1476,8 @@
      "mob": "Cazel",
      "zone": "Oasis of Marr",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1339,6 +1487,7 @@
      "zone": "The Overthere",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1348,6 +1497,7 @@
      "zone": "Dalnir",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1356,7 +1506,8 @@
      "mob": "pickup",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "book"
     },
     {
@@ -1365,7 +1516,8 @@
      "mob": "Mizzle Gepple",
      "zone": "Ak'Anon",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "combine spoon + key + scroll + book in an Enchanters Sack"
     },
     {
@@ -1375,6 +1527,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1384,6 +1537,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1393,6 +1547,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1402,6 +1557,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1411,6 +1567,7 @@
      "zone": "Kaesora",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "CHARM; do NOT kill the Enraged spectral librarian that spawns"
     },
     {
@@ -1420,6 +1577,7 @@
      "zone": "Skyfire Mountains",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "CHARM"
     },
     {
@@ -1429,6 +1587,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "CHARM"
     },
     {
@@ -1438,6 +1597,7 @@
      "zone": "The Overthere",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "CHARM"
     },
     {
@@ -1447,6 +1607,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "combine all four enchanted gems in an Enchanters Sack"
     },
     {
@@ -1455,7 +1616,8 @@
      "mob": "the Wraith of a Shissir",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1464,7 +1626,8 @@
      "mob": "the Ghost of Kindle",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1473,7 +1636,8 @@
      "mob": "a forsaken revenant",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1483,6 +1647,7 @@
      "zone": "The Field of Bone",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1491,7 +1656,8 @@
      "mob": "Polzin Mrid",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "combine the four essences in an Enchanters Sack"
     },
     {
@@ -1500,7 +1666,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "combine the four staff pieces in an Enchanters Sack"
     },
     {
@@ -1510,15 +1677,17 @@
      "zone": "Burning Woods",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Bundle of Staves"
     }
    ],
    "counts": {
     "total": 40,
     "now": 23,
-    "blocked": 17
+    "blocked": 40
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Magician",
@@ -1531,7 +1700,8 @@
      "mob": "Rykas",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "OPTIONAL intro"
     },
     {
@@ -1540,7 +1710,8 @@
      "mob": "an enraged dread wolf",
      "zone": "Kithicor Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1549,7 +1720,8 @@
      "mob": "a tentacle terror",
      "zone": "Unrest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "in the Estate"
     },
     {
@@ -1558,7 +1730,8 @@
      "mob": "a bloodthirsty ghoul",
      "zone": "Lower Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1567,7 +1740,8 @@
      "mob": "Jahsohn Aksot",
      "zone": "West Commonlands",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give all three torn pages"
     },
     {
@@ -1576,7 +1750,8 @@
      "mob": "a gypsy dancer",
      "zone": "Castle Mistmoore",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1585,7 +1760,8 @@
      "mob": "Lava elemental or Blazing Elemental",
      "zone": "Solusek's Eye",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1595,6 +1771,7 @@
      "zone": "Kaesora",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "also Hungered or Gorged Ravener"
     },
     {
@@ -1603,7 +1780,8 @@
      "mob": "A Fairy Guard",
      "zone": "Lesser Faydark",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1612,7 +1790,8 @@
      "mob": "Walnan",
      "zone": "Butcherblock Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give all four Powers; MQ-able"
     },
     {
@@ -1621,7 +1800,8 @@
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1630,7 +1810,8 @@
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1639,7 +1820,8 @@
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1648,7 +1830,8 @@
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "also an alligator in Cazic Thule"
     },
     {
@@ -1657,7 +1840,8 @@
      "mob": "Akksstaff",
      "zone": "Najena",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give all four Torn Pages of Mastery"
     },
     {
@@ -1666,7 +1850,8 @@
      "mob": "Rykas",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Words of Magi`kot + Power of the Elements + Words of Mastery"
     },
     {
@@ -1676,6 +1861,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1685,6 +1871,7 @@
      "zone": "Burning Woods",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "listed in order of difficulty"
     },
     {
@@ -1693,7 +1880,8 @@
      "mob": "Undertow",
      "zone": "Kedge Keep",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1703,6 +1891,7 @@
      "zone": "Skyfire Mountains",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Power of the Orb + torch + embers + wand"
     },
     {
@@ -1711,7 +1900,8 @@
      "mob": "Magi P`Tasa",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1721,6 +1911,7 @@
      "zone": "Burning Wood",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1729,7 +1920,8 @@
      "mob": "quest",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "separate Shovel of Ponz quest"
     },
     {
@@ -1738,7 +1930,8 @@
      "mob": "quest",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "separate Broom of Trilon quest"
     },
     {
@@ -1748,6 +1941,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give staff + dirt + shovel + broom"
     },
     {
@@ -1756,7 +1950,8 @@
      "mob": "Phinigel Autropos",
      "zone": "Kedge Keep",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1766,6 +1961,7 @@
      "zone": "The Overthere",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1774,7 +1970,8 @@
      "mob": "Tarbul Earthstrider",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1783,7 +1980,8 @@
      "mob": "Jinalis Andir",
      "zone": "Dagnor's Cauldron",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give staff + tears + rain"
     },
     {
@@ -1792,7 +1990,8 @@
      "mob": "7th island mobs",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1801,7 +2000,8 @@
      "mob": "zone mobs",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1810,7 +2010,8 @@
      "mob": "Quillmane",
      "zone": "South Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -1819,7 +2020,8 @@
      "mob": "Kihun Solstin",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give crown + binder + cloak"
     },
     {
@@ -1828,7 +2030,8 @@
      "mob": "Master of Elements",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give all four Elements; if absent, hail Kihun Solstin"
     },
     {
@@ -1837,16 +2040,18 @@
      "mob": "summoned",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "scribe Summon Orb and cast it"
     }
    ],
    "counts": {
     "total": 35,
     "now": 28,
-    "blocked": 7
+    "blocked": 35
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Monk",
@@ -1859,7 +2064,8 @@
      "mob": "quest turn-in",
      "zone": "classic zones",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "see Monk Headband Quests"
     },
     {
@@ -1868,7 +2074,8 @@
      "mob": "Thena Lonnes or Ran`Un",
      "zone": "classic zones",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "see Monk Sash Quests"
     },
     {
@@ -1877,7 +2084,8 @@
      "mob": "Targin the Rock",
      "zone": "Nagafen's Lair",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "King room"
     },
     {
@@ -1886,7 +2094,8 @@
      "mob": "Raster of Guk",
      "zone": "Lower Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "the Idol and the Sash CANNOT be multiquested"
     },
     {
@@ -1895,7 +2104,8 @@
      "mob": "Brother Qwinn",
      "zone": "Southern Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Purple Headband + Code of Zan Fi"
     },
     {
@@ -1904,7 +2114,8 @@
      "mob": "Brother Zephyl",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Red Sash of Order + The Idol"
     },
     {
@@ -1913,7 +2124,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Shadow Wolf Pelt + Silk Swatch + Spell: Gather Shadows, Tailoring 36"
     },
     {
@@ -1922,7 +2134,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "SHORTCUT: also drops from Brother Zephyl or Brother Qwinn directly"
     },
     {
@@ -1932,6 +2145,7 @@
      "zone": "Chardok",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1941,6 +2155,7 @@
      "zone": "Karnor's Castle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -1950,6 +2165,7 @@
      "zone": "Dreadlands",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "he must NOT be aggro'd; charm and sneak work, pacify does not"
     },
     {
@@ -1959,6 +2175,7 @@
      "zone": "Skyfire Mountains",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "book"
     },
     {
@@ -1967,7 +2184,8 @@
      "mob": "Tomekeeper Danl",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "library; do NOT turn in while feigned"
     },
     {
@@ -1977,6 +2195,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "book; hidden cove"
     },
     {
@@ -1985,7 +2204,8 @@
      "mob": "Eejag",
      "zone": "Lavastorm Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "say \"I challenge Eejag\" to a fire sprite"
     },
     {
@@ -1994,7 +2214,8 @@
      "mob": "Gwan",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Dojorn's Island 1.5; hand Charred Scale to a presence"
     },
     {
@@ -2004,6 +2225,7 @@
      "zone": "Mines of Nurga",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "hand Breath of Gwan to a sleeping ogre"
     },
     {
@@ -2013,6 +2235,7 @@
      "zone": "The Overthere",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Trunt's Head"
     },
     {
@@ -2022,6 +2245,7 @@
      "zone": "Lake of Ill Omen",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "spawns when Vorash dies"
     },
     {
@@ -2031,6 +2255,7 @@
      "zone": "Trakanon's Teeth",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "sane Kaiaren despawns within 30 min"
     },
     {
@@ -2040,15 +2265,17 @@
      "zone": "Trakanon's Teeth",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "turning in to MAD Kaiaren destroys your items"
     }
    ],
    "counts": {
     "total": 21,
     "now": 11,
-    "blocked": 10
+    "blocked": 21
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Necromancer",
@@ -2061,7 +2288,8 @@
      "mob": "Sir Edwin Motte",
      "zone": "Qeynos Hills",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 33, roams; 3% spawn"
     },
     {
@@ -2070,7 +2298,8 @@
      "mob": "Kazen Fecae",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give the Head"
     },
     {
@@ -2079,7 +2308,8 @@
      "mob": "Venenzi Oberzendi",
      "zone": "Nektulos Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Symbol of the Apprentice"
     },
     {
@@ -2088,7 +2318,8 @@
      "mob": "Najena",
      "zone": "Najena",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "the NPC, not the zone mobs"
     },
     {
@@ -2097,7 +2328,8 @@
      "mob": "Venenzi Oberzendi",
      "zone": "Nektulos Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Flowing Black Robe"
     },
     {
@@ -2106,7 +2338,8 @@
      "mob": "Emkel Kabae",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Rolling Stone Moss + Twisted Symbol"
     },
     {
@@ -2116,6 +2349,7 @@
      "zone": "Swamp of No Hope",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "hail, give Symbol of the Serpent"
     },
     {
@@ -2125,6 +2359,7 @@
      "zone": "Chardok",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "wiki also spells this Mainsi"
     },
     {
@@ -2134,6 +2369,7 @@
      "zone": "Swamp of No Hope",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Manisi Herb + Scaled Symbol"
     },
     {
@@ -2142,7 +2378,8 @@
      "mob": "Emkel Kabae",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Refined Mainsi Herb"
     },
     {
@@ -2151,7 +2388,8 @@
      "mob": "A tortured soul",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "also kill a bone golem and a failed apprentice"
     },
     {
@@ -2161,6 +2399,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give Symbol of Insanity"
     },
     {
@@ -2169,7 +2408,8 @@
      "mob": "An azarack",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "2nd isle monsters"
     },
     {
@@ -2178,7 +2418,8 @@
      "mob": "A gorgalask",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "3rd isle monsters"
     },
     {
@@ -2187,7 +2428,8 @@
      "mob": "Keeper of Souls",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2196,7 +2438,8 @@
      "mob": "Jzil GSix",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give disc + feathers + cape"
     },
     {
@@ -2205,7 +2448,8 @@
      "mob": "Mini-Bosses",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "source changed from Innoruuk to the Hate mini-bosses"
     },
     {
@@ -2214,7 +2458,8 @@
      "mob": "Cazic Thule or the golems",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2224,6 +2469,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give cloak + eye + slime blood + journal"
     },
     {
@@ -2232,7 +2478,8 @@
      "mob": "Kazen Fecae",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Prepared Regents Box"
     },
     {
@@ -2241,7 +2488,8 @@
      "mob": "Gkzzallk",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Island 3 building; despawns the Island 1 boss - clear with your raid first"
     },
     {
@@ -2250,16 +2498,18 @@
      "mob": "Kazen Fecae",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Gkzzallk in a Box"
     }
    ],
    "counts": {
     "total": 22,
     "now": 17,
-    "blocked": 5
+    "blocked": 22
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Paladin",
@@ -2272,7 +2522,8 @@
      "mob": "quest turn-in",
      "zone": "Various Freeport, Highpass, Mistmoore, Splitpaw",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Zimel's Blades quest; needs Warmly Knights of Truth + Priests of Life. Verified on EQL 8/8/2026"
     },
     {
@@ -2281,7 +2532,8 @@
      "mob": "the froglok shin lord",
      "zone": "Upper Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "the Felwithe source is Kunark-era"
     },
     {
@@ -2290,7 +2542,8 @@
      "mob": "Lord Nagafen",
      "zone": "Nagafen's Lair",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "alt sources Talendor and Severilous are Kunark"
     },
     {
@@ -2299,7 +2552,8 @@
      "mob": "Vox",
      "zone": "Permafrost",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "alt sources Gorenaire and Faydedar are Kunark"
     },
     {
@@ -2308,7 +2562,8 @@
      "mob": "quest turn-in",
      "zone": "Neriak Commons or North Qeynos",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "both books + 1000pp; tradeable, so purchasable"
     },
     {
@@ -2317,7 +2572,8 @@
      "mob": "Oracle of K`Arnon",
      "zone": "Ocean of Tears",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Book of Scale"
     },
     {
@@ -2326,7 +2582,8 @@
      "mob": "Miragul",
      "zone": "Everfrost Peaks",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "hand Phylactery to Lich of Miragul in the underwater ice caves"
     },
     {
@@ -2335,7 +2592,8 @@
      "mob": "Miragul",
      "zone": "Everfrost Peaks",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "same kill"
     },
     {
@@ -2344,7 +2602,8 @@
      "mob": "Inte Akera",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "500pp to Dason Goldblade spawns him in the Island 4 windmill for 5 min; needs Warmly Deepwater Knights"
     },
     {
@@ -2353,7 +2612,8 @@
      "mob": "thought destroyer",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 55; random spawn from a scorn banshee corpse"
     },
     {
@@ -2362,7 +2622,8 @@
      "mob": "Nella Stonebraids",
      "zone": "Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Pure Crystal Quest; Jark is in the mines"
     },
     {
@@ -2371,7 +2632,8 @@
      "mob": "Jark",
      "zone": "Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Cold Plate of Beef and Bread"
     },
     {
@@ -2380,7 +2642,8 @@
      "mob": "Reklon Gnallen",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Temple of Quellious; breastplate + Pure Crystal"
     },
     {
@@ -2389,7 +2652,8 @@
      "mob": "Keeper of the Tombs",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 55, 7-10 day respawn"
     },
     {
@@ -2398,7 +2662,8 @@
      "mob": "a peasant woman",
      "zone": "West Freeport",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "near the monk guild; say \"what water\""
     },
     {
@@ -2407,7 +2672,8 @@
      "mob": "Joshua",
      "zone": "West Freeport",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "back of the bakery"
     },
     {
@@ -2416,7 +2682,8 @@
      "mob": "Reklon Gnallen",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "sword + Bucket of Pure Water"
     },
     {
@@ -2425,7 +2692,8 @@
      "mob": "Kirak Vil",
      "zone": "Nektulos Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 55, 7-10 day respawn, fully spell-resistant"
     },
     {
@@ -2434,7 +2702,8 @@
      "mob": "Elia the Pure",
      "zone": "Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give the shield"
     },
     {
@@ -2443,7 +2712,8 @@
      "mob": "Reklon Gnallen",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "all three Gleaming Crested items"
     },
     {
@@ -2452,16 +2722,18 @@
      "mob": "Irak Altil",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Mark of Atonement + Fiery Avenger; he is a wandering skeleton"
     }
    ],
    "counts": {
     "total": 21,
     "now": 21,
-    "blocked": 0
+    "blocked": 21
    },
-   "completable": true
+   "completable": false,
+   "zones_all_live": true
   },
   {
    "name": "Ranger",
@@ -2475,6 +2747,7 @@
      "zone": "Burning Wood",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "ask \"what action\"; hard blocker for the whole quest"
     },
     {
@@ -2483,7 +2756,8 @@
      "mob": "Faelin Bloodbriar",
      "zone": "Greater Faydark",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "spawn her, give the Worn Note"
     },
     {
@@ -2492,7 +2766,8 @@
      "mob": "Giz X`Tin",
      "zone": "Kithicor Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Faelin's Ring"
     },
     {
@@ -2502,6 +2777,7 @@
      "zone": "Burning Wood",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -2510,7 +2786,8 @@
      "mob": "Althele",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "she names Sionae, who shows on track"
     },
     {
@@ -2519,7 +2796,8 @@
      "mob": "Sionae",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2528,7 +2806,8 @@
      "mob": "Dark Elf Corruptor",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "spawned via Teloa; they run almost SoW-fast"
     },
     {
@@ -2537,7 +2816,8 @@
      "mob": "Althele",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Fleshbound Tome"
     },
     {
@@ -2546,7 +2826,8 @@
      "mob": "Ella Foodcrafter",
      "zone": "Misty Thicket",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "DO NOT DESTROY - needed again for Earthcaller"
     },
     {
@@ -2555,7 +2836,8 @@
      "mob": "forage",
      "zone": "Everfrost Peaks",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2564,7 +2846,8 @@
      "mob": "forage",
      "zone": "Greater Faydark",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2573,7 +2856,8 @@
      "mob": "forage",
      "zone": "Innothule Swamp",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2582,7 +2866,8 @@
      "mob": "forage",
      "zone": "Misty Thicket",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2591,7 +2876,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "combine all four forages in the Shiny Tin Bowl"
     },
     {
@@ -2601,6 +2887,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -2609,7 +2896,8 @@
      "mob": "Farios Elianos",
      "zone": "Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Crushed Pot"
     },
     {
@@ -2618,7 +2906,8 @@
      "mob": "Merchant Nora",
      "zone": "Northern Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2627,7 +2916,8 @@
      "mob": "Farios Elianos",
      "zone": "Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2637,6 +2927,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -2646,6 +2937,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -2654,7 +2946,8 @@
      "mob": "Merdan Fleetfoot",
      "zone": "Surefall Glade",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "ask \"Who is Niera?\""
     },
     {
@@ -2664,6 +2957,7 @@
      "zone": "Frontier Mountains",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -2672,7 +2966,8 @@
      "mob": "Niera Farbreeze",
      "zone": "Surefall Glade",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2682,6 +2977,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "or bought from another player"
     },
     {
@@ -2690,7 +2986,8 @@
      "mob": "Kinlo Strongarm",
      "zone": "North Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Jade Reaver"
     },
     {
@@ -2700,6 +2997,7 @@
      "zone": "-",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "pottery wheel; gated by the Ancient Pattern"
     },
     {
@@ -2709,6 +3007,7 @@
      "zone": "Misty Thicket",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "Hardened Mixture + Runecrested Bowl"
     },
     {
@@ -2717,7 +3016,8 @@
      "mob": "self-cast",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 1 Druid spell, NO RENT, night only 7pm-4am"
     },
     {
@@ -2726,7 +3026,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lvl 49 Cleric scroll"
     },
     {
@@ -2736,6 +3037,7 @@
      "zone": "Karnor's Castle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "or buy an MQ'd one"
     },
     {
@@ -2745,6 +3047,7 @@
      "zone": "Firiona Vie",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -2754,6 +3057,7 @@
      "zone": "Burning Wood",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "OBTAIN THIS BEFORE spawning Usbak the Old, who despawns"
     },
     {
@@ -2762,7 +3066,8 @@
      "mob": "Usbak the Old",
      "zone": "North Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "hail and give the Ancient Longsword"
     },
     {
@@ -2772,6 +3077,7 @@
      "zone": "Greater Faydark",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "spawned via Telin Darkforest"
     },
     {
@@ -2780,7 +3086,8 @@
      "mob": "an essence tamer",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2789,7 +3096,8 @@
      "mob": "Jaeil the Insane",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "spawn by giving the Shiny Tin Bowl to Jaeil the Wretched"
     },
     {
@@ -2798,7 +3106,8 @@
      "mob": "Mairee Silentone",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Erudin Palace"
     },
     {
@@ -2807,7 +3116,8 @@
      "mob": "Mairee Silentone",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "hammer + Swirling Sphere of Color"
     },
     {
@@ -2816,7 +3126,8 @@
      "mob": "Usbak the Old",
      "zone": "North Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Hammer of the Ancients to Kinlo Strongarm spawns him"
     },
     {
@@ -2825,7 +3136,8 @@
      "mob": "Kinlo Strongarm",
      "zone": "North Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Small bit of Mithril Ore"
     },
     {
@@ -2834,7 +3146,8 @@
      "mob": "mini bosses or Innoruuk",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "72 hour respawn on the mini bosses"
     },
     {
@@ -2843,16 +3156,18 @@
      "mob": "Xanuusus",
      "zone": "North Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Shattered Emerald + Refined Mithril Blade"
     }
    ],
    "counts": {
     "total": 42,
     "now": 29,
-    "blocked": 13
+    "blocked": 42
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Rogue",
@@ -2865,7 +3180,8 @@
      "mob": "Malka Rale",
      "zone": "Qeynos Aqueducts",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "OPTIONAL; spawns 8PM game time, say \"I can help\""
     },
     {
@@ -2874,7 +3190,8 @@
      "mob": "Founy Jestands",
      "zone": "North Kaladim",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "PICKPOCKET"
     },
     {
@@ -2883,7 +3200,8 @@
      "mob": "Tani N`Mar",
      "zone": "Neriak Third Gate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "PICKPOCKET"
     },
     {
@@ -2892,7 +3210,8 @@
      "mob": "Stanos Herkanor",
      "zone": "Highpass Hold",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "spawn him via Anson Mcbale; then both parchments"
     },
     {
@@ -2901,7 +3220,8 @@
      "mob": "Eldreth",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Combined Parchment + 100pp + 2 UNSTACKED Bottle of Milk"
     },
     {
@@ -2910,7 +3230,8 @@
      "mob": "Yendar Starpyre",
      "zone": "Steamfont Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -2919,7 +3240,8 @@
      "mob": "ground spawn",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "10 hr ground spawn at -60,+325,56"
     },
     {
@@ -2928,7 +3250,8 @@
      "mob": "Yendar Starpyre",
      "zone": "Steamfont Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Tattered Parchment + Book of Souls; spawns Renux"
     },
     {
@@ -2937,7 +3260,8 @@
      "mob": "Renux Herkanor",
      "zone": "Steamfont Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "rare drop; else use the four-blade auxiliary chain"
     },
     {
@@ -2946,7 +3270,8 @@
      "mob": "Stanos Herkanor",
      "zone": "Highpass Hold",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Translated Parchment"
     },
     {
@@ -2955,7 +3280,8 @@
      "mob": "General V`ghera",
      "zone": "Kithicor Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "USE SNEAK, not hide or invis; verify indifferent con"
     },
     {
@@ -2964,7 +3290,8 @@
      "mob": "General V`ghera",
      "zone": "Kithicor Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "rare drop; else use the four-robe auxiliary chain"
     },
     {
@@ -2973,7 +3300,8 @@
      "mob": "Solusek kobold king",
      "zone": "Nagafen's Lair",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX dagger chain"
     },
     {
@@ -2982,7 +3310,8 @@
      "mob": "Kobold champion",
      "zone": "Nagafen's Lair",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX dagger chain"
     },
     {
@@ -2991,7 +3320,8 @@
      "mob": "The froglok king",
      "zone": "Lower Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX dagger chain; LIVE side"
     },
     {
@@ -3000,7 +3330,8 @@
      "mob": "Karg Icebear",
      "zone": "Everfrost Peaks",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX dagger chain; all four to Vilnius the Small"
     },
     {
@@ -3009,7 +3340,8 @@
      "mob": "Phinigel Autropos",
      "zone": "Kedge Keep",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX quill chain"
     },
     {
@@ -3018,7 +3350,8 @@
      "mob": "The Ishva Mal",
      "zone": "Splitpaw",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX quill chain"
     },
     {
@@ -3027,7 +3360,8 @@
      "mob": "the ghoul arch magus",
      "zone": "Lower Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX quill chain"
     },
     {
@@ -3036,7 +3370,8 @@
      "mob": "Oracle of K`Arnon",
      "zone": "Ocean of Tears",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "AUX quill chain; all four to Vilnius the Small"
     },
     {
@@ -3045,16 +3380,18 @@
      "mob": "Stanos Herkanor",
      "zone": "Highpass Hold",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Generals Pouch + Jagged Diamond Dagger + Cazic Quill"
     }
    ],
    "counts": {
     "total": 21,
     "now": 21,
-    "blocked": 0
+    "blocked": 21
    },
-   "completable": true
+   "completable": false,
+   "zones_all_live": true
   },
   {
    "name": "Shadow Knight",
@@ -3064,29 +3401,32 @@
     {
      "step": "1",
      "item": "Darkforge Breastplate",
-     "mob": "quest turn-in",
-     "zone": "-",
-     "era": "UNKNOWN",
-     "blocked": false,
-     "notes": "via Darkforge Armor Quests; zone not stated on the wiki"
+     "mob": "an undead knight",
+     "zone": "The Temple of Solusek Ro",
+     "era": "NOW",
+     "blocked": true,
+     "zone_live": true,
+     "notes": "Darkforge Armor Quests is tagged Classic Era; needs 2x Decayed Armor from Cazic Thule"
     },
     {
      "step": "2",
      "item": "Darkforge Greaves",
-     "mob": "quest turn-in",
-     "zone": "-",
-     "era": "UNKNOWN",
-     "blocked": false,
-     "notes": "as above"
+     "mob": "an undead knight",
+     "zone": "The Temple of Solusek Ro",
+     "era": "NOW",
+     "blocked": true,
+     "zone_live": true,
+     "notes": "right-hand knight forges Gauntlets, Greaves, Boots"
     },
     {
      "step": "3",
      "item": "Darkforge Helm",
-     "mob": "quest turn-in",
-     "zone": "-",
-     "era": "UNKNOWN",
-     "blocked": false,
-     "notes": "as above"
+     "mob": "an undead knight",
+     "zone": "The Temple of Solusek Ro",
+     "era": "NOW",
+     "blocked": true,
+     "zone_live": true,
+     "notes": "left-hand knight forges Helm, Breastplate, Vambraces, Bracers"
     },
     {
      "step": "4",
@@ -3094,7 +3434,8 @@
      "mob": "a ratman guard",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "OPTIONAL; give to Duriek Bloodpool"
     },
     {
@@ -3103,7 +3444,8 @@
      "mob": "The froglok shin lord",
      "zone": "Upper Guk",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Ruins of Upper Guk"
     },
     {
@@ -3112,7 +3454,8 @@
      "mob": "Fright, Dread or Terror",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "post-Fear-revamp source; formerly Cazic-Thule"
     },
     {
@@ -3121,7 +3464,8 @@
      "mob": "various monsters",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "specific mob not named on the wiki"
     },
     {
@@ -3130,7 +3474,8 @@
      "mob": "Rharzar",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3139,7 +3484,8 @@
      "mob": "An ashenbone drake",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3148,7 +3494,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "buy a Platinum Bar, have an enchanter enchant it"
     },
     {
@@ -3157,17 +3504,29 @@
      "mob": "Teydar",
      "zone": "Qeynos Aqueducts",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "evil guild area; MUST con indifferent, use Hide"
+    },
+    {
+     "step": "11b",
+     "item": "Letter to Duriek",
+     "mob": "Kurron Ni",
+     "zone": "The Overthere",
+     "era": "KUNARK",
+     "blocked": true,
+     "zone_live": false,
+     "notes": "hail, give 3 Darkforge pieces + 900pp, then kill him. GATES the Corrupted Ghoulbane"
     },
     {
      "step": "12",
      "item": "Corrupted Ghoulbane",
      "mob": "Duriek Bloodpool",
      "zone": "Paineel",
-     "era": "NOW",
-     "blocked": false,
-     "notes": "Ghoulbane + Soul Leech + Blade of Abrogation + Decrepit Sheath"
+     "era": "KUNARK",
+     "blocked": true,
+     "zone_live": false,
+     "notes": "gated: Duriek only corrupts it after the Letter from Kurron Ni"
     },
     {
      "step": "13",
@@ -3175,7 +3534,8 @@
      "mob": "Marl Kastane",
      "zone": "Kerra Isle",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "OPTIONAL; say \"I have the will of innoruuk\""
     },
     {
@@ -3184,7 +3544,8 @@
      "mob": "Knarthenne Skurl",
      "zone": "Toxxulia Forest",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "say \"what heart of an innocent?\""
     },
     {
@@ -3193,7 +3554,8 @@
      "mob": "a mimic",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "looks like a chest, in the city bank"
     },
     {
@@ -3202,7 +3564,8 @@
      "mob": "Kyrenna",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Cell Key to Caradon; kill Kyrenna, not Caradon if avoidable"
     },
     {
@@ -3211,7 +3574,8 @@
      "mob": "Kyrenna",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "same kill"
     },
     {
@@ -3220,7 +3584,8 @@
      "mob": "Marl Kastane",
      "zone": "Kerra Isle",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Blood of Kyrenna; DO NOT FEIGN DEATH; be Hidden and indifferent"
     },
     {
@@ -3229,7 +3594,8 @@
      "mob": "Mummy of Glohnor",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Dark Shroud to the Ghost of Glohnor first"
     },
     {
@@ -3238,7 +3604,8 @@
      "mob": "Mummy of Glohnor",
      "zone": "The Hole",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "same kill"
     },
     {
@@ -3247,7 +3614,8 @@
      "mob": "Gerot Kastane",
      "zone": "Paineel",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Head of Glohnor; indifferent with hide"
     },
     {
@@ -3256,7 +3624,8 @@
      "mob": "Marl Kastane",
      "zone": "Kerra Isle",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Glohnor wrappings; indifferent with hide"
     },
     {
@@ -3265,7 +3634,8 @@
      "mob": "crafted",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "combine Heart of Kyrenna with the Soulcase"
     },
     {
@@ -3275,15 +3645,17 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "the four finals; he respawns with the sword. Bring 2+ groups"
     }
    ],
    "counts": {
-    "total": 24,
-    "now": 20,
-    "blocked": 1
+    "total": 25,
+    "now": 22,
+    "blocked": 25
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Shaman",
@@ -3296,7 +3668,8 @@
      "mob": "a lesser spirit",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "also Ocean of Tears or Butcherblock; DO NOT kill the lesser spirit"
     },
     {
@@ -3305,7 +3678,8 @@
      "mob": "Greater Spirit",
      "zone": "North Freeport",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "gem to Bondl Felligan; talk to the Greater Spirit matching YOUR god"
     },
     {
@@ -3314,7 +3688,8 @@
      "mob": "Greater Spirit",
      "zone": "Erud's Crossing",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Test of Patience"
     },
     {
@@ -3323,7 +3698,8 @@
      "mob": "Glaron the Wicked",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3332,7 +3708,8 @@
      "mob": "Glaron the Wicked",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3341,7 +3718,8 @@
      "mob": "Tabien the Goodly",
      "zone": "Rathe Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3350,7 +3728,8 @@
      "mob": "a wandering spirit",
      "zone": "West Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Envy + Woe + Marr's Promise; also returns a gem"
     },
     {
@@ -3359,7 +3738,8 @@
      "mob": "Black Dire",
      "zone": "Mistmoore Castle",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "FARMABLE TODAY AND BANKABLE"
     },
     {
@@ -3368,7 +3748,8 @@
      "mob": "Iksar Broodling",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "random spawn off Dread, Fright or Terror"
     },
     {
@@ -3378,6 +3759,7 @@
      "zone": "Emerald Jungle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "pelt turn-in; faction required; yields the 6-slot booklet"
     },
     {
@@ -3387,6 +3769,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "turn-in requires KINDLY or better"
     },
     {
@@ -3396,6 +3779,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -3405,6 +3789,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -3414,6 +3799,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -3423,6 +3809,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "in the temple"
     },
     {
@@ -3432,6 +3819,7 @@
      "zone": "The Hole",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "zone is reachable but requires the Icon from City of Mist"
     },
     {
@@ -3441,6 +3829,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give her the ring, kill her"
     },
     {
@@ -3450,6 +3839,7 @@
      "zone": "City of Mist",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give him the Child's Tear. Needs ALLY but NOT maxed ally"
     },
     {
@@ -3459,15 +3849,17 @@
      "zone": "Emerald Jungle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "the wolf IN THE POND. Needs MAX ALLY"
     }
    ],
    "counts": {
     "total": 19,
     "now": 9,
-    "blocked": 10
+    "blocked": 19
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Warrior",
@@ -3480,7 +3872,8 @@
      "mob": "ground spawn",
      "zone": "Lake Rathetear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "lake floor under the aviak tower; start by hailing Kargek Redblade and Wenden Blackhammer in East Freeport"
     },
     {
@@ -3489,7 +3882,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "almost always for sale in Eastern Commonlands"
     },
     {
@@ -3498,7 +3892,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3507,7 +3902,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3516,7 +3912,8 @@
      "mob": "Wenden Blackhammer",
      "zone": "East Freeport",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "hilt + Diamond + Jacinth + Black Sapphire"
     },
     {
@@ -3526,6 +3923,7 @@
      "zone": "Timorous Deep",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "at the base of the King piece on the chessboard"
     },
     {
@@ -3535,6 +3933,7 @@
      "zone": "Dreadlands",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -3544,6 +3943,7 @@
      "zone": "Frontier Mountains",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "end of the mine in the giant fort"
     },
     {
@@ -3552,7 +3952,8 @@
      "mob": "Fright, Dread or Terror",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3562,6 +3963,7 @@
      "zone": "East Freeport",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "MQable"
     },
     {
@@ -3570,7 +3972,8 @@
      "mob": "purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "North Ro sandfishers or the Freeport Port Authority"
     },
     {
@@ -3579,7 +3982,8 @@
      "mob": "crafted or purchased",
      "zone": "-",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "x2; Gnome Tinkering trivial 175, or ~4k plat"
     },
     {
@@ -3588,7 +3992,8 @@
      "mob": "Ice Giants",
      "zone": "Permafrost",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3597,7 +4002,8 @@
      "mob": "Denken Strongpick",
      "zone": "Ocean of Tears",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Aviak Island; permafrost + ale + 2 rebreathers"
     },
     {
@@ -3607,6 +4013,7 @@
      "zone": "Chardok",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": ""
     },
     {
@@ -3615,7 +4022,8 @@
      "mob": "Kargek Redblade",
      "zone": "East Freeport",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "say \"tell me about that scabbard\" then \"what favor\""
     },
     {
@@ -3624,7 +4032,8 @@
      "mob": "Oknoggin Stonesmacker",
      "zone": "The Feerrott",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "between the Stone Bridge and the Fallen Totem"
     },
     {
@@ -3633,7 +4042,8 @@
      "mob": "Kargek Redblade",
      "zone": "East Freeport",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Tiny Lute"
     },
     {
@@ -3642,7 +4052,8 @@
      "mob": "Tenal Redblade",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "end of the canyon by the Highpass ramp"
     },
     {
@@ -3651,7 +4062,8 @@
      "mob": "a goblin wizard",
      "zone": "Permafrost",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "grab on the same Permafrost trip as the Block"
     },
     {
@@ -3660,7 +4072,8 @@
      "mob": "Tenal Redblade",
      "zone": "East Karana",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Totem of the Freezing War + Heart of Frost"
     },
     {
@@ -3669,7 +4082,8 @@
      "mob": "Lord Nagafen or Ragefire",
      "zone": "Nagafen's Lair",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "also Nortlav the Scalekeeper in The Hole"
     },
     {
@@ -3679,6 +4093,7 @@
      "zone": "Emerald Jungle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "NO classic source exists - hard blocker"
     },
     {
@@ -3688,6 +4103,7 @@
      "zone": "East Karana",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "Totem of Fiery War + Red + Green Dragon Scales"
     },
     {
@@ -3696,7 +4112,8 @@
      "mob": "Maestro of Rancor",
      "zone": "Plane of Hate",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "rare drop"
     },
     {
@@ -3706,6 +4123,7 @@
      "zone": "East Karana",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "Mark of the Sword + Hand of the Maestro"
     },
     {
@@ -3714,7 +4132,8 @@
      "mob": "Spiroc Lord",
      "zone": "Plane of Sky",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3724,6 +4143,7 @@
      "zone": "East Freeport",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "Tenals note + Spiroc Wingblade"
     },
     {
@@ -3733,15 +4153,17 @@
      "zone": "-",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "combine both hilts + both blades in the Red Scabbard"
     }
    ],
    "counts": {
     "total": 29,
     "now": 19,
-    "blocked": 10
+    "blocked": 29
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   },
   {
    "name": "Wizard",
@@ -3754,7 +4176,8 @@
      "mob": "Solomen",
      "zone": "Temple of Solusek Ro",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "OPTIONAL if using an Ornate Velium Pendant"
     },
     {
@@ -3763,7 +4186,8 @@
      "mob": "purchased",
      "zone": "Halas",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "from Dargon outside the shaman guild, 900-1100pp"
     },
     {
@@ -3772,7 +4196,8 @@
      "mob": "Camin",
      "zone": "Erudin",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Vasty Deep Inn; returned with the charge missing"
     },
     {
@@ -3781,7 +4206,8 @@
      "mob": "Arantir Karondor",
      "zone": "Halas",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "hand the used potion to Dargon, who becomes Arantir"
     },
     {
@@ -3790,7 +4216,8 @@
      "mob": "Challice",
      "zone": "Felwithe",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "Paladin Guild basement"
     },
     {
@@ -3799,7 +4226,8 @@
      "mob": "Arantir Karondor",
      "zone": "Halas",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "say \"Who is the gnome?\" to skip the dialogue"
     },
     {
@@ -3808,7 +4236,8 @@
      "mob": "Kandin Firepot",
      "zone": "Butcherblock Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "then say \"what oil?\""
     },
     {
@@ -3817,7 +4246,8 @@
      "mob": "Phinigel Autropos",
      "zone": "Kedge Keep",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": ""
     },
     {
@@ -3827,6 +4257,7 @@
      "zone": "Karnor's Castle",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "the single hard blocker for this epic"
     },
     {
@@ -3835,7 +4266,8 @@
      "mob": "an enraged golem",
      "zone": "Plane of Fear",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give the Golem Sprocket to a broken golem"
     },
     {
@@ -3844,7 +4276,8 @@
      "mob": "Kandin Firepot",
      "zone": "Butcherblock Mountains",
      "era": "NOW",
-     "blocked": false,
+     "blocked": true,
+     "zone_live": true,
      "notes": "give Green Oil; also yields Note to Arantir"
     },
     {
@@ -3854,6 +4287,7 @@
      "zone": "Halas",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "Blue Crystal Staff + Gnarled Staff + Staff of Gabstik"
     },
     {
@@ -3863,6 +4297,7 @@
      "zone": "Temple of Solusek Ro",
      "era": "KUNARK",
      "blocked": true,
+     "zone_live": false,
      "notes": "give the bag"
     },
     {
@@ -3872,15 +4307,17 @@
      "zone": "Velious",
      "era": "LATER",
      "blocked": true,
+     "zone_live": false,
      "notes": "OPTIONAL shortcut; if used you MUST use it on ALL later turn-ins"
     }
    ],
    "counts": {
     "total": 14,
     "now": 10,
-    "blocked": 4
+    "blocked": 14
    },
-   "completable": false
+   "completable": false,
+   "zones_all_live": false
   }
  ]
 }
