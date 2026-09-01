@@ -86,6 +86,7 @@ Results show whether you already hold it and where. Double-click to jump to that
 - **Island bosses drop the keys directly.** There is no token hand-in NPC in Legends.
 - **Item names are matched loosely.** The wiki and the game disagree on punctuation constantly —
   `Cazic-Thule` vs `Cazic Thule`, `Mastery: Wind` vs `Mastery Wind` — so matching ignores it.
+- **Stacks count as stacks.** A stack of 448 Bone Chips reads as 448, not as one item.
 
 ## Epic quests — read this before you farm
 
@@ -130,7 +131,7 @@ pip install -r requirements.txt
 python tools/build_dataset.py     # regenerate data/sky.json
 python tools/build_epics.py       # regenerate data/epics.json
 python build/build_exe.py         # -> dist/VeeshansLedger.exe
-python tests/test_core.py         # 36 regression tests
+python -m unittest discover -s tests   # 41 regression tests
 ```
 
 Requires Python 3.11+. **PyInstaller must be 6.22 or newer** — Python 3.14 ships Tcl/Tk 9.0 and
@@ -145,7 +146,9 @@ older versions produce an exe that dies at launch. The build script enforces thi
 Derived from [eqlwiki.com](https://eqlwiki.com/Plane_of_Sky) and the game's own in-client help
 files, then audited against the wiki's raw wikitext — see
 [`docs/AUDIT-2026-08-31.md`](docs/AUDIT-2026-08-31.md) and
-[`docs/AUDIT-EPICS-2026-08-31.md`](docs/AUDIT-EPICS-2026-08-31.md).
+[`docs/AUDIT-EPICS-2026-08-31.md`](docs/AUDIT-EPICS-2026-08-31.md). The code itself was audited
+separately — [`docs/AUDIT-CODE-2026-09-01.md`](docs/AUDIT-CODE-2026-09-01.md) covers a 68x search
+regression, stack counting, and a silent save failure.
 
 All quest data lives in [`data/`](data/). **Corrections are very welcome** — open an issue. The
 wiki mixes live Legends data with unconverted classic-EQ pages, so if something contradicts what
