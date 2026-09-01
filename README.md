@@ -56,6 +56,13 @@ and asks you to confirm what it found. If it guesses wrong, point it at the fold
 | **Epic Quests** | All 15 class epics, every step marked by whether its zone is reachable today |
 | **Setup & Help** | The `/outputfile` commands, folder detection, file freshness |
 
+To mark something as already held, select it and press **Space**, or right-click it. Double-click
+always means "show me more", never "change my data".
+
+**Compact mode** (`Ctrl+M`) opens a small always-on-top window with just what is actionable —
+what is ready to turn in, what you are closest to, and the most-wanted drops. Meant to sit in a
+corner while you play.
+
 **Export PDF** produces printable reports — Sky progress, the Sky farming list, both, or the
 epic planning list.
 

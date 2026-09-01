@@ -1,5 +1,7 @@
 # TODO
 
+> **Done since this list was written:** search (v1.2.0), the double-click safety fix and the compact overlay (v1.5.0).
+
 ## Search — requested 2026-08-31
 
 **Add search to both trackers: Plane of Sky and Epic Quests.**
@@ -41,6 +43,14 @@ usability gap.
 - Include search results in the PDF export only if asked — probably not by default.
 
 ---
+
+## Done
+
+- **Search** — shipped v1.2.0.
+- **Double-click meant two different things** — navigate in Search, mutate saved state in the
+  Farming List and epic pane. Mutation moved to Space and right-click in v1.5.0, so an
+  impatient double tap can no longer write to your overrides.
+- **Compact always-on-top mode** — shipped v1.5.0. Ctrl+M or the Compact button.
 
 ## Other candidates, not requested
 

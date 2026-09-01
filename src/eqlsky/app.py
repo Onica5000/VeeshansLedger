@@ -79,6 +79,8 @@ class App(tk.Tk):
         self._style()
         self._build()
         self.bind_all("<Control-f>", self._focus_search)
+        self.bind_all("<Control-m>", self.toggle_compact)
+        self._compact = None
         if self._needs_confirm:
             self.after(120, self.detect_install)
         else:
@@ -166,6 +168,8 @@ class App(tk.Tk):
         self.lbl_title = ttk.Label(idline, text=APP_TITLE, style="H1.TLabel")
         self.lbl_title.pack(side="left")
         ttk.Button(idline, text="Refresh", command=self.reload).pack(side="right")
+        ttk.Button(idline, text="Compact",
+                   command=self.toggle_compact).pack(side="right", padx=8)
         ttk.Button(idline, text="Export PDF…",
                    command=self.export_pdf).pack(side="right", padx=8)
         self.var_char = tk.StringVar()
@@ -225,6 +229,8 @@ class App(tk.Tk):
 
         # Screenshot/debug hook: VL_TAB=epics opens that tab directly, so capture
         # tooling never has to synthesise clicks (which can land in other windows).
+        if os.environ.get("VL_COMPACT"):
+            self.after(400, self.toggle_compact)
         want = os.environ.get("VL_TAB", "").strip().lower()
         if want:
             for frame, name in ((self.tab_search, "search"),
@@ -406,8 +412,8 @@ class App(tk.Tk):
         ttk.Label(head, text="Grouped by what you have to kill. "
                              "Turn-ins consume the component, so x2 means farm it twice.",
                   style="Dim.TLabel").pack(anchor="w")
-        ttk.Label(head, text="Double-click an item to mark it as already held "
-                             "(a manual override, remembered between sessions).",
+        ttk.Label(head, text="Select an item and press Space, or right-click it, to mark it "
+                             "as already held. Remembered between sessions.",
                   style="Dim.TLabel").pack(anchor="w")
         cols = ("count", "needed")
         self.tv_farm = ttk.Treeview(f, columns=cols, show="tree headings")
@@ -423,7 +429,8 @@ class App(tk.Tk):
                                    foreground=ACCENT)
         self.tv_farm.tag_configure("multi", foreground=WARN)
         self.tv_farm.tag_configure("manual", foreground=OK)
-        self.tv_farm.bind("<Double-1>", self._toggle_have)
+        self.tv_farm.bind("<space>", self._toggle_have)
+        self.tv_farm.bind("<Button-3>", self._farm_menu)
         self.tv_farm.bind("<<TreeviewSelect>>", self._on_farm_select)
 
         # Boss mechanics used to be crammed into a table column and were cut off
@@ -437,6 +444,52 @@ class App(tk.Tk):
                                        background=PANEL, wraplength=1500,
                                        justify="left")
         self.lbl_farm_note.pack(anchor="w", pady=(2, 0))
+
+    def _farm_menu(self, event):
+        iid = self.tv_farm.identify_row(event.y)
+        if not iid or not self.tv_farm.parent(iid):
+            return
+        self.tv_farm.selection_set(iid)
+        item = self.tv_farm.item(iid, "text").strip()
+        held = bool(self.overrides.get("have:" + item))
+        m = tk.Menu(self, tearoff=0, bg=PANEL, fg=FG,
+                    activebackground=SEL, activeforeground=FG, borderwidth=0)
+        m.add_command(label=("Unmark “%s”" % item) if held
+                            else ("Mark “%s” as held" % item),
+                      command=self._toggle_have)
+        try:
+            m.tk_popup(event.x_root, event.y_root)
+        finally:
+            m.grab_release()
+
+    def _epic_menu(self, event):
+        idx = self.txt_epic.index("@%d,%d linestart" % (event.x, event.y))
+        line = self.txt_epic.get(idx, "%s lineend" % idx).strip()
+        item = None
+        for prefix in ("[x] ", "[ ] "):
+            if line.startswith(prefix):
+                rest = line[len(prefix):].split(None, 1)
+                item = rest[1].strip() if len(rest) > 1 else rest[0].strip()
+                break
+        if not item:
+            return
+        held = bool(self.overrides.get("epic_have:" + item))
+        m = tk.Menu(self, tearoff=0, bg=PANEL, fg=FG,
+                    activebackground=SEL, activeforeground=FG, borderwidth=0)
+        m.add_command(label=("Unmark “%s”" % item) if held
+                            else ("Mark “%s” as held" % item),
+                      command=lambda: self._set_epic_have(item))
+        try:
+            m.tk_popup(event.x_root, event.y_root)
+        finally:
+            m.grab_release()
+
+    def _set_epic_have(self, item):
+        key = "epic_have:" + item
+        if self.overrides.pop(key, None) is None:
+            self.overrides[key] = True
+        model.save_overrides(self.overrides)
+        self.reload()
 
     def _on_farm_select(self, _evt=None):
         """Boss mechanics used to be truncated inside a table column; they wrap here."""
@@ -647,7 +700,8 @@ class App(tk.Tk):
         self.txt_epic.tag_configure("now", foreground=FG)
         self.txt_epic.tag_configure("blocked", foreground=DIM)
         self.txt_epic.tag_configure("dim", foreground=DIM)
-        self.txt_epic.bind("<Double-1>", self._toggle_epic_have)
+        self.txt_epic.bind("<space>", self._toggle_epic_have)
+        self.txt_epic.bind("<Button-3>", self._epic_menu)
         self.txt_epic.configure(state="disabled")
 
     def _toggle_epic_warn(self):
@@ -750,11 +804,14 @@ class App(tk.Tk):
                 t.insert("end", "        %s\n" % r["notes"], "dim")
         t.configure(state="disabled")
 
-    def _toggle_epic_have(self, event):
-        """Double-click a line in the epic detail pane to toggle 'I have this'."""
+    def _toggle_epic_have(self, event=None):
+        """Toggle 'I have this' for the step under the pointer, or under the cursor."""
         if not self.epics:
             return
-        idx = self.txt_epic.index("@%d,%d linestart" % (event.x, event.y))
+        if event is not None and getattr(event, "x", None) is not None                 and getattr(event, "type", None) is not None                 and str(event.type) in ("4", "ButtonPress"):
+            idx = self.txt_epic.index("@%d,%d linestart" % (event.x, event.y))
+        else:
+            idx = self.txt_epic.index("insert linestart")
         line = self.txt_epic.get(idx, "%s lineend" % idx).strip()
         item = None
         for prefix in ("[x] ", "[ ] "):
@@ -1062,6 +1119,7 @@ class App(tk.Tk):
         if self.epics:
             self._fill_epics()
         self._fill_status()
+        self._fill_compact()
 
         if not self.paths["achievements"]:
             self.nb.select(self.tab_setup)
@@ -1200,6 +1258,130 @@ class App(tk.Tk):
         for item in sorted(k[5:] for k in self.overrides if k.startswith("have:")):
             tv.insert("", "end", text="  (manual) " + item, tags=("manual",),
                       values=("held", "marked by you - double-click to undo"))
+
+    # ---------------- compact overlay ----------------
+
+    def toggle_compact(self, _evt=None):
+        """A small always-on-top window for use while the game has focus.
+
+        Shows only what is actionable: what is ready to turn in, and what you are
+        closest to. Removes the alt-tab round trip that the rest of the app needs.
+        """
+        if getattr(self, "_compact", None) is not None:
+            try:
+                self._compact.destroy()
+            except Exception:
+                pass
+            self._compact = None
+            return
+
+        w = tk.Toplevel(self)
+        self._compact = w
+        w.title("Veeshan's Ledger")
+        w.configure(bg=BG)
+        w.attributes("-topmost", True)
+        w.geometry(self.settings.get("compact_geom", "460x340+40+40"))
+        w.minsize(360, 220)
+        w.protocol("WM_DELETE_WINDOW", self.toggle_compact)
+
+        head = ttk.Frame(w, padding=(12, 10, 12, 6))
+        head.pack(fill="x")
+        ttk.Label(head, text="Veeshan's Ledger",
+                  style="H2.TLabel").pack(side="left")
+        ttk.Button(head, text="Refresh", width=9,
+                   command=self.reload).pack(side="right")
+        ttk.Button(head, text="Full view", width=10,
+                   command=self._compact_to_full).pack(side="right", padx=6)
+
+        self.lbl_c_next = ttk.Label(w, text="", style="Next.TLabel",
+                                    background="#20302a", padding=(12, 7),
+                                    wraplength=430, justify="left")
+        self.lbl_c_next.pack(fill="x", padx=10)
+
+        body = ttk.Frame(w, padding=(10, 8))
+        body.pack(fill="both", expand=True)
+        self.txt_compact = tk.Text(body, wrap="word", bg=PANEL, fg=FG, bd=0,
+                                   font=("Segoe UI", 9), padx=8, pady=6,
+                                   highlightthickness=0)
+        self.txt_compact.pack(fill="both", expand=True)
+        self.txt_compact.tag_configure("h", font=("Segoe UI Semibold", 9),
+                                       foreground=ACCENT, spacing1=6, spacing3=2)
+        self.txt_compact.tag_configure("dim", foreground=DIM)
+        self.txt_compact.tag_configure("go", foreground=OK)
+        self.txt_compact.configure(state="disabled")
+
+        foot = ttk.Frame(w, style="Bar.TFrame", padding=(10, 5))
+        foot.pack(fill="x", side="bottom")
+        self.lbl_c_status = ttk.Label(foot, text="", style="Bar.TLabel")
+        self.lbl_c_status.pack(side="left")
+
+        w.bind("<Configure>", self._remember_compact_geom)
+        self._fill_compact()
+
+    def _compact_to_full(self):
+        self.toggle_compact()
+        self.deiconify()
+        self.lift()
+        self.focus_force()
+
+    def _remember_compact_geom(self, _evt=None):
+        w = getattr(self, "_compact", None)
+        if w is None:
+            return
+        try:
+            self.settings["compact_geom"] = w.geometry()
+        except Exception:
+            pass
+
+    def _fill_compact(self):
+        w = getattr(self, "_compact", None)
+        if w is None:
+            return
+        self.lbl_c_next.configure(text=self.lbl_next.cget("text"))
+
+        t = self.txt_compact
+        t.configure(state="normal")
+        t.delete("1.0", "end")
+
+        ready = []
+        for cls in self.tracker.data["classes"]:
+            for test in cls["tests"]:
+                if self.tracker.test_status(cls, test)[0] == model.READY:
+                    ready.append((cls, test))
+        if ready:
+            t.insert("end", "Ready to turn in  (%d)\n" % len(ready), "h")
+            for cls, test in ready:
+                t.insert("end", "  %s — %s\n" % (cls["name"], test["test"]), "go")
+                t.insert("end", '      %s, say "%s"\n'
+                         % (cls["turnin_npc"], test.get("trigger", "")), "dim")
+
+        rows = [r for r in self.tracker.all_progress() if not r["unlocked"]][:4]
+        if rows:
+            t.insert("end", "Closest to unlocking\n", "h")
+            for r in rows:
+                t.insert("end", "  %-14s %d left   (%d/%d)\n"
+                         % (r["name"], r["remaining"], r["done"], r["total"]))
+
+        top = []
+        for iid, items in self.tracker.farm_list().items():
+            isl = self.tracker.island_by_id(iid)
+            for it in items:
+                top.append((it["count"], it["item"], isl.get("name", iid)))
+        top.sort(key=lambda x: (-x[0], x[1]))
+        if top:
+            t.insert("end", "Most-wanted drops\n", "h")
+            for n, item, zone in top[:6]:
+                t.insert("end", "  %s%s\n"
+                         % (("×%d  " % n) if n > 1 else "", item))
+                t.insert("end", "      %s\n" % zone, "dim")
+        t.configure(state="disabled")
+
+        when = parsers.file_age(self.paths.get("inventory"))
+        if when:
+            mins = (datetime.datetime.now() - when).total_seconds() / 60.0
+            age = ("%d min ago" % mins) if mins < 90 else when.strftime("%d %b %H:%M")
+            self.lbl_c_status.configure(text="inventory %s   ·   %s"
+                                             % (age, model.CMD_INVENTORY))
 
     # ---------------- export ----------------
 
