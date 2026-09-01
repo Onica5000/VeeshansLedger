@@ -1796,7 +1796,7 @@
     },
     {
      "step": "11",
-     "item": "Torn Page of Mastery: Earth",
+     "item": "Torn Page of Mastery Earth",
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
@@ -1806,7 +1806,7 @@
     },
     {
      "step": "12",
-     "item": "Torn Page of Mastery: Fire",
+     "item": "Torn Page of Mastery Fire",
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
@@ -1816,7 +1816,7 @@
     },
     {
      "step": "13",
-     "item": "Torn Page of Mastery: Water",
+     "item": "Torn Page of Mastery Water",
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
@@ -1826,7 +1826,7 @@
     },
     {
      "step": "14",
-     "item": "Torn Page of Mastery: Wind",
+     "item": "Torn Page of Mastery Wind",
      "mob": "A Magician or A Goblin Magician",
      "zone": "Najena",
      "era": "NOW",
@@ -2454,7 +2454,7 @@
     },
     {
      "step": "18",
-     "item": "Slime Blood of Cazic Thule",
+     "item": "Slime Blood of Cazic-Thule",
      "mob": "Cazic Thule or the golems",
      "zone": "Plane of Fear",
      "era": "NOW",

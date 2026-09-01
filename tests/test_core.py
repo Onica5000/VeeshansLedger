@@ -327,5 +327,42 @@ class TestSearch(unittest.TestCase):
             if blocked and avail:
                 self.assertGreater(min(blocked), max(avail))
 
+
+
+class TestItemNameMatching(unittest.TestCase):
+    """The wiki and the game disagree on punctuation; matching must survive it.
+
+    Reported by a player: epic items sitting in the bank were showing as not held.
+    """
+
+    def setUp(self):
+        inv = {"counts": {"Slime Blood of Cazic-Thule": 1,
+                          "Torn Page of Mastery Wind": 1,
+                          "Al`Kabor's Cap of Binding": 1},
+               "locations": {"Slime Blood of Cazic-Thule": {"Worn"},
+                             "Torn Page of Mastery Wind": {"Bank"},
+                             "Al`Kabor's Cap of Binding": {"Bank"}}}
+        self.tr = model.Tracker(model.load_dataset(DATA), None, inv)
+
+    def test_norm_item_ignores_punctuation(self):
+        self.assertEqual(model.norm_item("Cazic-Thule"), model.norm_item("Cazic Thule"))
+        self.assertEqual(model.norm_item("Mastery: Wind"), model.norm_item("Mastery Wind"))
+        self.assertEqual(model.norm_item("Al`Kabor's"), model.norm_item("Al'Kabor's"))
+
+    def test_hyphen_mismatch_still_counts_as_held(self):
+        self.assertTrue(self.tr.held("Slime Blood of Cazic Thule"))
+
+    def test_colon_mismatch_still_counts_as_held(self):
+        self.assertTrue(self.tr.held("Torn Page of Mastery: Wind"))
+
+    def test_backtick_apostrophe_mismatch_still_counts_as_held(self):
+        self.assertTrue(self.tr.held("Al'Kabor's Cap of Binding"))
+
+    def test_where_survives_punctuation_drift(self):
+        self.assertEqual(self.tr.where("Slime Blood of Cazic Thule"), "Worn")
+
+    def test_unrelated_item_is_still_not_held(self):
+        self.assertFalse(self.tr.held("Something Nobody Owns"))
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

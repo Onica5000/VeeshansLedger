@@ -1,4 +1,4 @@
-"""Build a single-file EQLSkyTracker.exe with PyInstaller.
+"""Build a single-file VeeshansLedger.exe with PyInstaller.
 
     python build/build_exe.py
 """
@@ -33,17 +33,17 @@ def _check_pyinstaller():
 
 def main():
     _check_pyinstaller()
-    exe_out = os.path.join(DIST, "EQLSkyTracker.exe")
+    exe_out = os.path.join(DIST, "VeeshansLedger.exe")
     if os.path.exists(exe_out):
         try:
             os.remove(exe_out)          # a running instance locks it
         except OSError:
-            sys.exit("Cannot replace %s - close any running EQLSkyTracker first." % exe_out)
+            sys.exit("Cannot replace %s - close any running Veeshan's Ledger first." % exe_out)
     sep = ";" if os.name == "nt" else ":"
     cmd = [
         sys.executable, "-m", "PyInstaller",
         "--noconfirm", "--clean", "--onefile", "--windowed",
-        "--name", "EQLSkyTracker",
+        "--name", "VeeshansLedger",
         "--distpath", DIST,
         "--workpath", WORK,
         "--specpath", WORK,
@@ -56,7 +56,7 @@ def main():
     print(" ".join(cmd))
     rc = subprocess.call(cmd)
     if rc == 0:
-        exe = os.path.join(DIST, "EQLSkyTracker.exe")
+        exe = os.path.join(DIST, "VeeshansLedger.exe")
         if os.path.exists(exe):
             print("\nBuilt: %s  (%.1f MB)" % (exe, os.path.getsize(exe) / 1048576.0))
     return rc

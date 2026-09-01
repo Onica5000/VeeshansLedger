@@ -27,6 +27,23 @@ STATUS_LABEL = {
 }
 
 
+import re as _re
+
+_PUNCT = _re.compile(r"[^a-z0-9]+")
+
+
+def norm_item(name):
+    """Loose key for matching item names across sources.
+
+    The wiki and the game disagree on punctuation constantly - backtick vs
+    apostrophe, "Cazic Thule" vs "Cazic-Thule", "Mastery: Earth" vs
+    "Mastery Earth". Comparing on letters and digits alone stops those from
+    silently reading as "not held", which is the worst failure this app has:
+    it sends someone to farm what is already in their bank.
+    """
+    return _PUNCT.sub(" ", (name or "").lower().replace("’", "'")).strip()
+
+
 def load_dataset(path):
     with open(path, "r", encoding="utf-8") as fh:
         return json.load(fh)
@@ -43,16 +60,32 @@ class Tracker:
 
     # ---------- helpers ----------
 
+    def _held_index(self):
+        idx = getattr(self, "_hidx", None)
+        if idx is None:
+            idx = {norm_item(k): v for k, v in self.inv["counts"].items()}
+            self._hidx = idx
+        return idx
+
     def held(self, item):
         if self.overrides.get("have:" + item):
             return True
-        return self.inv["counts"].get(item, 0) > 0
+        if self.inv["counts"].get(item, 0) > 0:
+            return True
+        return self._held_index().get(norm_item(item), 0) > 0
 
     def held_count(self, item):
         return self.inv["counts"].get(item, 0)
 
     def where(self, item):
-        return ", ".join(sorted(self.inv["locations"].get(item, ())))
+        loc = self.inv["locations"].get(item)
+        if loc is None:
+            key = norm_item(item)
+            for k, v in self.inv["locations"].items():
+                if norm_item(k) == key:
+                    loc = v
+                    break
+        return ", ".join(sorted(loc or ()))
 
     def _ach_for(self, cls):
         rec = self.ach["classes"].get(cls["achievement_name"])
@@ -181,7 +214,7 @@ class Tracker:
 
 def overrides_path():
     base = os.environ.get("APPDATA") or os.path.expanduser("~")
-    d = os.path.join(base, "EQLSkyTracker")
+    d = os.path.join(base, "VeeshansLedger")
     os.makedirs(d, exist_ok=True)
     return os.path.join(d, "overrides.json")
 
@@ -392,13 +425,29 @@ class EpicTracker:
 
     # ---------- helpers ----------
 
+    def _held_index(self):
+        idx = getattr(self, "_hidx", None)
+        if idx is None:
+            idx = {norm_item(k): v for k, v in self.inv["counts"].items()}
+            self._hidx = idx
+        return idx
+
     def held(self, item):
         if self.overrides.get("epic_have:" + item):
             return True
-        return self.inv["counts"].get(item, 0) > 0
+        if self.inv["counts"].get(item, 0) > 0:
+            return True
+        return self._held_index().get(norm_item(item), 0) > 0
 
     def where(self, item):
-        return ", ".join(sorted(self.inv["locations"].get(item, ())))
+        loc = self.inv["locations"].get(item)
+        if loc is None:
+            key = norm_item(item)
+            for k, v in self.inv["locations"].items():
+                if norm_item(k) == key:
+                    loc = v
+                    break
+        return ", ".join(sorted(loc or ()))
 
     def classes(self):
         return self.data["classes"]

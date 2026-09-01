@@ -1,4 +1,4 @@
-"""Tkinter UI for the EQL Plane of Sky tracker."""
+"""Tkinter UI for Veeshan's Ledger - an EverQuest Legends quest tracker."""
 import os
 import sys
 import datetime
@@ -7,7 +7,8 @@ from tkinter import ttk, filedialog, messagebox
 
 from . import model, parsers, pdfout
 
-APP_TITLE = "EQL Tracker - Plane of Sky & Epic Quests"
+APP_TITLE = "Veeshan's Ledger"
+APP_SUB = "EverQuest Legends  ·  Plane of Sky & class epics"
 
 BG = "#1e1f22"
 PANEL = "#26282c"
@@ -105,6 +106,7 @@ class App(tk.Tk):
         top.pack(fill="x")
         self.lbl_title = ttk.Label(top, text=APP_TITLE, style="H1.TLabel")
         self.lbl_title.pack(side="left")
+        ttk.Label(top, text=APP_SUB, style="Dim.TLabel").pack(side="left", padx=(10, 0))
         self.lbl_who = ttk.Label(top, text="", style="Dim.TLabel")
         self.lbl_who.pack(side="left", padx=(12, 0))
 

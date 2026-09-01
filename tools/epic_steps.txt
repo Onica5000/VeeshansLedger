@@ -208,10 +208,10 @@ step|item|from_mob|zone|era|notes
 8|Power of Water|famished ravener|Kaesora|KUNARK|also Hungered or Gorged Ravener
 9|Power of Earth|A Fairy Guard|Lesser Faydark|NOW|
 10|Power of the Elements|Walnan|Butcherblock Mountains|NOW|give all four Powers; MQ-able
-11|Torn Page of Mastery: Earth|A Magician or A Goblin Magician|Najena|NOW|
-12|Torn Page of Mastery: Fire|A Magician or A Goblin Magician|Najena|NOW|
-13|Torn Page of Mastery: Water|A Magician or A Goblin Magician|Najena|NOW|
-14|Torn Page of Mastery: Wind|A Magician or A Goblin Magician|Najena|NOW|also an alligator in Cazic Thule
+11|Torn Page of Mastery Earth|A Magician or A Goblin Magician|Najena|NOW|
+12|Torn Page of Mastery Fire|A Magician or A Goblin Magician|Najena|NOW|
+13|Torn Page of Mastery Water|A Magician or A Goblin Magician|Najena|NOW|
+14|Torn Page of Mastery Wind|A Magician or A Goblin Magician|Najena|NOW|also an alligator in Cazic Thule
 15|Words of Mastery|Akksstaff|Najena|NOW|give all four Torn Pages of Mastery
 16|Power of the Orb|Rykas|Lake Rathetear|NOW|give Words of Magi`kot + Power of the Elements + Words of Mastery
 17|Torch of the Elements|Neh'Ashiir|City of Mist|KUNARK|
@@ -281,7 +281,7 @@ step|item|from_mob|zone|era|notes
 15|Black Silk Cape|Keeper of Souls|Plane of Sky|NOW|
 16|Cloak of Spiroc Feathers|Jzil GSix|Plane of Sky|NOW|give disc + feathers + cape
 17|Eye of Innoruuk|Mini-Bosses|Plane of Hate|NOW|source changed from Innoruuk to the Hate mini-bosses
-18|Slime Blood of Cazic Thule|Cazic Thule or the golems|Plane of Fear|NOW|
+18|Slime Blood of Cazic-Thule|Cazic Thule or the golems|Plane of Fear|NOW|
 19|Prepared Regents Box|Drendico Metalbones|Timorous Deep|KUNARK|give cloak + eye + slime blood + journal
 20|Tome of Instruction|Kazen Fecae|Lake Rathetear|NOW|give Prepared Regents Box
 21|Gkzzallk in a Box|Gkzzallk|Plane of Sky|NOW|Island 3 building; despawns the Island 1 boss - clear with your raid first

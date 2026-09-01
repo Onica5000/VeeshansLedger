@@ -81,7 +81,7 @@ def export(tracker, path, kind="all"):
     doc = SimpleDocTemplate(path, pagesize=letter,
                             leftMargin=14 * mm, rightMargin=14 * mm,
                             topMargin=12 * mm, bottomMargin=16 * mm,
-                            title="EQL Plane of Sky Tracker")
+                            title="Veeshans Ledger - Plane of Sky")
     story = []
     titles = {"classes": "Plane of Sky - Class Unlock Progress",
               "farm": "Plane of Sky - Farming List",
@@ -184,7 +184,7 @@ def export_epics(epics, path):
     doc = SimpleDocTemplate(path, pagesize=letter,
                             leftMargin=14 * mm, rightMargin=14 * mm,
                             topMargin=12 * mm, bottomMargin=16 * mm,
-                            title="EQL Epic Quest Tracker")
+                            title="Veeshans Ledger - Epics")
     story = []
     s = epics.summary()
     story.append(Paragraph("Class Epic Quests - route planning", ss["H1x"]))

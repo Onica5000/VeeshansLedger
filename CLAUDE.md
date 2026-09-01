@@ -1,10 +1,10 @@
-# eql-sky-tracker
+# eql-sky-tracker &mdash; ships as **Veeshan's Ledger**
 
 | | |
 |---|---|
 | **What** | Windows desktop app (single `.exe`) that tracks **Plane of Sky** class-unlock progress in **EverQuest Legends** |
 | **Stack** | Python 3.14 · tkinter · reportlab (PDF) · PyInstaller (one-file build) |
-| **Ships as** | `dist\EQLSkyTracker.exe` — no install, no Python needed on the target machine |
+| **Ships as** | `dist\VeeshansLedger.exe` — no install, no Python needed on the target machine |
 | **Audience** | The owner and their guildmates. **Character-agnostic** — never hardcode a character, server or folder |
 
 ## The one thing to understand
@@ -160,21 +160,21 @@ loads its own zip). The build script enforces this version floor and refuses to 
    dialog - that dialog is what keeps it alive. Assert on the window title.
 
 ```powershell
-$t = @(Get-Process EQLSkyTracker | ? {$_.MainWindowTitle} | % {$_.MainWindowTitle})
-if ($t -match "Sky Tracker") { "PASS" } else { "FAIL" }
+$t = @(Get-Process VeeshansLedger | ? {$_.MainWindowTitle} | % {$_.MainWindowTitle})
+if ($t -match "Veeshan") { "PASS" } else { "FAIL" }
 ```
 
 If a build fails mysteriously, rebuild with `--console` instead of `--windowed` - the traceback
 goes to stdout instead of a dialog.
 
-**Delete `dist\EQLSkyTracker.exe` before rebuilding.** A still-running instance locks it and
+**Delete `dist\VeeshansLedger.exe` before rebuilding.** A still-running instance locks it and
 PyInstaller fails with `PermissionError: [WinError 5]`, which is easy to miss in the log tail.
 
 ## Build
 
 ```
 python tools\build_dataset.py     # regenerate data
-python build\build_exe.py         # -> dist\EQLSkyTracker.exe  (~38 MB)
+python build\build_exe.py         # -> dist\VeeshansLedger.exe  (~38 MB)
 ```
 
-Settings and manual overrides live in `%APPDATA%\EQLSkyTracker\`, never beside the exe.
+Settings and manual overrides live in `%APPDATA%\VeeshansLedger\`, never beside the exe.
