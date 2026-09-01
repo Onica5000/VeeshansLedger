@@ -438,9 +438,8 @@ class App(tk.Tk):
                                        justify="left")
         self.lbl_farm_note.pack(anchor="w", pady=(2, 0))
 
-    # ---------------- tab: zone ----------------
-
     def _on_farm_select(self, _evt=None):
+        """Boss mechanics used to be truncated inside a table column; they wrap here."""
         sel = self.tv_farm.selection()
         if not sel:
             return
@@ -449,8 +448,7 @@ class App(tk.Tk):
         head = self.tv_farm.item(parent or iid, "text").strip()
         isl = None
         for i in self.tracker.data["islands"]:
-            label = "%s  %s" % (i["id"], i["name"])
-            if head.startswith(label):
+            if head.startswith("%s  %s" % (i["id"], i["name"])):
                 isl = i
                 break
         if isl is None and head.startswith("EFREETI"):
@@ -467,43 +465,119 @@ class App(tk.Tk):
         self.lbl_farm_note_h.configure(text=title)
         self.lbl_farm_note.configure(text=isl.get("notes", "") or "No special mechanics noted.")
 
+    # ---------------- tab: zone guide ----------------
+
     def _build_zone(self):
         f = self.tab_zone
-        self.txt_zone = tk.Text(f, wrap="word", bg=PANEL, fg=FG, bd=0,
-                                font=("Segoe UI", 10), padx=16, pady=14,
+        ttk.Label(f, text="Pick an island. Everything about it, including what you still "
+                          "need there.", style="Dim.TLabel").pack(anchor="w", padx=6,
+                                                                  pady=(8, 4))
+
+        left = ttk.Frame(f, padding=(4, 0))
+        left.pack(side="left", fill="y")
+        cols = ("boss", "key")
+        self.tv_zone = ttk.Treeview(left, columns=cols, show="tree headings", height=12)
+        self.tv_zone.heading("#0", text="Island")
+        self.tv_zone.heading("boss", text="Boss")
+        self.tv_zone.heading("key", text="Needs")
+        self.tv_zone.column("#0", width=180, anchor="w")
+        self.tv_zone.column("boss", width=190, anchor="w")
+        self.tv_zone.column("key", width=170, anchor="w")
+        self.tv_zone.pack(fill="y", expand=False)
+        self.tv_zone.bind("<<TreeviewSelect>>", self._on_zone_select)
+        _stripe(self.tv_zone)
+
+        ttk.Label(left, text="Getting in", style="H2.TLabel").pack(anchor="w", pady=(14, 2))
+        self.txt_zone_meta = tk.Text(left, wrap="word", bg=BG, fg=DIM, bd=0, height=9,
+                                     font=("Segoe UI", 9), padx=2, pady=2,
+                                     highlightthickness=0, width=64)
+        self.txt_zone_meta.pack(fill="both", expand=True)
+        self.txt_zone_meta.tag_configure("k", foreground=ACCENT)
+        self.txt_zone_meta.configure(state="disabled")
+
+        right = ttk.Frame(f, style="Panel.TFrame", padding=14)
+        right.pack(side="right", fill="both", expand=True, padx=(8, 4), pady=(0, 6))
+        self.lbl_zone_head = ttk.Label(right, text="Select an island",
+                                       style="H2.TLabel", background=PANEL)
+        self.lbl_zone_head.pack(anchor="w")
+        self.txt_zone = tk.Text(right, wrap="word", bg=PANEL, fg=FG, bd=0,
+                                font=("Segoe UI", 10), padx=2, pady=6,
                                 highlightthickness=0)
-        self.txt_zone.pack(fill="both", expand=True, padx=4, pady=8)
-        self.txt_zone.tag_configure("h", font=("Segoe UI Semibold", 12),
-                                    foreground=ACCENT, spacing1=12, spacing3=4)
-        self.txt_zone.tag_configure("b", font=("Segoe UI Semibold", 10))
+        self.txt_zone.pack(fill="both", expand=True)
+        self.txt_zone.tag_configure("h", font=("Segoe UI Semibold", 10),
+                                    foreground=ACCENT, spacing1=10, spacing3=3)
         self.txt_zone.tag_configure("dim", foreground=DIM)
+        self.txt_zone.tag_configure("need", foreground=FG)
+        self.txt_zone.tag_configure("held", foreground=OK)
+        self.txt_zone.configure(state="disabled")
 
     def _fill_zone(self):
+        tv = self.tv_zone
+        sel = tv.selection()
+        keep = tv.item(sel[0], "text").strip() if sel else None
+        tv.delete(*tv.get_children())
+        for isl in self.data["islands"]:
+            tv.insert("", "end", text="  %s  %s" % (isl["id"], isl["name"]),
+                      values=(isl.get("boss", ""), isl.get("needs_key") or "-"))
+        tv.insert("", "end", text="  EFREETI  Efreeti Cycle",
+                  values=("Dojorn / Overseer / Hand", "-"))
+        _restripe(tv)
+        kids = tv.get_children()
+        target = next((k for k in kids if tv.item(k, "text").strip() == keep), None) if keep else None
+        tv.selection_set(target or kids[0])
+
         z = self.data["zone"]
+        t = self.txt_zone_meta
+        t.configure(state="normal")
+        t.delete("1.0", "end")
+        t.insert("end", z["entry"] + "\n\n")
+        t.insert("end", "Zone name  ", "k")
+        t.insert("end", z["zone_short"] + "        ")
+        t.insert("end", "Min level  ", "k")
+        t.insert("end", "%d\n\n" % z["min_level"])
+        t.insert("end", z["turnin_location"] + "\n")
+        t.configure(state="disabled")
+
+    def _on_zone_select(self, _evt=None):
+        sel = self.tv_zone.selection()
+        if not sel:
+            return
+        label = self.tv_zone.item(sel[0], "text").strip()
+        iid = label.split()[0]
+        isl = self.tracker.island_by_id(iid)
+        self.lbl_zone_head.configure(
+            text="%s  %s   —   %s" % (isl["id"], isl["name"], isl.get("boss", "")))
+
         t = self.txt_zone
         t.configure(state="normal")
         t.delete("1.0", "end")
-        t.insert("end", "Getting in\n", "h")
-        t.insert("end", "%s\nZone name: %s   Minimum level: %d\n\n"
-                 % (z["entry"], z["zone_short"], z["min_level"]))
-        t.insert("end", "Turn-ins\n", "h")
-        t.insert("end", z["turnin_location"] + "\n\n")
-        t.insert("end", "Island progression\n", "h")
-        for isl in self.data["islands"]:
-            t.insert("end", "%-5s %-16s " % (isl["id"], isl["name"]), "b")
-            t.insert("end", "boss: %s" % isl["boss"])
-            if isl["needs_key"]:
-                t.insert("end", "   (needs %s)" % isl["needs_key"], "dim")
-            t.insert("end", "\n")
-            if isl["notes"]:
-                t.insert("end", "      %s\n" % isl["notes"], "dim")
-        t.insert("end", "\nKeys - dropped by the island bosses\n", "h")
-        for k in self.data["keys"]:
-            t.insert("end", "  %-22s from %-32s opens %s\n"
-                     % (k["key"], k.get("from", "?"), k.get("to", "?")))
-        t.insert("end", "\nThings that will cost you a trip\n", "h")
-        for n in z["notes"]:
-            t.insert("end", "  - %s\n" % n)
+
+        if isl.get("needs_key"):
+            t.insert("end", "Requires\n", "h")
+            t.insert("end", "  %s\n" % isl["needs_key"])
+        if isl.get("yields"):
+            t.insert("end", "Drops the key to\n", "h")
+            for k in isl["yields"]:
+                nxt = next((x["to"] for x in self.data["keys"] if x["key"] == k), "")
+                t.insert("end", "  %s%s\n" % (k, "  →  %s" % nxt if nxt else ""))
+
+        # the question you actually have when you open a zone page
+        needed = self.tracker.farm_list().get(iid, [])
+        t.insert("end", "What you still need here  (%d)\n" % len(needed), "h")
+        if not needed:
+            t.insert("end", "  Nothing outstanding.\n", "dim")
+        for it in needed:
+            mark = "×%d  " % it["count"] if it["count"] > 1 else "     "
+            t.insert("end", "  %s%s\n" % (mark, it["item"]), "need")
+            t.insert("end", "        %s\n" % "; ".join("%s %s" % (c, s)
+                                                       for c, s in it["needed_by"]), "dim")
+
+        if isl.get("trash"):
+            t.insert("end", "Trash\n", "h")
+            t.insert("end", "  " + ", ".join(isl["trash"]) + "\n", "dim")
+        if isl.get("notes"):
+            t.insert("end", "Mechanics\n", "h")
+            t.insert("end", "  " + isl["notes"] + "\n", "dim")
         t.configure(state="disabled")
 
     # ---------------- tab: epics ----------------

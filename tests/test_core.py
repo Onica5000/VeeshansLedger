@@ -364,5 +364,36 @@ class TestItemNameMatching(unittest.TestCase):
     def test_unrelated_item_is_still_not_held(self):
         self.assertFalse(self.tr.held("Something Nobody Owns"))
 
+
+
+class TestAppIntegrity(unittest.TestCase):
+    """Guards against edits that splice out a method still referenced by the UI.
+
+    This has happened twice: a region replacement removed methods that lived
+    between the two anchors, and the app only failed at launch. A bare
+    `self._x` in a bind() or command= is easy to miss, so check those too.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        import re
+        path = os.path.join(ROOT, "src", "eqlsky", "app.py")
+        with open(path, encoding="utf-8") as fh:
+            cls.src = fh.read()
+        cls.re = re
+
+    def test_no_referenced_method_is_missing(self):
+        defined = set(self.re.findall(r"^    def (\w+)", self.src, self.re.M))
+        assigned = set(self.re.findall(r"self\.(_\w+)\s*=", self.src))
+        refs = set(self.re.findall(r"self\.(_[a-z]\w+)", self.src))
+        missing = sorted(r for r in refs if r not in defined and r not in assigned)
+        self.assertEqual(missing, [], "referenced but undefined: %s" % missing)
+
+    def test_app_module_imports(self):
+        import importlib
+        mod = importlib.import_module("eqlsky.app")
+        self.assertTrue(hasattr(mod, "App"))
+        self.assertTrue(hasattr(mod, "main"))
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
