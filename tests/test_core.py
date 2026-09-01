@@ -32,6 +32,9 @@ INV = "\t".join(["Location", "Name", "ID", "Count", "Slots"]) + "\n" + "\n".join
     "Equipment3\tWindstriker +9\t3\t1\t0",
     "Augmentation1\tOrb of Tishan (Exaltation)\t4\t1\t0",
     "Personal-Depot1\tBlue Diamond\t5\t51\t0",
+    "General2\tBone Chips\t6\t448\t0",
+    "General3\tBone Chips\t7\t52\t0",
+    "General4\tMystery Thing\t8\tnot-a-number\t0",
 ])
 
 
@@ -48,6 +51,18 @@ class TestParsers(unittest.TestCase):
             with open(os.path.join(self.dir, stem + "-Inventory.txt"), "w",
                       encoding="utf-8") as fh:
                 fh.write(INV)
+
+    def test_inventory_uses_stack_size_not_row_count(self):
+        """A stack of 448 Bone Chips is 448, and two stacks add up."""
+        self._write("Testchar_server")
+        inv = parsers.parse_inventory(os.path.join(self.dir, "Testchar_server-Inventory.txt"))
+        self.assertEqual(inv["counts"]["Bone Chips"], 500)
+        self.assertEqual(inv["counts"]["Efreeti Standard"], 1)
+
+    def test_inventory_survives_an_unparsable_count(self):
+        self._write("Testchar_server")
+        inv = parsers.parse_inventory(os.path.join(self.dir, "Testchar_server-Inventory.txt"))
+        self.assertEqual(inv["counts"]["Mystery Thing"], 1)
 
     def test_normalise_strips_suffix_and_exaltation(self):
         self.assertEqual(parsers.normalise_item("Khyldorn +10"), "Khyldorn")
@@ -364,6 +379,20 @@ class TestItemNameMatching(unittest.TestCase):
     def test_unrelated_item_is_still_not_held(self):
         self.assertFalse(self.tr.held("Something Nobody Owns"))
 
+
+
+class TestIndexCache(unittest.TestCase):
+    """The normalised lookup maps are cached; make sure they cannot go stale."""
+
+    def test_replacing_inventory_rebuilds_the_cache(self):
+        data = model.load_dataset(os.path.join(ROOT, "data", "sky.json"))
+        tr = model.Tracker(data, {"classes": {}}, {"counts": {}, "locations": {}})
+        self.assertFalse(tr.held("Efreeti Standard"))
+        tr.inv = {"counts": {"Efreeti Standard": 3},
+                  "locations": {"Efreeti Standard": {"Bank"}}}
+        self.assertTrue(tr.held("Efreeti Standard"))
+        self.assertEqual(tr.held_count("Efreeti Standard"), 3)
+        self.assertEqual(tr.where("Efreeti Standard"), "Bank")
 
 
 class TestAppIntegrity(unittest.TestCase):

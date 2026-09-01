@@ -49,7 +49,50 @@ def load_dataset(path):
         return json.load(fh)
 
 
-class Tracker:
+class _InventoryView:
+    """Shared inventory lookups for both trackers.
+
+    Item names differ in punctuation between the wiki and the game, so lookups
+    fall back to a normalised key. Both maps are built once per tracker - doing
+    the normalisation per lookup cost ~170k regex calls per search-index build.
+    """
+
+    override_prefix = "have:"
+
+    def _index(self):
+        # Keyed on the inventory object so replacing self.inv rebuilds the maps.
+        # Callers build a fresh tracker per reload today; this keeps a future
+        # in-place swap from silently serving stale held-counts.
+        idx = getattr(self, "_idx_cache", None)
+        if idx is None or idx[2] is not id(self.inv):
+            counts, locs = {}, {}
+            for k, v in self.inv["counts"].items():
+                counts[norm_item(k)] = v
+            for k, v in self.inv["locations"].items():
+                locs.setdefault(norm_item(k), set()).update(v)
+            idx = (counts, locs, id(self.inv))
+            self._idx_cache = idx
+        return idx
+
+    def held(self, item):
+        if self.overrides.get(self.override_prefix + item):
+            return True
+        if self.inv["counts"].get(item, 0) > 0:
+            return True
+        return self._index()[0].get(norm_item(item), 0) > 0
+
+    def held_count(self, item):
+        n = self.inv["counts"].get(item)
+        return n if n is not None else self._index()[0].get(norm_item(item), 0)
+
+    def where(self, item):
+        loc = self.inv["locations"].get(item)
+        if loc is None:
+            loc = self._index()[1].get(norm_item(item))
+        return ", ".join(sorted(loc or ()))
+
+
+class Tracker(_InventoryView):
     """The joined view: dataset + achievements + inventory + manual overrides."""
 
     def __init__(self, data, ach=None, inv=None, overrides=None):
@@ -59,33 +102,6 @@ class Tracker:
         self.overrides = overrides or {}
 
     # ---------- helpers ----------
-
-    def _held_index(self):
-        idx = getattr(self, "_hidx", None)
-        if idx is None:
-            idx = {norm_item(k): v for k, v in self.inv["counts"].items()}
-            self._hidx = idx
-        return idx
-
-    def held(self, item):
-        if self.overrides.get("have:" + item):
-            return True
-        if self.inv["counts"].get(item, 0) > 0:
-            return True
-        return self._held_index().get(norm_item(item), 0) > 0
-
-    def held_count(self, item):
-        return self.inv["counts"].get(item, 0)
-
-    def where(self, item):
-        loc = self.inv["locations"].get(item)
-        if loc is None:
-            key = norm_item(item)
-            for k, v in self.inv["locations"].items():
-                if norm_item(k) == key:
-                    loc = v
-                    break
-        return ", ".join(sorted(loc or ()))
 
     def _ach_for(self, cls):
         rec = self.ach["classes"].get(cls["achievement_name"])
@@ -391,7 +407,9 @@ def guess_folder():
 # Legends yet. So "held" comes from the inventory export plus manual overrides,
 # and completion is never inferred.
 
-class EpicTracker:
+class EpicTracker(_InventoryView):
+    override_prefix = "epic_have:"
+
     """Joins the epic dataset with a character's inventory and overrides."""
 
     def __init__(self, data, inv=None, overrides=None):
@@ -424,30 +442,6 @@ class EpicTracker:
         return [c["name"] for c in self.data["classes"] if c.get("completable")]
 
     # ---------- helpers ----------
-
-    def _held_index(self):
-        idx = getattr(self, "_hidx", None)
-        if idx is None:
-            idx = {norm_item(k): v for k, v in self.inv["counts"].items()}
-            self._hidx = idx
-        return idx
-
-    def held(self, item):
-        if self.overrides.get("epic_have:" + item):
-            return True
-        if self.inv["counts"].get(item, 0) > 0:
-            return True
-        return self._held_index().get(norm_item(item), 0) > 0
-
-    def where(self, item):
-        loc = self.inv["locations"].get(item)
-        if loc is None:
-            key = norm_item(item)
-            for k, v in self.inv["locations"].items():
-                if norm_item(k) == key:
-                    loc = v
-                    break
-        return ", ".join(sorted(loc or ()))
 
     def classes(self):
         return self.data["classes"]

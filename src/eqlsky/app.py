@@ -62,7 +62,15 @@ class App(tk.Tk):
         self.folder = self.settings.get("folder", "")
         self.character_stem = self.settings.get("character")
         self._needs_confirm = not self.folder
-        self.data = model.load_dataset(resource_path(os.path.join("data", "sky.json")))
+        try:
+            self.data = model.load_dataset(
+                resource_path(os.path.join("data", "sky.json")))
+        except Exception as exc:
+            messagebox.showerror(
+                APP_TITLE,
+                "The bundled Plane of Sky data could not be read:\n\n%s\n\n"
+                "The download is probably incomplete - fetch it again." % exc)
+            raise SystemExit(1)
         self.tracker = model.Tracker(self.data, overrides=self.overrides)
         try:
             self.epic_data = model.load_dataset(
@@ -312,22 +320,41 @@ class App(tk.Tk):
     def _on_char_change(self, _evt=None):
         self.character_stem = self.var_char.get()
         self.settings["character"] = self.character_stem
-        model.save_settings(self.settings)
+        self._save_settings()
         self.reload()
 
     def _toggle_have(self, _evt=None):
-        """Double-click a farm row to mark that component as already held."""
+        """Select a farm row and press Space to mark that component as held."""
         sel = self.tv_farm.selection()
         if not sel:
             return
-        item = self.tv_farm.item(sel[0], "text").strip()
-        if not item or self.tv_farm.parent(sel[0]) == "":
+        item = getattr(self, "_farm_items", {}).get(sel[0])
+        if not item:
             return
         key = "have:" + item
         if self.overrides.pop(key, None) is None:
             self.overrides[key] = True
-        model.save_overrides(self.overrides)
+        self._save_overrides()
         self.reload()
+
+    def _warn_save_failed(self, what):
+        """Say it once. Repeating it every click would be worse than silence."""
+        if getattr(self, "_save_warned", False):
+            return
+        self._save_warned = True
+        messagebox.showwarning(
+            APP_TITLE,
+            "Could not save your %s to\n%s\n\nThe app still works, but manual "
+            "marks and your folder choice will be lost when you close it."
+            % (what, os.path.dirname(model.overrides_path())))
+
+    def _save_overrides(self):
+        if not model.save_overrides(self.overrides):
+            self._warn_save_failed("manual overrides")
+
+    def _save_settings(self):
+        if not model.save_settings(self.settings):
+            self._warn_save_failed("settings")
 
     def _clear_overrides(self):
         if not self.overrides:
@@ -336,7 +363,7 @@ class App(tk.Tk):
         if messagebox.askyesno(APP_TITLE, "Clear %d manual override(s)?"
                                           % len(self.overrides)):
             self.overrides = {}
-            model.save_overrides(self.overrides)
+            self._save_overrides()
             self.reload()
 
     def _fill_ready(self):
@@ -447,10 +474,10 @@ class App(tk.Tk):
 
     def _farm_menu(self, event):
         iid = self.tv_farm.identify_row(event.y)
-        if not iid or not self.tv_farm.parent(iid):
+        item = getattr(self, "_farm_items", {}).get(iid)
+        if not item:
             return
         self.tv_farm.selection_set(iid)
-        item = self.tv_farm.item(iid, "text").strip()
         held = bool(self.overrides.get("have:" + item))
         m = tk.Menu(self, tearoff=0, bg=PANEL, fg=FG,
                     activebackground=SEL, activeforeground=FG, borderwidth=0)
@@ -462,15 +489,24 @@ class App(tk.Tk):
         finally:
             m.grab_release()
 
+    def _epic_item_at(self, event=None):
+        """The item on the rendered line under the pointer, or under the caret.
+
+        Reads a map built during render. Parsing the displayed "[x] 3 Item" text
+        back into data worked only while every step label stayed one token.
+        """
+        if event is not None and getattr(event, "x", None) is not None:
+            where = "@%d,%d" % (event.x, event.y)
+        else:
+            where = "insert"
+        try:
+            ln = int(self.txt_epic.index(where).split(".")[0])
+        except Exception:
+            return None
+        return getattr(self, "_epic_lines", {}).get(ln)
+
     def _epic_menu(self, event):
-        idx = self.txt_epic.index("@%d,%d linestart" % (event.x, event.y))
-        line = self.txt_epic.get(idx, "%s lineend" % idx).strip()
-        item = None
-        for prefix in ("[x] ", "[ ] "):
-            if line.startswith(prefix):
-                rest = line[len(prefix):].split(None, 1)
-                item = rest[1].strip() if len(rest) > 1 else rest[0].strip()
-                break
+        item = self._epic_item_at(event)
         if not item:
             return
         held = bool(self.overrides.get("epic_have:" + item))
@@ -488,7 +524,7 @@ class App(tk.Tk):
         key = "epic_have:" + item
         if self.overrides.pop(key, None) is None:
             self.overrides[key] = True
-        model.save_overrides(self.overrides)
+        self._save_overrides()
         self.reload()
 
     def _on_farm_select(self, _evt=None):
@@ -660,7 +696,7 @@ class App(tk.Tk):
         ttk.Checkbutton(bar, text="Show only steps whose zone is live now",
                         variable=self.var_only_now, style="Ck.TCheckbutton",
                         command=self._on_epic_select).pack(side="left")
-        ttk.Label(bar, text="   Double-click a step to mark the item as held.",
+        ttk.Label(bar, text="   Select a step and press Space, or right-click it, to mark the item as held.",
                   style="Dim.TLabel").pack(side="left")
 
         left = ttk.Frame(f, padding=(4, 6))
@@ -786,6 +822,7 @@ class App(tk.Tk):
         t.delete("1.0", "end")
         if not rows:
             t.insert("end", "Nothing in this chain is collectable yet.\n", "dim")
+        self._epic_lines = {}
         cur = None
         for r in rows:
             if r["era"] != cur:
@@ -793,6 +830,7 @@ class App(tk.Tk):
                 t.insert("end", "%s\n" % self.epics.data["eras"][cur]["label"], "h")
             mark = "[x]" if r["held"] else "[ ]"
             tag = "held" if r["held"] else ("blocked" if r["blocked"] else "now")
+            self._epic_lines[int(t.index("end-1c").split(".")[0])] = r["item"]
             t.insert("end", "  %s %s  %s\n" % (mark, r["step"], r["item"]), tag)
             src = r["mob"] or "?"
             if r["zone"]:
@@ -805,27 +843,16 @@ class App(tk.Tk):
         t.configure(state="disabled")
 
     def _toggle_epic_have(self, event=None):
-        """Toggle 'I have this' for the step under the pointer, or under the cursor."""
+        """Toggle "I have this" for the step under the pointer or caret."""
         if not self.epics:
             return
-        if event is not None and getattr(event, "x", None) is not None                 and getattr(event, "type", None) is not None                 and str(event.type) in ("4", "ButtonPress"):
-            idx = self.txt_epic.index("@%d,%d linestart" % (event.x, event.y))
-        else:
-            idx = self.txt_epic.index("insert linestart")
-        line = self.txt_epic.get(idx, "%s lineend" % idx).strip()
-        item = None
-        for prefix in ("[x] ", "[ ] "):
-            if line.startswith(prefix):
-                rest = line[len(prefix):]
-                parts = rest.split(None, 1)
-                item = parts[1].strip() if len(parts) > 1 else parts[0].strip()
-                break
+        item = self._epic_item_at(event)
         if not item:
             return
         key = "epic_have:" + item
         if self.overrides.pop(key, None) is None:
             self.overrides[key] = True
-        model.save_overrides(self.overrides)
+        self._save_overrides()
         self.reload()
 
     # ---------------- tab: search ----------------
@@ -1036,7 +1063,7 @@ class App(tk.Tk):
         if d:
             self.var_folder.set(d)
             self.settings["folder"] = d
-            model.save_settings(self.settings)
+            self._save_settings()
             self.reload()
 
     def detect_install(self, deep=False):
@@ -1087,7 +1114,7 @@ class App(tk.Tk):
 
         self.var_folder.set(chosen)
         self.settings["folder"] = chosen
-        model.save_settings(self.settings)
+        self._save_settings()
         self.reload(initial=True)
 
     # ---------------- data ----------------
@@ -1103,7 +1130,7 @@ class App(tk.Tk):
         self.tracker = model.Tracker(self.data, ach, inv, self.overrides)
 
         self.settings["folder"] = self.folder
-        model.save_settings(self.settings)
+        self._save_settings()
 
         if self.epic_data:
             self.epics = model.EpicTracker(self.epic_data, inv, self.overrides)
@@ -1242,6 +1269,7 @@ class App(tk.Tk):
     def _fill_farm(self):
         tv = self.tv_farm
         tv.delete(*tv.get_children())
+        self._farm_items = {}
         for iid, items in self.tracker.farm_list().items():
             isl = self.tracker.island_by_id(iid)
             label = "%s  %s" % (isl["id"], isl["name"])
@@ -1251,13 +1279,15 @@ class App(tk.Tk):
                                values=("%d items" % len(items), ""), open=True)
             for it in items:
                 users = "; ".join("%s %s" % (c, t) for c, t in it["needed_by"])
-                tv.insert(parent, "end", text="      " + it["item"],
+                row = tv.insert(parent, "end", text="      " + it["item"],
                           tags=("multi",) if it["count"] > 1 else (),
                           values=("×%d" % it["count"] if it["count"] > 1 else "",
                                   users))
+                self._farm_items[row] = it["item"]
         for item in sorted(k[5:] for k in self.overrides if k.startswith("have:")):
-            tv.insert("", "end", text="  (manual) " + item, tags=("manual",),
-                      values=("held", "marked by you - double-click to undo"))
+            row = tv.insert("", "end", text="  (manual) " + item, tags=("manual",),
+                            values=("held", "marked by you - press Space to undo"))
+            self._farm_items[row] = item
 
     # ---------------- compact overlay ----------------
 

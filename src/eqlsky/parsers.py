@@ -149,8 +149,9 @@ def normalise_item(name):
 def parse_inventory(path):
     """Return {'counts': {base_item: n}, 'locations': {base_item: set(area)}}.
 
-    Personal Depot rows are excluded - those are tradeskill materials, never quest
-    components, and including them only creates false matches.
+    Counts are stack sizes, not row counts. Personal Depot rows are excluded -
+    those are tradeskill materials, never quest components, and including them
+    only creates false matches.
     """
     out = {"counts": {}, "locations": {}}
     if not path or not os.path.isfile(path):
@@ -165,8 +166,15 @@ def parse_inventory(path):
             continue
         if loc.startswith("Personal-Depot"):
             continue
+        # Column 4 is the stack size. Counting rows instead would report a stack
+        # of 448 Bone Chips as one, and epic chains ask for stackable components.
+        try:
+            qty = int(parts[3].strip()) if len(parts) > 3 else 1
+        except ValueError:
+            qty = 1
+        qty = max(qty, 1)
         base = normalise_item(name)
-        out["counts"][base] = out["counts"].get(base, 0) + 1
+        out["counts"][base] = out["counts"].get(base, 0) + qty
         area = ("Bank" if loc.startswith("Bank")
                 else "Shared Bank" if loc.startswith("SharedBank")
                 else "Bags" if loc.startswith("General")
