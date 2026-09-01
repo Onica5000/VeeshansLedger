@@ -49,6 +49,7 @@ def main():
         "--specpath", WORK,
         "--paths", os.path.join(ROOT, "src"),
         "--add-data", "%s%s%s" % (os.path.join(ROOT, "data", "sky.json"), sep, "data"),
+        "--add-data", "%s%s%s" % (os.path.join(ROOT, "data", "epics.json"), sep, "data"),
         "--hidden-import", "reportlab.graphics.barcode.code128",
         os.path.join(ROOT, "src", "main.py"),
     ]
@@ -62,3 +63,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

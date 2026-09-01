@@ -33,6 +33,42 @@ These were confirmed against `eqlwiki.com` raw wikitext and the in-game help fil
 | **No Sirran the Lunatic in Legends** | Island bosses drop the progression keys directly. `Plane_of_Sky_Keys` still describes a token hand-in to Sirran — that is stale classic-EQ content and was shipped in error. Removed 2026-08-31 |
 | Efreeti Great Staff drops from **Eye of Veeshan only** | The item page's `dropsfrom` is authoritative; a prose note on the Eye page claiming Noble Dojorn also drops it is the weaker source (audit 2026-08-31) |
 
+## Epic quests - and the Kunark gate
+
+The app also tracks the 15 **class epic quests**. The organising fact:
+
+> **Kunark is not released in EverQuest Legends yet, so no epic weapon can be completed.**
+> Many components drop in original zones and can be collected today. The Epics tab exists to
+> surface exactly those, and to be honest about the rest.
+
+Every step carries an `era`: `NOW` (original pre-Kunark zone), `KUNARK`, `LATER`, or `UNKNOWN`.
+`build_epics.py` turns `era` into a `blocked` boolean using the release flag.
+
+### When Kunark launches
+
+1. Set `KUNARK_RELEASED = True` in `tools/build_epics.py`
+2. `python tools/build_epics.py`
+3. `python build/build_exe.py`
+
+Every `KUNARK` step unblocks across the tab, the shopping list and the PDF. **No other code
+changes.** `test_flipping_kunark_flag_unblocks_everything` covers this.
+
+### Epic tracking differs from Sky tracking
+
+| | Sky Tests | Epics |
+|---|---|---|
+| Completion source | **Achievements export** (authoritative) | **Inventory + manual ticks only** |
+| Why | `Untapped Potential: Classes` records what was obtained | The achievements file contains **no epic entries at all** - verified 2026-08-31, because epics are not live |
+
+So the app never claims an epic step is "done" - only "held" or "not held". Do not add inferred
+completion here; there is no data to infer it from.
+
+**Epic data is far weaker than Sky data.** eqlwiki's epic pages are largely unconverted classic
+EQ content. Treat the dataset as a best-effort guide, not verified Legends fact, and keep the
+`notes` field honest about it.
+
+Epic overrides use the `epic_have:` key prefix so they never collide with Sky's `have:`.
+
 ## Name mismatches — the recurring trap
 
 The wiki and the achievement file spell several rewards differently. `REWARD_ALIAS` in

@@ -1,6 +1,5 @@
-dist/
 build/_work/
-build/_diag/
+dist/*.pdf
 __pycache__/
 *.pyc
 *.spec

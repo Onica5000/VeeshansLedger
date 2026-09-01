@@ -173,5 +173,89 @@ class TestTracker(unittest.TestCase):
         self.assertTrue(all(r["unlocked"] for r in rows[first_unlocked:]))
 
 
+
+
+EPIC_DATA = {
+    "schema": 1,
+    "availability": {"kunark_released": False, "note": "Kunark is not out yet."},
+    "eras": {
+        "NOW": {"label": "Available now", "blocked": False},
+        "KUNARK": {"label": "Needs Kunark", "blocked": True},
+    },
+    "classes": [
+        {"name": "Warrior", "reward": "Jagged Blade of War", "summary": "",
+         "completable": False, "counts": {"total": 3, "now": 2, "blocked": 1},
+         "steps": [
+             {"step": "1", "item": "Efreeti Standard", "mob": "Noble Dojorn",
+              "zone": "Plane of Sky", "era": "NOW", "blocked": False, "notes": ""},
+             {"step": "2", "item": "Nonexistent Thing", "mob": "a mob",
+              "zone": "Kithicor Forest", "era": "NOW", "blocked": False, "notes": ""},
+             {"step": "3", "item": "Kunark Thing", "mob": "a sarnak",
+              "zone": "Chardok", "era": "KUNARK", "blocked": True, "notes": ""},
+         ]},
+        {"name": "Cleric", "reward": "Water Sprinkler of Nem Ankh", "summary": "",
+         "completable": False, "counts": {"total": 1, "now": 0, "blocked": 1},
+         "steps": [
+             {"step": "1", "item": "Kunark Thing", "mob": "a sarnak",
+              "zone": "Chardok", "era": "KUNARK", "blocked": True, "notes": ""},
+         ]},
+    ],
+}
+
+
+class TestEpics(unittest.TestCase):
+    def setUp(self):
+        inv = {"counts": {"Efreeti Standard": 1},
+               "locations": {"Efreeti Standard": {"Bank"}}}
+        self.et = model.EpicTracker(EPIC_DATA, inv)
+
+    def test_blocked_steps_are_flagged_while_kunark_is_unreleased(self):
+        self.assertFalse(self.et.kunark_released)
+        s = self.et.summary()
+        self.assertEqual(s["blocked"], 2)
+        self.assertEqual(s["collectable_now"], 2)
+
+    def test_only_now_filter_hides_blocked_steps(self):
+        allsteps = self.et.steps_for("Warrior")
+        nowsteps = self.et.steps_for("Warrior", only_now=True)
+        self.assertEqual(len(allsteps), 3)
+        self.assertEqual(len(nowsteps), 2)
+        self.assertTrue(all(not s["blocked"] for s in nowsteps))
+
+    def test_held_comes_from_inventory(self):
+        steps = {s["item"]: s for s in self.et.steps_for("Warrior")}
+        self.assertTrue(steps["Efreeti Standard"]["held"])
+        self.assertFalse(steps["Nonexistent Thing"]["held"])
+        self.assertEqual(steps["Efreeti Standard"]["where"], "Bank")
+
+    def test_shopping_list_excludes_held_and_blocked(self):
+        sl = self.et.shopping_list()
+        items = [i["item"] for rows in sl.values() for i in rows]
+        self.assertIn("Nonexistent Thing", items)
+        self.assertNotIn("Efreeti Standard", items, "already held")
+        self.assertNotIn("Kunark Thing", items, "blocked until Kunark")
+
+    def test_manual_override_marks_epic_item_held(self):
+        self.et.overrides["epic_have:Nonexistent Thing"] = True
+        self.assertTrue(self.et.held("Nonexistent Thing"))
+        items = [i["item"] for rows in self.et.shopping_list().values() for i in rows]
+        self.assertNotIn("Nonexistent Thing", items)
+
+    def test_classes_with_most_outstanding_sort_first(self):
+        rows = self.et.class_rows()
+        self.assertEqual(rows[0]["name"], "Warrior")
+
+    def test_flipping_kunark_flag_unblocks_everything(self):
+        import copy
+        data = copy.deepcopy(EPIC_DATA)
+        data["availability"]["kunark_released"] = True
+        for c in data["classes"]:
+            for s in c["steps"]:
+                if s["era"] == "KUNARK":
+                    s["blocked"] = False
+        et = model.EpicTracker(data, {"counts": {}, "locations": {}})
+        self.assertTrue(et.kunark_released)
+        self.assertEqual(et.summary()["blocked"], 0)
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

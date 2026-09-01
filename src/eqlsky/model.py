@@ -349,3 +349,122 @@ def find_installs(deep=False, progress=None):
 def guess_folder():
     hits = find_installs()
     return hits[0] if hits else ""
+
+
+# ============================ epic quests ============================
+#
+# Epics are tracked differently to Sky Tests: the achievements export contains
+# no epic entries (verified 2026-08-31), because class epics are not live in
+# Legends yet. So "held" comes from the inventory export plus manual overrides,
+# and completion is never inferred.
+
+class EpicTracker:
+    """Joins the epic dataset with a character's inventory and overrides."""
+
+    def __init__(self, data, inv=None, overrides=None):
+        self.data = data
+        self.inv = inv or {"counts": {}, "locations": {}}
+        self.overrides = overrides or {}
+
+    # ---------- availability ----------
+
+    @property
+    def kunark_released(self):
+        return bool(self.data["availability"]["kunark_released"])
+
+    def availability_note(self):
+        return self.data["availability"]["note"]
+
+    def data_warning(self):
+        return self.data["availability"].get("data_warning", "")
+
+    def completable_now(self):
+        """Classes whose entire chain is reachable today."""
+        return [c["name"] for c in self.data["classes"] if c.get("completable")]
+
+    # ---------- helpers ----------
+
+    def held(self, item):
+        if self.overrides.get("epic_have:" + item):
+            return True
+        return self.inv["counts"].get(item, 0) > 0
+
+    def where(self, item):
+        return ", ".join(sorted(self.inv["locations"].get(item, ())))
+
+    def classes(self):
+        return self.data["classes"]
+
+    def by_name(self, name):
+        return next((c for c in self.data["classes"] if c["name"] == name), None)
+
+    # ---------- per class ----------
+
+    def class_rows(self):
+        """One row per class, ordered by how much is collectable right now."""
+        rows = []
+        for c in self.data["classes"]:
+            now = [s for s in c["steps"] if not s["blocked"]]
+            got = [s for s in now if self.held(s["item"])]
+            rows.append({
+                "name": c["name"],
+                "reward": c["reward"],
+                "summary": c.get("summary", ""),
+                "total": len(c["steps"]),
+                "now": len(now),
+                "held_now": len(got),
+                "blocked": sum(1 for s in c["steps"] if s["blocked"]),
+                "completable": c.get("completable", False),
+            })
+        # Most still-collectable items first; that is the actionable end.
+        rows.sort(key=lambda r: (-(r["now"] - r["held_now"]), r["name"]))
+        return rows
+
+    def steps_for(self, class_name, only_now=False):
+        c = self.by_name(class_name)
+        if not c:
+            return []
+        out = []
+        for s in c["steps"]:
+            if only_now and s["blocked"]:
+                continue
+            d = dict(s)
+            d["held"] = self.held(s["item"])
+            d["where"] = self.where(s["item"])
+            out.append(d)
+        return out
+
+    # ---------- shopping list ----------
+
+    def shopping_list(self):
+        """{zone: [ {item, mob, needed_by:[class], held} ]} for unblocked, unheld items."""
+        want = {}
+        for c in self.data["classes"]:
+            for s in c["steps"]:
+                if s["blocked"] or self.held(s["item"]):
+                    continue
+                key = (s["zone"], s["item"], s["mob"])
+                want.setdefault(key, []).append(c["name"])
+        out = {}
+        for (zone, item, mob), users in want.items():
+            label = zone if zone and zone != "-" else "Crafted, purchased or summoned"
+            out.setdefault(label, []).append(
+                {"item": item, "mob": mob, "needed_by": sorted(set(users)),
+                 "count": len(set(users))})
+        for rows in out.values():
+            rows.sort(key=lambda r: (-r["count"], r["item"]))
+        return dict(sorted(out.items(), key=lambda kv: (-len(kv[1]), kv[0])))
+
+    # ---------- summary ----------
+
+    def summary(self):
+        rows = self.class_rows()
+        return {
+            "classes": len(rows),
+            "steps_total": sum(r["total"] for r in rows),
+            "collectable_now": sum(r["now"] for r in rows),
+            "held_now": sum(r["held_now"] for r in rows),
+            "blocked": sum(r["blocked"] for r in rows),
+            "kunark_released": self.kunark_released,
+            "completable": self.completable_now(),
+        }

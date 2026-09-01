@@ -1,0 +1,493 @@
+# Class epic quest steps.  Source: https://eqlwiki.com/Class_Epic_Quest_List
+#
+# WARNING: eqlwiki's epic pages all carry {{Epics Era}} ("the last sub-era of Kunark")
+# and are unconverted classic-EQ content with some live-EQ / P99 edits mixed in.
+# Nothing here is Legends-verified. Treat as a best-effort guide.
+#
+# era: NOW = original pre-Kunark zone, farmable today
+#      KUNARK = Kunark zone, unavailable until Kunark launches
+#      LATER = post-Kunark expansion
+#      UNKNOWN = zone/era could not be established
+#
+# Format: step|item|from_mob|zone|era|notes
+
+CLASS: Bard
+REWARD: Singing Short Sword
+SUMMARY: Pages 24 Top/Bottom fully farmable now; Page 25 and the Lute chain break on Kunark, and the final turn-in NPC is in Dreadlands.
+step|item|from_mob|zone|era|notes
+1|Torch of Misty|Konia Swiftfoot|Western Karana|NOW|guard tower #4; quest start
+2|Torch of Ro|Fajio Knejo|Misty Thicket|NOW|turn in Torch of Misty
+3|Torch of Rathe|Andad Filla|Southern Desert of Ro|NOW|turn in Torch of Ro
+4|Proof of Speed|Misty Tekchita|Lake Rathetear|NOW|ring; turn in Torch of Rathe
+5|Maestro's Symphony Page 24 Top|Konia Swiftfoot|Western Karana|NOW|turn in Proof of Speed
+6|Solusek Mining Company Invoice|Baenar Swiftsong|South Karana|NOW|say "what doll"
+7|Mechanical Doll|Marfen Binkdirple|Solusek's Eye|NOW|turn in invoice
+8|Note for Baenar|Serra|Unrest|NOW|wiki flags a turn-in that did not give the 2nd item
+9|Note to Maligar|Baenar Swiftsong|South Karana|NOW|turn in Note for Baenar
+10|Maligar's Head|Maligar's Enraged Doppleganger|Western Karana|NOW|lvl 45; give Note to Maligar to spawn
+11|Mahlin's Mystical Bongos|Baenar Swiftsong|South Karana|NOW|turn in Maligar's Head
+12|Maestro's Symphony Page 24 Bottom|Konia Swiftfoot|Western Karana|NOW|turn in bongos
+13|Onyx Drake Gut|Blackwing|Rathe Mountains|NOW|lvl 36
+14|Red Wurm Gut|Nezekezena or Phurzikon|Burning Woods|KUNARK|
+15|Chromodrac Gut|Eldrig the Old|Skyfire Mountains|KUNARK|
+16|Maestro's Symphony Page 25|Kelkim Menkia|South Karana|NOW|turn in all three guts
+17|Alluring Horn|Quag Maelstrom|Ocean of Tears|NOW|OPTIONAL intro branch; lvl 45
+18|Note to Forpar Fizfla|Vedico Windwhisper|Butcherblock Mountains|NOW|OPTIONAL; turn in Alluring Horn
+19|Kedge Backbone|Phinigel Autropos|Kedge Keep|NOW|lvl 53
+20|Amygdalan Tendril|an Amygdalan warrior|Plane of Fear|NOW|lvl 48
+21|Petrified Werewolf Skull|Drolvarg Warlord|Karnor's Castle|KUNARK|lvl 52
+22|Forpar's Note to Himself|Forpar Fizfla|Steamfont Mountains|NOW|say "What Components"
+23|Mystical Lute Head|Forpar Fizfla|Steamfont Mountains|NOW|turn in note + backbone + tendril + skull
+24|Red Dragon Scales|Lord Nagafen|Nagafen's Lair|NOW|Nagafen is the safest pre-Kunark source
+25|White Dragon Scales|Lady Vox|Permafrost|NOW|Vox is the pre-Kunark source; Gorenaire is Kunark
+26|metal bits|crafted|-|NOW|smithing
+27|Mystical Lute Body|Forpar Fizfla|Steamfont Mountains|NOW|turn in metal bits + red scales + white scales
+28|Undead Dragongut Strings|Trakanon (triggered)|Old Sebilis|KUNARK|via An Undead Bard; this is the REVAMPED bard epic route
+29|Mystical Lute|Forpar Fizfla|Steamfont Mountains|NOW|turn in head + body + strings; gated by the Sebilis step
+30|Singing Short Sword|Baldric Slezaf|Dreadlands|KUNARK|turn in Pages 24 Top, 24 Bottom, 25 + Mystical Lute
+
+CLASS: Berserker
+REWARD: Kerasian Axe of Ire
+SUMMARY: Kunark-gated from step 1 - the quest spine runs through Keras McArik in Lake of Ill Omen. Only a handful of loot items can be pre-stocked.
+step|item|from_mob|zone|era|notes
+1|Throwing Axe of the Spirit|Keras McArik|Lake of Ill Omen|KUNARK|quest giver; also gives Medal of Blood
+2|Bore Axes of the Spirit|Lingering Axefall|Lake of Ill Omen|KUNARK|x3; spawns Impervious Bloodbeast
+3|Bloodbeast Tooth|Impervious Bloodbeast|Lake of Ill Omen|KUNARK|
+4|McArik-Crafted Bandage|Keras McArik|Lake of Ill Omen|KUNARK|x3; also gives Medal of Mirages
+5|Sealed Note for Mardic|Keras McArik|Lake of Ill Omen|KUNARK|dialog
+6|Axe of Lost Souls|Berserker's Image|trial room via Field of Bone|KUNARK|say "Return" afterward
+7|Image Essence|Mardic Crimsonsteel|Field of Bone|KUNARK|hail
+8|Medal of Strategy|Keras McArik|Lake of Ill Omen|KUNARK|give Medal of Mirages + Image Essence
+9|Note for Treanik|Keras McArik|Lake of Ill Omen|KUNARK|dialog
+10|Treanik's Tarnished Axe|Praklion of the Cauldron|Dagnor's Cauldron|NOW|give Note for Treanik to Treanik Ireblade first
+11|Bone Trinket|Treanik Ireblade|Dagnor's Cauldron|NOW|give Treanik's Tarnished Axe
+12|Medal of Fervid Rage|Keras McArik|Lake of Ill Omen|KUNARK|give Bone Trinket + Medal of Strategy
+13|Burning Essence of Rage|Ireblind Imp|Plane of Fear|NOW|chain: a scareling then Enraged Imp then Ireblind Imp
+14|Medal of Hunting|Keras McArik|Lake of Ill Omen|KUNARK|give Burning Essence of Rage + Medal of Fervid Rage
+15|McArik Reagent Bag|Keras McArik|Lake of Ill Omen|KUNARK|dialog
+16|Decaying Liver|Disease-Ridden Gorilla|The Emerald Jungle|KUNARK|pre-lootable per wiki but the zone is Kunark
+17|Gnashing Kobold Paw|Gnashing Kobold|Stonebrunt Mountains|KUNARK|Odus, but shipped WITH Kunark - verify on server
+18|Scent Gland|Reeking Skunk|Toxxulia Forest|NOW|genuinely farmable today
+19|Philter of Major Translocation|crafted|-|NOW|Alchemy (shaman)
+20|Bag of Image Essence Dust|crafted|-|KUNARK|combine inside the McArik Reagent Bag
+21|Medal of Mastery|Keras McArik|Lake of Ill Omen|KUNARK|give Bag of Image Essence Dust + Medal of Hunting
+22|Maniac's Garbled Tome|Raving Goblinmaster|Warsliks Woods|KUNARK|spawn via Lurking Hopeful + 1000pp; 5 timed waves
+23|Kerasian Axe of Ire|Keras McArik|Lake of Ill Omen|KUNARK|give Maniac's Garbled Tome + Medal of Mastery
+
+CLASS: Cleric
+REWARD: Water Sprinkler of Nem Ankh
+SUMMARY: The Lake Rathetear opening and the Sol A ring are farmable now; everything from Omat Vastsea onward is Timorous Deep and dead until Kunark.
+step|item|from_mob|zone|era|notes
+1|Lord Bergurgle's Crown|Lord Bergurgle|Lake Rathetear|NOW|underwater goblin cave tower; rare spawn, casts CH
+2|Oil of Fennin Ro|Shmendrik Lavawalker|Lake Rathetear|NOW|3hr spawn; give Bergurgle's Crown. Spawns Natasha Whitewater
+3|Damaged Goblin Crown|a spirit of flame|Lake Rathetear|NOW|spawns on Shmendrik's corpse; do not let Natasha land the killing blow
+4|Ornate Sea Shell|Natasha Whitewater|Lake Rathetear|NOW|Lore I; she despawns ~5 min after spawning unless in combat
+5|Coral Statue of Tarew Marr|Omat Vastsea|Timorous Deep|KUNARK|
+6|Blood Soaked Plasmatic Priest Robe|a plasmatic priest|The Temple of Solusek Ro|UNKNOWN|zone is Antonica-side but was added AFTER Kunark - may not exist in Legends
+7|Lord Gimblox's Signet Ring|Lord Gimblox|Solusek's Eye|NOW|lvl 30; rare spawn
+8|Orb of Frozen Water|Omat Vastsea|Timorous Deep|KUNARK|give the priest robe
+9|Ornate Sea Shell (v2)|Natasha Whitewater|Timorous Deep|KUNARK|Lore II; give Lord Gimblox's Signet Ring
+10|Message to Natasha|Naxot Deepwater|Burning Woods|KUNARK|spawns Ixiblat Fer
+11|Sceptre of Ixiblat Fer|Ixiblat Fer|Burning Woods|KUNARK|lvl 62; 100% drop
+12|Singed Scroll|Overking Bathezid|Chardok|KUNARK|lvl 63; 100% drop
+13|Orb of Clear Water|Omat Vastsea|Timorous Deep|KUNARK|give Sceptre + Singed Scroll
+14|Shimmering Pearl|Natasha Whitewater|Timorous Deep|KUNARK|give Message to Natasha
+15|Heart of Zordak Ragefire|Zordakalicus Ragefire|Nagafen's Lair|NOW|give Shimmering Pearl to Zordak Ragefire; he repops as the dragon
+16|Orb of Vapor|Omat Vastsea|Timorous Deep|KUNARK|do not do this until ready for the final turn-in
+17|Orb of the Triumvirate|Jhassad Oceanson|Timorous Deep|KUNARK|give all three orbs; spawns Avatar of Water
+18|Water Sprinkler of Nem Ankh|Avatar of Water|Timorous Deep|KUNARK|wait until the Avatar stands next to Jhassad or you forfeit the quest XP
+
+CLASS: Druid
+REWARD: Nature Walkers Scimitar
+SUMMARY: The longest chain and the biggest pre-Kunark haul - the Antonica and Faydwer spirit arcs, all four forages and the Shiny Tin Bowl chain are doable today.
+step|item|from_mob|zone|era|notes
+1|Worn note|Telin Darkforest|Burning Wood|KUNARK|say "I will take action"
+2|Faelin's Ring|Faelin Bloodbriar|Greater Faydark|NOW|must be spawned; give Worn note
+3|Dark Metal Coin|Giz X`Tin|Kithicor Forest|NOW|give Faelin's Ring
+4|Worn Dark Metal Coin|Telin Darkforest|Burning Wood|KUNARK|give Dark Metal Coin
+5|Braided Grass Amulet|Althele|East Karana|NOW|give Worn Dark Metal Coin
+6|Fleshbound Tome|Dark Elf Corruptor|East Karana|NOW|spawned via Teloa; they run at near-SoW speed
+7|Earth Stained Note|Althele|East Karana|NOW|give Fleshbound Tome
+8|Shiny Tin Bowl|Ella Foodcrafter|Misty Thicket|NOW|give Earth Stained Note
+9|Chilled Tundra Root|forage|Everfrost|NOW|
+10|Ripened Heartfruit|forage|Greater Faydark|NOW|
+11|Speckled Molded Mushroom|forage|Innothule Swamp|NOW|
+12|Sweetened Mudroot|forage|Misty Thicket|NOW|
+13|Hardened Mixture|crafted|-|NOW|combine all four forages in the Shiny Tin Bowl
+14|Crushed Pot|Alrik Farsight|Timorous Deep|KUNARK|say "I will take the artifact"
+15|Grocery List|Farios Elianos|South Felwithe|NOW|give Crushed Pot
+16|Bag of Provisions|Merchant Nora|Northern Felwithe|NOW|give Grocery List
+17|Receipt|Farios Elianos|South Felwithe|NOW|give Bag of Provisions
+18|Ancient Pattern|Alrik Farsight|Timorous Deep|KUNARK|give Receipt
+19|Rose of Firiona|forage|Firiona Vie|KUNARK|
+20|Wood Painting|Merdan Fleetfoot|Surefall Glade|NOW|hail, ask "Who is Niera?", give Rose of Firiona
+21|Silver Chained Locket|a human skeleton|Frontier Mountains|KUNARK|behind the giant fort; give Wood Painting
+22|Platinum Speckled Powder|Niera Farbreeze|Surefall Glade|NOW|give Silver Chained Locket
+23|Jade Reaver|a black reaver|City of Mist|KUNARK|
+24|Enchanted Clay|Kinlo Strongarm|North Kaladim|NOW|give Jade Reaver
+25|Runecrested Bowl|crafted|-|NOW|Pottery Wheel: Ancient Pattern + Platinum Speckled Powder + Enchanted Clay
+26|Softly Glowing Stone|Ella Foodcrafter|Misty Thicket|NOW|give Hardened Mixture + Runecrested Bowl
+27|Summoned: Firefly Globe|self-cast|-|NOW|lvl 1 Druid spell, NO RENT, castable only 7pm-4am
+28|Spell: Resurrection|purchased|-|NOW|lvl 49 Cleric spell scroll
+29|Pulsing Green Stone|Venril Sathir|Karnor's Castle|KUNARK|via Venril Sathir Remains then Spirit of Venril Sathir
+30|Warmly Glowing Stone|Foloal Stormforest|Firiona Vie|KUNARK|give Pulsing Green Stone + Softly Glowing Stone
+31|Elaborate Scimitar|Ella Foodcrafter|Misty Thicket|NOW|give Warmly Glowing Stone
+32|Chunk of Tundra|corrupted wooly mammoth|Everfrost Peaks|NOW|lvl 30
+33|Clean Lakewater|corrupted shaman|Lake Rathetear|NOW|lvl 40
+34|Ancient Rock|corrupted hill giant|Rathe Mountains|NOW|lvl 40
+35|Warm Pulsing Treant Heart|Withered treant|Northern Karana|NOW|give tundra + lakewater + rock
+36|Cleansed Spirit of Antonica|Yeka Ias|Southern Karana|NOW|give Warm Pulsing Treant Heart
+37|Kedge Cave Crystals|Corrupted Seahorse|Kedge Keep|NOW|lvl 53
+38|Ocean of Tears Seavines|Corrupted seafury cyclops|Ocean of Tears|NOW|lvl 52
+39|Green Heartwood Branch|Corrupted brownie|Lesser Faydark|NOW|lvl 51
+40|Gleaming Unicorn Horn|Pained Unicorn|Lesser Faydark|NOW|give crystals + seavines + branch
+41|Cleansed Spirit of Faydwer|Silox Azrix|Ak'Anon|NOW|give Gleaming Unicorn Horn
+42|Froglok Essence|Ulump Pujluk|Swamp of No Hope|KUNARK|lvl 55
+43|Green Tree Bark|Corrupted Gorilla|Emerald Jungle|KUNARK|lvl 47
+44|Pure Lakewater|Corrupted barracuda|Lake of Ill Omen|KUNARK|lvl 46
+45|Pod of Seawater|Faydedar|Timorous Deep|KUNARK|spawned via Dolgin Codslayer
+46|Cleansed Spirit of Kunark|Nekexin Virulence|The Overthere|KUNARK|give essence + seawater + bark + lakewater
+47|Nature Walkers Scimitar|Xanuusus|North Karana|NOW|give Elaborate Scimitar + all three cleansed spirits
+
+CLASS: Enchanter
+REWARD: Staff of the Serpent
+SUMMARY: The Jeb's Seal prologue and the 4th Piece are mostly pre-Kunark; the 3rd Piece (Test of Charm) is entirely Kunark.
+step|item|from_mob|zone|era|notes
+1|Empty Ink Vial|Reania Jukle|Qeynos Catacombs|NOW|quest starts by hailing Stofo Olan in Erudin at level 50
+2|Ink of the Dark|a ghoul scribe|Lower Guk|NOW|CHARM him, then give the Empty Ink Vial
+3|Shining Metallic Robes|the ghoul arch magus|Lower Guk|NOW|
+4|Mechanical Pen|Rilgor Plegnog|Ak'Anon|NOW|give Shining Metallic Robes
+5|Quill|purchased|-|NOW|
+6|Piece of Parchment|purchased|-|NOW|
+7|White Paper|Thrackin Griften|Western Karana|NOW|give Quill + Parchment to Chrislin Baker to spawn him
+8|Copy of Notes|Stofo Olan|Erudin|NOW|give Ink of the Dark + Mechanical Pen + White Paper
+9|Jeb's Seal|Jeb Lumsed|Burning Woods|KUNARK|a sarnak imitator; give Copy of Notes
+10|Enchanters Sack|Mizzle Gepple or Polzin Mrid|Ak'Anon or The Hole|NOW|masters are reachable now but Jeb's Seal itself is Kunark-gated
+11|Xolion Rod|Vessel Drozlin|Cabilis East|KUNARK|
+12|Innoruuk's Word|Verina Tomb|Neriak|NOW|
+13|Head of a Prince|Prince Selrach Di'zok|Chardok|KUNARK|
+14|Chalice of Kings|Joren Nobleheart|Felwithe|NOW|give Head of a Prince
+15|Large Muddy Sandals|ground pickup|Oggok|NOW|
+16|Scribbled Parchment|Bozlum Blossom|Oggok|NOW|give Large Muddy Sandals
+17|Gift to Bozlum|Brokk Boxtripper|Oggok|NOW|give Scribbled Parchment
+18|Snow Blossoms|Bozlum Blossom|Oggok|NOW|give Gift to Bozlum
+19|1st Piece of Staff|Modani Qu`Loni|The Overthere|KUNARK|combine chalice + rod + blossoms + word in an Enchanters Sack
+20|Spoon|Cazel|Oasis of Marr|NOW|
+21|The One Key|pickup|The Overthere|KUNARK|
+22|Lost Scroll|pickup|Dalnir|KUNARK|
+23|Charm and Sacrifice|pickup|Plane of Sky|NOW|book
+24|2nd Piece of Staff|Mizzle Gepple|Ak'Anon|NOW|combine spoon + key + scroll + book in an Enchanters Sack
+25|Dull Diamond|Nadia Starfeast|Firiona Vie|KUNARK|
+26|Dull Sapphire|Nadia Starfeast|Firiona Vie|KUNARK|
+27|Dull Ruby|Nadia Starfeast|Firiona Vie|KUNARK|
+28|Dull Emerald|Nadia Starfeast|Firiona Vie|KUNARK|
+29|Enchanted Diamond|Spectral librarian|Kaesora|KUNARK|CHARM; do NOT kill the Enraged spectral librarian that spawns
+30|Enchanted Sapphire|Felia Goldenwing|Skyfire Mountains|KUNARK|CHARM
+31|Enchanted Ruby|Wraith of Jaxion|City of Mist|KUNARK|CHARM
+32|Enchanted Emerald|Impaler Tzilug|The Overthere|KUNARK|CHARM
+33|3rd Piece of Staff|Nadia Starfeast|Firiona Vie|KUNARK|combine all four enchanted gems in an Enchanters Sack
+34|Head of the Serpent|the Wraith of a Shissir|Plane of Fear|NOW|
+35|Essence of a Ghost|the Ghost of Kindle|The Hole|NOW|
+36|Essence of a Vampire|a forsaken revenant|Plane of Hate|NOW|
+37|Sands of the Mystics|The Tangrin|The Field of Bone|KUNARK|
+38|4th Piece of Staff|Polzin Mrid|The Hole|NOW|combine the four essences in an Enchanters Sack
+39|Bundle of Staves|crafted|-|NOW|combine the four staff pieces in an Enchanters Sack
+40|Staff of the Serpent|Jeb Lumsed|Burning Woods|KUNARK|give Bundle of Staves
+
+CLASS: Magician
+REWARD: Orb of Mastery
+SUMMARY: The most pre-Kunark-friendly epic here - everything through Power of the Orb is doable except one Kaesora drop, and the Element of Wind arc is entirely Plane of Sky, The Hole and South Karana.
+step|item|from_mob|zone|era|notes
+1|Token of Mastery|Rykas|Lake Rathetear|NOW|OPTIONAL intro
+2|Torn Page of Magi`kot pg. 1|an enraged dread wolf|Kithicor Forest|NOW|
+3|Torn Page of Magi`kot pg. 2|a tentacle terror|Unrest|NOW|in the Estate
+4|Torn Page of Magi`kot pg. 3|a bloodthirsty ghoul|Lower Guk|NOW|
+5|Words of Magi`kot|Jahsohn Aksot|West Commonlands|NOW|give all three torn pages
+6|Power of Wind|a gypsy dancer|Castle Mistmoore|NOW|
+7|Power of Fire|Lava elemental or Blazing Elemental|Solusek's Eye|NOW|
+8|Power of Water|famished ravener|Kaesora|KUNARK|also Hungered or Gorged Ravener
+9|Power of Earth|A Fairy Guard|Lesser Faydark|NOW|
+10|Power of the Elements|Walnan|Butcherblock Mountains|NOW|give all four Powers; MQ-able
+11|Torn Page of Mastery: Earth|A Magician or A Goblin Magician|Najena|NOW|
+12|Torn Page of Mastery: Fire|A Magician or A Goblin Magician|Najena|NOW|
+13|Torn Page of Mastery: Water|A Magician or A Goblin Magician|Najena|NOW|
+14|Torn Page of Mastery: Wind|A Magician or A Goblin Magician|Najena|NOW|also an alligator in Cazic Thule
+15|Words of Mastery|Akksstaff|Najena|NOW|give all four Torn Pages of Mastery
+16|Power of the Orb|Rykas|Lake Rathetear|NOW|give Words of Magi`kot + Power of the Elements + Words of Mastery
+17|Torch of the Elements|Neh'Ashiir|City of Mist|KUNARK|
+18|Burning Embers|Gylton, Phurzikon or Nezekezena|Burning Woods|KUNARK|listed in order of difficulty
+19|Blazing Wand|Undertow|Kedge Keep|NOW|
+20|Element of Fire|Jennus Lyklobar|Skyfire Mountains|KUNARK|give Power of the Orb + torch + embers + wand
+21|Staff of Elemental Mastery: Earth|Magi P`Tasa|Plane of Hate|NOW|
+22|Dirt of Underfoot|Slixin Klex|Burning Wood|KUNARK|
+23|Shovel of Ponz|quest|Plane of Sky|NOW|separate Shovel of Ponz quest
+24|Broom of Trilon|quest|Plane of Sky|NOW|separate Broom of Trilon quest
+25|Element of Earth|Tiblner Milnik|Firiona Vie|KUNARK|give staff + dirt + shovel + broom
+26|Staff of Elemental Mastery: Water|Phinigel Autropos|Kedge Keep|NOW|
+27|Tears of Erollisi|Captain Rottgrime|The Overthere|KUNARK|
+28|Rain of Karana|Tarbul Earthstrider|East Karana|NOW|
+29|Element of Water|Jinalis Andir|Dagnor's Cauldron|NOW|give staff + tears + rain
+30|Crown of Elemental Mastery|7th island mobs|Plane of Sky|NOW|
+31|Elemental Binder|zone mobs|The Hole|NOW|
+32|Pegasus Feather Cloak|Quillmane|South Karana|NOW|
+33|Element of Wind|Kihun Solstin|Plane of Sky|NOW|give crown + binder + cloak
+34|Spell: Summon Orb|Master of Elements|Plane of Sky|NOW|give all four Elements; if absent, hail Kihun Solstin
+35|Orb of Mastery|summoned|-|NOW|scribe Summon Orb and cast it
+
+CLASS: Monk
+REWARD: Celestial Fists
+SUMMARY: The entire Robe of the Lost Circle sub-quest is pre-Kunark and worth doing now; everything from the two Metal Pipes onward is solidly Kunark.
+step|item|from_mob|zone|era|notes
+1|Purple Headband|quest turn-in|classic zones|NOW|see Monk Headband Quests
+2|Red Sash of Order|Thena Lonnes or Ran`Un|classic zones|NOW|see Monk Sash Quests
+3|Code of Zan Fi|Targin the Rock|Nagafen's Lair|NOW|King room
+4|The Idol|Raster of Guk|Lower Guk|NOW|the Idol and the Sash CANNOT be multiquested
+5|Needle of the Void|Brother Qwinn|Southern Karana|NOW|give Purple Headband + Code of Zan Fi
+6|Rare Robe Pattern|Brother Zephyl|Rathe Mountains|NOW|give Red Sash of Order + The Idol
+7|Shadow Silk|crafted|-|NOW|Shadow Wolf Pelt + Silk Swatch + Spell: Gather Shadows, Tailoring 36
+8|Robe of the Lost Circle|crafted|-|NOW|SHORTCUT: also drops from Brother Zephyl or Brother Qwinn directly
+9|A Metal Pipe (Fi)|an iksar betrayer|Chardok|KUNARK|
+10|A Metal Pipe (Zan)|a drolvarg pawbuster|Karnor's Castle|KUNARK|
+11|Robe of the Whistling Fists|Brother Balatin|Dreadlands|KUNARK|he must NOT be aggro'd; charm and sneak work, pacify does not
+12|Immortals|any named mob|Skyfire Mountains|KUNARK|book
+13|Danl's Reference|Tomekeeper Danl|Erudin|NOW|library; do NOT turn in while feigned
+14|Celestial Fists|Lheao|Timorous Deep|KUNARK|book; hidden cove
+15|Charred Scale|Eejag|Lavastorm Mountains|NOW|say "I challenge Eejag" to a fire sprite
+16|Breath of Gwan|Gwan|Plane of Sky|NOW|Dojorn's Island 1.5; hand Charred Scale to a presence
+17|Trunt's Head|Trunt|Mines of Nurga|KUNARK|hand Breath of Gwan to a sleeping ogre
+18|Eye of Kaiaren|Astral Projection|The Overthere|KUNARK|give Trunt's Head
+19|Demon Fangs|Xenevorash|Lake of Ill Omen|KUNARK|spawns when Vorash dies
+20|Book of Celestial Fists|sane Kaiaren|Trakanon's Teeth|KUNARK|sane Kaiaren despawns within 30 min
+21|Celestial Fists|sane Kaiaren|Trakanon's Teeth|KUNARK|turning in to MAD Kaiaren destroys your items
+
+CLASS: Necromancer
+REWARD: Scythe of the Shadowed Soul
+SUMMARY: Almost all pre-Kunark. Everything through Symbol of the Serpent plus the whole Sky/Hate/Fear gathering is farmable today; only the Chardok herb branch and two Timorous Deep turn-ins are gated.
+step|item|from_mob|zone|era|notes
+1|Head of Sir Edwin Motte|Sir Edwin Motte|Qeynos Hills|NOW|lvl 33, roams; 3% spawn
+2|Symbol of the Apprentice|Kazen Fecae|Lake Rathetear|NOW|give the Head
+3|Twisted Symbol of the Apprentice|Venenzi Oberzendi|Nektulos Forest|NOW|give Symbol of the Apprentice
+4|Flowing Black Robe|Najena|Najena|NOW|the NPC, not the zone mobs
+5|Rolling Stone Moss|Venenzi Oberzendi|Nektulos Forest|NOW|give Flowing Black Robe
+6|Symbol of the Serpent|Emkel Kabae|Lake Rathetear|NOW|give Rolling Stone Moss + Twisted Symbol
+7|Scaled Symbol of the Serpent|Ssessthrass|Swamp of No Hope|KUNARK|hail, give Symbol of the Serpent
+8|Manisi Herb|Grand Herbalist Mak`ha|Chardok|KUNARK|wiki also spells this Mainsi
+9|Refined Mainsi Herb|Ssessthrass|Swamp of No Hope|KUNARK|give Manisi Herb + Scaled Symbol
+10|Symbol of Testing|Emkel Kabae|Lake Rathetear|NOW|give Refined Mainsi Herb
+11|Symbol of Insanity|A tortured soul|Lake Rathetear|NOW|also kill a bone golem and a failed apprentice
+12|Journal|Drendico Metalbones|Timorous Deep|KUNARK|give Symbol of Insanity
+13|Silver Disc|An azarack|Plane of Sky|NOW|2nd isle monsters
+14|Spiroc Feathers|A gorgalask|Plane of Sky|NOW|3rd isle monsters
+15|Black Silk Cape|Keeper of Souls|Plane of Sky|NOW|
+16|Cloak of Spiroc Feathers|Jzil GSix|Plane of Sky|NOW|give disc + feathers + cape
+17|Eye of Innoruuk|Mini-Bosses|Plane of Hate|NOW|source changed from Innoruuk to the Hate mini-bosses
+18|Slime Blood of Cazic Thule|Cazic Thule or the golems|Plane of Fear|NOW|
+19|Prepared Regents Box|Drendico Metalbones|Timorous Deep|KUNARK|give cloak + eye + slime blood + journal
+20|Tome of Instruction|Kazen Fecae|Lake Rathetear|NOW|give Prepared Regents Box
+21|Gkzzallk in a Box|Gkzzallk|Plane of Sky|NOW|Island 3 building; despawns the Island 1 boss - clear with your raid first
+22|Scythe of the Shadowed Soul|Kazen Fecae|Lake Rathetear|NOW|give Gkzzallk in a Box
+
+CLASS: Paladin
+REWARD: Fiery Defender
+SUMMARY: COMPLETABLE TODAY. One of only two fully pre-Kunark epics. Two chains - the older Fiery Avenger quest is a prerequisite and is consumed by the Fiery Defender chain.
+step|item|from_mob|zone|era|notes
+A1|SoulFire|quest turn-in|Various Freeport, Highpass, Mistmoore, Splitpaw|NOW|Zimel's Blades quest; needs Warmly Knights of Truth + Priests of Life. Verified on EQL 8/8/2026
+A2|Ghoulbane|the froglok shin lord|Upper Guk|NOW|the Felwithe source is Kunark-era
+A3|Torn, burnt book|Lord Nagafen|Nagafen's Lair|NOW|alt sources Talendor and Severilous are Kunark
+A4|Torn, Frost covered book|Vox|Permafrost|NOW|alt sources Gorenaire and Faydedar are Kunark
+A5|Book of Scale|quest turn-in|Neriak Commons or North Qeynos|NOW|both books + 1000pp; tradeable, so purchasable
+A6|Miragul's Phylactery|Oracle of K`Arnon|Ocean of Tears|NOW|give Book of Scale
+A7|Miragul's Robe|Miragul|Everfrost Peaks|NOW|hand Phylactery to Lich of Miragul in the underwater ice caves
+A8|Miragul's Head|Miragul|Everfrost Peaks|NOW|same kill
+A9|Fiery Avenger|Inte Akera|Plane of Sky|NOW|500pp to Dason Goldblade spawns him in the Island 4 windmill for 5 min; needs Warmly Deepwater Knights
+1|Tainted Darksteel Breastplate|thought destroyer|Plane of Hate|NOW|lvl 55; random spawn from a scorn banshee corpse
+2|Cold Plate of Beef and Bread|Nella Stonebraids|Kaladim|NOW|Pure Crystal Quest; Jark is in the mines
+3|Pure Crystal|Jark|Kaladim|NOW|give Cold Plate of Beef and Bread
+4|Gleaming Crested Breastplate|Reklon Gnallen|Erudin|NOW|Temple of Quellious; breastplate + Pure Crystal
+5|Tainted Darksteel Sword|Keeper of the Tombs|The Hole|NOW|lvl 55, 7-10 day respawn
+6|Bucket of Water|a peasant woman|West Freeport|NOW|near the monk guild; say "what water"
+7|Bucket of Pure Water|Joshua|West Freeport|NOW|back of the bakery
+8|Gleaming Crested Sword|Reklon Gnallen|Erudin|NOW|sword + Bucket of Pure Water
+9|Tainted Darksteel Shield|Kirak Vil|Nektulos Forest|NOW|lvl 55, 7-10 day respawn, fully spell-resistant
+10|Gleaming Crested Shield|Elia the Pure|Felwithe|NOW|give the shield
+11|Mark of Atonement|Reklon Gnallen|Erudin|NOW|all three Gleaming Crested items
+12|Fiery Defender|Irak Altil|Plane of Fear|NOW|Mark of Atonement + Fiery Avenger; he is a wandering skeleton
+
+CLASS: Ranger
+REWARD: Swiftwind and Earthcaller
+SUMMARY: Blocked at step 1 - Telin Darkforest is in Burning Wood. But many components are farmable today, and the whole Refined Mithril Blade and Earthcaller branch is pre-Kunark.
+step|item|from_mob|zone|era|notes
+1|Worn Note|Telin Darkforest|Burning Wood|KUNARK|ask "what action"; hard blocker for the whole quest
+2|Faelin's Ring|Faelin Bloodbriar|Greater Faydark|NOW|spawn her, give the Worn Note
+3|Dark Metal Coin|Giz X`Tin|Kithicor Forest|NOW|give Faelin's Ring
+4|Worn Dark Metal Coin|Telin Darkforest|Burning Wood|KUNARK|
+5|Braided Grass Amulet|Althele|East Karana|NOW|she names Sionae, who shows on track
+6|Frayed Braided Grass Amulet|Sionae|East Karana|NOW|
+7|Fleshbound Tome|Dark Elf Corruptor|East Karana|NOW|spawned via Teloa; they run almost SoW-fast
+8|Earth Stained Note|Althele|East Karana|NOW|give Fleshbound Tome
+9|Shiny Tin Bowl|Ella Foodcrafter|Misty Thicket|NOW|DO NOT DESTROY - needed again for Earthcaller
+10|Chilled Tundra Root|forage|Everfrost Peaks|NOW|
+11|Ripened Heartfruit|forage|Greater Faydark|NOW|
+12|Speckled Molded Mushroom|forage|Innothule Swamp|NOW|
+13|Sweetened Mudroot|forage|Misty Thicket|NOW|
+14|Hardened Mixture|crafted|-|NOW|combine all four forages in the Shiny Tin Bowl
+15|Crushed Pot|Alrik Farsight|Timorous Deep|KUNARK|
+16|Grocery List|Farios Elianos|Felwithe|NOW|give Crushed Pot
+17|Bag of Provisions|Merchant Nora|Northern Felwithe|NOW|
+18|Receipt|Farios Elianos|Felwithe|NOW|
+19|Ancient Pattern|Alrik Farsight|Timorous Deep|KUNARK|
+20|Rose of Firiona|forage|Firiona Vie|KUNARK|
+21|Wood Painting|Merdan Fleetfoot|Surefall Glade|NOW|ask "Who is Niera?"
+22|Silver Chained Locket|a human skeleton|Frontier Mountains|KUNARK|
+23|Platinum Speckled Powder|Niera Farbreeze|Surefall Glade|NOW|
+24|Jade Reaver|a black reaver|City of Mist|KUNARK|or bought from another player
+25|Enchanted Clay|Kinlo Strongarm|North Kaladim|NOW|give Jade Reaver
+26|Runecrested Bowl|crafted|-|KUNARK|pottery wheel; gated by the Ancient Pattern
+27|Softly Glowing Stone|Ella Foodcrafter|Misty Thicket|KUNARK|Hardened Mixture + Runecrested Bowl
+28|Summoned: Firefly Globe|self-cast|-|NOW|lvl 1 Druid spell, NO RENT, night only 7pm-4am
+29|Spell: Resurrection|purchased|-|NOW|lvl 49 Cleric scroll
+30|Pulsing Green Stone|Venril Sathir|Karnor's Castle|KUNARK|or buy an MQ'd one
+31|Warmly Glowing Stone|Foloal Stormforest|Firiona Vie|KUNARK|
+32|Ancient Longsword|Telin Darkforest|Burning Wood|KUNARK|OBTAIN THIS BEFORE spawning Usbak the Old, who despawns
+33|Refined Ancient Sword|Usbak the Old|North Kaladim|NOW|hail and give the Ancient Longsword
+34|Swiftwind|Faelin Bloodbriar|Greater Faydark|KUNARK|spawned via Telin Darkforest
+35|Swirling Sphere of Color|an essence tamer|Plane of Sky|NOW|
+36|Soulbound Hammer|Jaeil the Insane|The Hole|NOW|spawn by giving the Shiny Tin Bowl to Jaeil the Wretched
+37|Dwarven Smiths Hammer|Mairee Silentone|Erudin|NOW|Erudin Palace
+38|Hammer of the Ancients|Mairee Silentone|Erudin|NOW|hammer + Swirling Sphere of Color
+39|Small bit of Mithril Ore|Usbak the Old|North Kaladim|NOW|Hammer of the Ancients to Kinlo Strongarm spawns him
+40|Refined Mithril Blade|Kinlo Strongarm|North Kaladim|NOW|give Small bit of Mithril Ore
+41|Shattered Emerald of Corruption|mini bosses or Innoruuk|Plane of Hate|NOW|72 hour respawn on the mini bosses
+42|Earthcaller|Xanuusus|North Karana|NOW|Shattered Emerald + Refined Mithril Blade
+
+CLASS: Rogue
+REWARD: Ragebringer
+SUMMARY: COMPLETABLE TODAY. Every zone in the chain is on the wiki's Classic list.
+step|item|from_mob|zone|era|notes
+1|Stanos Pouch|Malka Rale|Qeynos Aqueducts|NOW|OPTIONAL; spawns 8PM game time, say "I can help"
+2|Stained Parchment Top|Founy Jestands|North Kaladim|NOW|PICKPOCKET
+3|Stained Parchment Bottom|Tani N`Mar|Neriak Third Gate|NOW|PICKPOCKET
+4|Combined Parchment|Stanos Herkanor|Highpass Hold|NOW|spawn him via Anson Mcbale; then both parchments
+5|Scribbled Parchment|Eldreth|Lake Rathetear|NOW|Combined Parchment + 100pp + 2 UNSTACKED Bottle of Milk
+6|Tattered Parchment|Yendar Starpyre|Steamfont Mountains|NOW|
+7|Book of Souls|ground spawn|Plane of Hate|NOW|10 hr ground spawn at -60,+325,56
+8|Translated Parchment|Yendar Starpyre|Steamfont Mountains|NOW|Tattered Parchment + Book of Souls; spawns Renux
+9|Jagged Diamond Dagger|Renux Herkanor|Steamfont Mountains|NOW|rare drop; else use the four-blade auxiliary chain
+10|Sealed Box|Stanos Herkanor|Highpass Hold|NOW|give Translated Parchment
+11|Generals Pouch|General V`ghera|Kithicor Forest|NOW|USE SNEAK, not hide or invis; verify indifferent con
+12|Cazic Quill|General V`ghera|Kithicor Forest|NOW|rare drop; else use the four-robe auxiliary chain
+13|Fleshripper|Solusek kobold king|Nagafen's Lair|NOW|AUX dagger chain
+14|Painbringer|Kobold champion|Nagafen's Lair|NOW|AUX dagger chain
+15|Mithril Two-Handed Sword|The froglok king|Lower Guk|NOW|AUX dagger chain; LIVE side
+16|Gigantic Zweihander|Karg Icebear|Everfrost Peaks|NOW|AUX dagger chain; all four to Vilnius the Small
+17|Robe of the Kedge|Phinigel Autropos|Kedge Keep|NOW|AUX quill chain
+18|Robe of the Ishva|The Ishva Mal|Splitpaw|NOW|AUX quill chain
+19|Shining Metallic Robes|the ghoul arch magus|Lower Guk|NOW|AUX quill chain
+20|Robe of the Oracle|Oracle of K`Arnon|Ocean of Tears|NOW|AUX quill chain; all four to Vilnius the Small
+21|Ragebringer|Stanos Herkanor|Highpass Hold|NOW|Generals Pouch + Jagged Diamond Dagger + Cazic Quill
+
+CLASS: Shadow Knight
+REWARD: Innoruuk's Curse
+SUMMARY: Everything can be farmed pre-Kunark except the final kill in City of Mist. You can arrive at Kunark launch holding all four final turn-in items.
+step|item|from_mob|zone|era|notes
+1|Darkforge Breastplate|quest turn-in|-|UNKNOWN|via Darkforge Armor Quests; zone not stated on the wiki
+2|Darkforge Greaves|quest turn-in|-|UNKNOWN|as above
+3|Darkforge Helm|quest turn-in|-|UNKNOWN|as above
+4|Dusty Tome|a ratman guard|The Hole|NOW|OPTIONAL; give to Duriek Bloodpool
+5|Ghoulbane|The froglok shin lord|Upper Guk|NOW|Ruins of Upper Guk
+6|Soul Leech, Dark Sword of Blood|Fright, Dread or Terror|Plane of Fear|NOW|post-Fear-revamp source; formerly Cazic-Thule
+7|Blade of Abrogation|various monsters|Plane of Sky|NOW|specific mob not named on the wiki
+8|Drake Spine|Rharzar|Rathe Mountains|NOW|
+9|Decrepit Hide|An ashenbone drake|Plane of Hate|NOW|
+10|Enchanted Platinum Bar|crafted|-|NOW|buy a Platinum Bar, have an enchanter enchant it
+11|Decrepit Sheath|Teydar|Qeynos Aqueducts|NOW|evil guild area; MUST con indifferent, use Hide
+12|Corrupted Ghoulbane|Duriek Bloodpool|Paineel|NOW|Ghoulbane + Soul Leech + Blade of Abrogation + Decrepit Sheath
+13|Seal of Kastane|Marl Kastane|Kerra Isle|NOW|OPTIONAL; say "I have the will of innoruuk"
+14|Soulcase|Knarthenne Skurl|Toxxulia Forest|NOW|say "what heart of an innocent?"
+15|Cell Key|a mimic|The Hole|NOW|looks like a chest, in the city bank
+16|Blood of Kyrenna|Kyrenna|The Hole|NOW|give Cell Key to Caradon; kill Kyrenna, not Caradon if avoidable
+17|Heart of Kyrenna|Kyrenna|The Hole|NOW|same kill
+18|Dark Shroud|Marl Kastane|Kerra Isle|NOW|give Blood of Kyrenna; DO NOT FEIGN DEATH; be Hidden and indifferent
+19|Head of Glohnor|Mummy of Glohnor|The Hole|NOW|give Dark Shroud to the Ghost of Glohnor first
+20|Glohnor wrappings|Mummy of Glohnor|The Hole|NOW|same kill
+21|Head of the Valiant|Gerot Kastane|Paineel|NOW|give Head of Glohnor; indifferent with hide
+22|Will of Innoruuk|Marl Kastane|Kerra Isle|NOW|give Glohnor wrappings; indifferent with hide
+23|Heart of the Innocent|crafted|-|NOW|combine Heart of Kyrenna with the Soulcase
+24|Innoruuk's Curse|Lhranc|City of Mist|KUNARK|the four finals; he respawns with the sword. Bring 2+ groups
+
+CLASS: Shaman
+REWARD: Spear of Fate
+SUMMARY: The most Kunark-locked of the set. The opening through the Shield of Falsehood plus the Black Dire Pelt are farmable now; from the Spirit Sentinel onward it is Emerald Jungle and City of Mist.
+step|item|from_mob|zone|era|notes
+1|Tiny Gem|a lesser spirit|Rathe Mountains|NOW|also Ocean of Tears or Butcherblock; DO NOT kill the lesser spirit
+2|Opaque Gem|Greater Spirit|North Freeport|NOW|gem to Bondl Felligan; talk to the Greater Spirit matching YOUR god
+3|small gem|Greater Spirit|Erud's Crossing|NOW|Test of Patience
+4|Envy|Glaron the Wicked|Rathe Mountains|NOW|
+5|Woe|Glaron the Wicked|Rathe Mountains|NOW|
+6|Marr's Promise|Tabien the Goodly|Rathe Mountains|NOW|
+7|Shield of Falsehood|a wandering spirit|West Karana|NOW|Envy + Woe + Marr's Promise; also returns a gem
+8|Black Dire Pelt|Black Dire|Mistmoore Castle|NOW|FARMABLE TODAY AND BANKABLE
+9|Child's Tear|Iksar Broodling|Plane of Fear|NOW|random spawn off Dread, Fright or Terror
+10|Black Fur Boots|Spirit Sentinel|Emerald Jungle|KUNARK|pelt turn-in; faction required; yields the 6-slot booklet
+11|completed booklet|6 reports|City of Mist|KUNARK|turn-in requires KINDLY or better
+12|Historic Article|Lord Ghiosk|City of Mist|KUNARK|
+13|Head Housekeepers Log|Lord Ghiosk|City of Mist|KUNARK|
+14|Crusades of the High Scale|Lord Ghiosk|City of Mist|KUNARK|
+15|Icon of the High Scale|ground spawn|City of Mist|KUNARK|in the temple
+16|ring|High Scale Kirn|The Hole|KUNARK|zone is reachable but requires the Icon from City of Mist
+17|diary|Neh`Ashiir|City of Mist|KUNARK|give her the ring, kill her
+18|Iksar Scale|Lord Rak`Ashiir|City of Mist|KUNARK|give him the Child's Tear. Needs ALLY but NOT maxed ally
+19|Spear of Fate|Spirit Sentinel|Emerald Jungle|KUNARK|the wolf IN THE POND. Needs MAX ALLY
+
+CLASS: Warrior
+REWARD: Jagged Blade of War
+SUMMARY: Roughly two thirds farmable now. The Jeweled Hilt and Ancient Sword Blade sub-chains are fully pre-Kunark; the Finely Crafted Hilt is entirely Kunark, and Green Dragon Scales has no classic source at all.
+step|item|from_mob|zone|era|notes
+1|Unjeweled Dragon Head Hilt|ground spawn|Lake Rathetear|NOW|lake floor under the aviak tower; start by hailing Kargek Redblade and Wenden Blackhammer in East Freeport
+2|Diamond|purchased|-|NOW|almost always for sale in Eastern Commonlands
+3|Jacinth|purchased|-|NOW|
+4|Black Sapphire|purchased|-|NOW|
+5|Jeweled Dragon Head Hilt|Wenden Blackhammer|East Freeport|NOW|hilt + Diamond + Jacinth + Black Sapphire
+6|Severely Damaged Dragon Head Hilt|ground spawn|Timorous Deep|KUNARK|at the base of the King piece on the chessboard
+7|Giant Sized Monocle|A mountain giant patriarch|Dreadlands|KUNARK|
+8|Rejesiam Ore|Mentrax Mountainbone|Frontier Mountains|KUNARK|end of the mine in the giant fort
+9|Ball of Everliving Golem|Fright, Dread or Terror|Plane of Fear|NOW|
+10|Finely Crafted Dragon Head Hilt|Wenden Blackhammer|East Freeport|KUNARK|MQable
+11|Keg of Vox Tail Ale|purchased|-|NOW|North Ro sandfishers or the Freeport Port Authority
+12|Rebreather|crafted or purchased|-|NOW|x2; Gnome Tinkering trivial 175, or ~4k plat
+13|Block of Permafrost|Ice Giants|Permafrost|NOW|
+14|Ancient Sword Blade|Denken Strongpick|Ocean of Tears|NOW|Aviak Island; permafrost + ale + 2 rebreathers
+15|Ancient Blade|Queen Velazul Di`zok|Chardok|KUNARK|
+16|Wax Sealed Note|Kargek Redblade|East Freeport|NOW|say "tell me about that scabbard" then "what favor"
+17|Tiny Lute|Oknoggin Stonesmacker|The Feerrott|NOW|between the Stone Bridge and the Fallen Totem
+18|Redblades Legacy|Kargek Redblade|East Freeport|NOW|give Tiny Lute
+19|Totem of the Freezing War|Tenal Redblade|East Karana|NOW|end of the canyon by the Highpass ramp
+20|Heart of Frost|a goblin wizard|Permafrost|NOW|grab on the same Permafrost trip as the Block
+21|Totem of Fiery War|Tenal Redblade|East Karana|NOW|Totem of the Freezing War + Heart of Frost
+22|Red Dragon Scales|Lord Nagafen or Ragefire|Nagafen's Lair|NOW|also Nortlav the Scalekeeper in The Hole
+23|Green Dragon Scales|Severilous or Hoshkar|Emerald Jungle|KUNARK|NO classic source exists - hard blocker
+24|Mark of the Sword|Tenal Redblade|East Karana|KUNARK|Totem of Fiery War + Red + Green Dragon Scales
+25|Hand of the Maestro|Maestro of Rancor|Plane of Hate|NOW|rare drop
+26|Tenals note to Kargek|Tenal Redblade|East Karana|KUNARK|Mark of the Sword + Hand of the Maestro
+27|Spiroc Wingblade|Spiroc Lord|Plane of Sky|NOW|
+28|Red Scabbard|Kargek Redblade|East Freeport|KUNARK|Tenals note + Spiroc Wingblade
+29|Jagged Blade of War|crafted|-|KUNARK|combine both hilts + both blades in the Red Scabbard
+
+CLASS: Wizard
+REWARD: Staff of the Four
+SUMMARY: Doable now up to and including the Staff of Gabstik. Exactly ONE component is Kunark-locked - the Gnarled Staff off Venril Sathir - and it blocks the last two turn-ins.
+step|item|from_mob|zone|era|notes
+1|note|Solomen|Temple of Solusek Ro|NOW|OPTIONAL if using an Ornate Velium Pendant
+2|Ro's Breath|purchased|Halas|NOW|from Dargon outside the shaman guild, 900-1100pp
+3|Ro's Breath (used)|Camin|Erudin|NOW|Vasty Deep Inn; returned with the charge missing
+4|Arantir's Ring|Arantir Karondor|Halas|NOW|hand the used potion to Dargon, who becomes Arantir
+5|ring (blessed)|Challice|Felwithe|NOW|Paladin Guild basement
+6|Note from Arantir|Arantir Karondor|Halas|NOW|say "Who is the gnome?" to skip the dialogue
+7|Golem Sprocket|Kandin Firepot|Butcherblock Mountains|NOW|then say "what oil?"
+8|Blue Crystal Staff|Phinigel Autropos|Kedge Keep|NOW|
+9|Gnarled Staff|Venril Sathir|Karnor's Castle|KUNARK|the single hard blocker for this epic
+10|Green Oil|an enraged golem|Plane of Fear|NOW|give the Golem Sprocket to a broken golem
+11|Staff of Gabstik|Kandin Firepot|Butcherblock Mountains|NOW|give Green Oil; also yields Note to Arantir
+12|bag|Arantir Karondor|Halas|KUNARK|Blue Crystal Staff + Gnarled Staff + Staff of Gabstik
+13|Staff of the Four|Solomen|Temple of Solusek Ro|KUNARK|give the bag
+14|Ornate Velium Pendant|-|Velious|LATER|OPTIONAL shortcut; if used you MUST use it on ALL later turn-ins

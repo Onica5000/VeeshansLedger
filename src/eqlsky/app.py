@@ -7,7 +7,7 @@ from tkinter import ttk, filedialog, messagebox
 
 from . import model, parsers, pdfout
 
-APP_TITLE = "EQL Plane of Sky Tracker"
+APP_TITLE = "EQL Tracker - Plane of Sky & Epic Quests"
 
 BG = "#1e1f22"
 PANEL = "#26282c"
@@ -44,6 +44,13 @@ class App(tk.Tk):
         self._needs_confirm = not self.folder
         self.data = model.load_dataset(resource_path(os.path.join("data", "sky.json")))
         self.tracker = model.Tracker(self.data, overrides=self.overrides)
+        try:
+            self.epic_data = model.load_dataset(
+                resource_path(os.path.join("data", "epics.json")))
+        except Exception:
+            self.epic_data = None          # epics dataset is optional
+        self.epics = (model.EpicTracker(self.epic_data, overrides=self.overrides)
+                      if self.epic_data else None)
         self.paths = {"achievements": None, "inventory": None,
                       "character": None, "server": None}
 
@@ -83,6 +90,13 @@ class App(tk.Tk):
         s.configure("Treeview.Heading", background=BG, foreground=DIM,
                     font=("Segoe UI Semibold", 9), relief="flat")
         s.map("Treeview", background=[("selected", "#3a3f47")])
+        s.configure("Warn.TFrame", background="#3a2f22")
+        s.configure("WarnHead.TLabel", background="#3a2f22", foreground="#e8b45a",
+                    font=("Segoe UI Semibold", 11))
+        s.configure("WarnBody.TLabel", background="#3a2f22", foreground="#d8d2c8",
+                    font=("Segoe UI", 9))
+        s.configure("Ck.TCheckbutton", background=BG, foreground=FG,
+                    font=("Segoe UI", 9))
 
     def _build(self):
         top = ttk.Frame(self, padding=(14, 10, 14, 6))
@@ -105,15 +119,21 @@ class App(tk.Tk):
         self.tab_classes = ttk.Frame(self.nb)
         self.tab_farm = ttk.Frame(self.nb)
         self.tab_zone = ttk.Frame(self.nb)
+        self.tab_epics = ttk.Frame(self.nb)
         self.tab_setup = ttk.Frame(self.nb)
         self.nb.add(self.tab_classes, text="  Class Unlocks  ")
         self.nb.add(self.tab_farm, text="  Farming List  ")
         self.nb.add(self.tab_zone, text="  Zone Guide  ")
+        self.nb.add(self.tab_epics, text="  Epic Quests  ")
         self.nb.add(self.tab_setup, text="  Setup & Help  ")
 
         self._build_classes()
         self._build_farm()
         self._build_zone()
+        if self.epic_data:
+            self._build_epics()
+        else:
+            self.nb.forget(self.tab_epics)
         self._build_setup()
 
         bar = ttk.Frame(self, style="Panel.TFrame", padding=(12, 6))
@@ -286,6 +306,177 @@ class App(tk.Tk):
             t.insert("end", "  - %s\n" % n)
         t.configure(state="disabled")
 
+    # ---------------- tab: epics ----------------
+
+    def _build_epics(self):
+        f = self.tab_epics
+
+        self.frm_epic_warn = ttk.Frame(f, style="Warn.TFrame", padding=(12, 8))
+        self.frm_epic_warn.pack(fill="x", padx=4, pady=(8, 4))
+        self.lbl_epic_warn_h = ttk.Label(self.frm_epic_warn, text="",
+                                         style="WarnHead.TLabel")
+        self.lbl_epic_warn_h.pack(anchor="w")
+        self.lbl_epic_warn_b = ttk.Label(self.frm_epic_warn, text="", wraplength=1080,
+                                         justify="left", style="WarnBody.TLabel")
+        self.lbl_epic_warn_b.pack(anchor="w", pady=(2, 0))
+
+        bar = ttk.Frame(f, padding=(4, 2))
+        bar.pack(fill="x")
+        self.var_only_now = tk.BooleanVar(value=True)
+        ttk.Checkbutton(bar, text="Show only what I can collect now",
+                        variable=self.var_only_now, style="Ck.TCheckbutton",
+                        command=self._on_epic_select).pack(side="left")
+        ttk.Label(bar, text="   Double-click a step to mark the item as held.",
+                  style="Dim.TLabel").pack(side="left")
+
+        left = ttk.Frame(f, padding=(4, 6))
+        left.pack(side="left", fill="both", expand=True)
+        cols = ("reward", "now", "blocked")
+        self.tv_epic = ttk.Treeview(left, columns=cols, show="tree headings")
+        self.tv_epic.heading("#0", text="Class")
+        self.tv_epic.heading("reward", text="Epic reward")
+        self.tv_epic.heading("now", text="Collectable now")
+        self.tv_epic.heading("blocked", text="Blocked")
+        self.tv_epic.column("#0", width=120, anchor="w")
+        self.tv_epic.column("reward", width=230, anchor="w")
+        self.tv_epic.column("now", width=120, anchor="center")
+        self.tv_epic.column("blocked", width=80, anchor="center")
+        self.tv_epic.pack(fill="both", expand=True)
+        self.tv_epic.bind("<<TreeviewSelect>>", self._on_epic_select)
+        self.tv_epic.tag_configure("allheld", foreground=OK)
+
+        right = ttk.Frame(f, style="Panel.TFrame", padding=12, width=470)
+        right.pack(side="right", fill="both")
+        right.pack_propagate(False)
+        self.lbl_epic_head = ttk.Label(right, text="Select a class",
+                                       style="H2.TLabel", background=PANEL)
+        self.lbl_epic_head.pack(anchor="w")
+        self.lbl_epic_sum = ttk.Label(right, text="", style="Dim.TLabel",
+                                      background=PANEL, wraplength=430,
+                                      justify="left")
+        self.lbl_epic_sum.pack(anchor="w", pady=(0, 8))
+        self.txt_epic = tk.Text(right, wrap="word", bg=PANEL, fg=FG, bd=0,
+                                font=("Segoe UI", 9), padx=2, pady=2,
+                                highlightthickness=0)
+        self.txt_epic.pack(fill="both", expand=True)
+        self.txt_epic.tag_configure("h", font=("Segoe UI Semibold", 10),
+                                    foreground=ACCENT, spacing1=8, spacing3=3)
+        self.txt_epic.tag_configure("held", foreground=OK)
+        self.txt_epic.tag_configure("now", foreground=FG)
+        self.txt_epic.tag_configure("blocked", foreground=DIM)
+        self.txt_epic.tag_configure("dim", foreground=DIM)
+        self.txt_epic.bind("<Double-1>", self._toggle_epic_have)
+        self.txt_epic.configure(state="disabled")
+
+    def _fill_epics(self):
+        if not self.epics:
+            return
+        et = self.epics
+        s = et.summary()
+        comp = s.get("completable") or []
+        if et.kunark_released:
+            self.lbl_epic_warn_h.configure(
+                text="Kunark is live - full epic chains are available")
+            body = et.availability_note()
+        else:
+            if comp:
+                head = ("%s can be completed TODAY - every other epic is blocked until Kunark"
+                        % " and ".join(comp))
+            else:
+                head = "No epic weapon can be completed yet - Kunark is not released"
+            self.lbl_epic_warn_h.configure(text=head)
+            body = ("{note}\n\n{now} of {total} steps across {classes} classes are "
+                    "collectable now; you hold {held} of them. {blocked} need Kunark."
+                    "\n\n{warn}").format(
+                        note=et.availability_note(), now=s["collectable_now"],
+                        total=s["steps_total"], classes=s["classes"],
+                        held=s["held_now"], blocked=s["blocked"],
+                        warn=et.data_warning())
+        self.lbl_epic_warn_b.configure(text=body)
+
+        tv = self.tv_epic
+        keep = self._selected_epic_class()
+        tv.delete(*tv.get_children())
+        target = None
+        for r in et.class_rows():
+            outstanding = r["now"] - r["held_now"]
+            tag = ("allheld",) if r["now"] and outstanding == 0 else ()
+            iid = tv.insert("", "end", text="  " + r["name"], tags=tag, values=(
+                r["reward"],
+                "%d / %d held" % (r["held_now"], r["now"]) if r["now"] else "none",
+                r["blocked"] or ""))
+            if r["name"] == keep:
+                target = iid
+        kids = tv.get_children()
+        if target:
+            tv.selection_set(target)
+        elif kids:
+            tv.selection_set(kids[0])
+
+    def _selected_epic_class(self):
+        sel = self.tv_epic.selection()
+        if not sel:
+            return None
+        return self.tv_epic.item(sel[0], "text").strip()
+
+    def _on_epic_select(self, _evt=None):
+        name = self._selected_epic_class()
+        if not name or not self.epics:
+            return
+        rec = self.epics.by_name(name)
+        if not rec:
+            return
+        rows = self.epics.steps_for(name, only_now=self.var_only_now.get())
+        held = sum(1 for r in rows if r["held"])
+        self.lbl_epic_head.configure(text="%s  -  %s" % (name, rec["reward"]))
+        self.lbl_epic_sum.configure(
+            text="%s\n%d of %d shown steps held."
+                 % (rec.get("summary", ""), held, len(rows)))
+
+        t = self.txt_epic
+        t.configure(state="normal")
+        t.delete("1.0", "end")
+        if not rows:
+            t.insert("end", "Nothing in this chain is collectable yet.\n", "dim")
+        cur = None
+        for r in rows:
+            if r["era"] != cur:
+                cur = r["era"]
+                t.insert("end", "%s\n" % self.epics.data["eras"][cur]["label"], "h")
+            mark = "[x]" if r["held"] else "[ ]"
+            tag = "held" if r["held"] else ("blocked" if r["blocked"] else "now")
+            t.insert("end", "  %s %s  %s\n" % (mark, r["step"], r["item"]), tag)
+            src = r["mob"] or "?"
+            if r["zone"]:
+                src += "  -  " + r["zone"]
+            t.insert("end", "        %s\n" % src, "dim")
+            if r["held"] and r["where"]:
+                t.insert("end", "        held in %s\n" % r["where"], "held")
+            if r["notes"]:
+                t.insert("end", "        %s\n" % r["notes"], "dim")
+        t.configure(state="disabled")
+
+    def _toggle_epic_have(self, event):
+        """Double-click a line in the epic detail pane to toggle 'I have this'."""
+        if not self.epics:
+            return
+        idx = self.txt_epic.index("@%d,%d linestart" % (event.x, event.y))
+        line = self.txt_epic.get(idx, "%s lineend" % idx).strip()
+        item = None
+        for prefix in ("[x] ", "[ ] "):
+            if line.startswith(prefix):
+                rest = line[len(prefix):]
+                parts = rest.split(None, 1)
+                item = parts[1].strip() if len(parts) > 1 else parts[0].strip()
+                break
+        if not item:
+            return
+        key = "epic_have:" + item
+        if self.overrides.pop(key, None) is None:
+            self.overrides[key] = True
+        model.save_overrides(self.overrides)
+        self.reload()
+
     # ---------------- tab: setup ----------------
 
     def _build_setup(self):
@@ -417,9 +608,14 @@ class App(tk.Tk):
         self.settings["folder"] = self.folder
         model.save_settings(self.settings)
 
+        if self.epic_data:
+            self.epics = model.EpicTracker(self.epic_data, inv, self.overrides)
+
         self._fill_classes()
         self._fill_farm()
         self._fill_zone()
+        if self.epics:
+            self._fill_epics()
         self._fill_status()
 
         if not self.paths["achievements"]:
@@ -559,7 +755,8 @@ class App(tk.Tk):
         which = _AskReport(self).result
         if not which:
             return
-        default = "PlaneOfSky_%s_%s.pdf" % (
+        stem = "Epics" if which == "epics" else "PlaneOfSky"
+        default = stem + "_%s_%s.pdf" % (
             self.paths.get("character") or "character",
             datetime.date.today().isoformat())
         path = filedialog.asksaveasfilename(
@@ -568,7 +765,10 @@ class App(tk.Tk):
         if not path:
             return
         try:
-            pdfout.export(self.tracker, path, which)
+            if which == "epics":
+                pdfout.export_epics(self.epics, path)
+            else:
+                pdfout.export(self.tracker, path, which)
         except Exception as exc:
             messagebox.showerror(APP_TITLE, "PDF export failed:\n%s" % exc)
             return
@@ -620,9 +820,12 @@ class _AskReport(tk.Toplevel):
         self.resizable(False, False)
         ttk.Label(self, text="Which report?", style="H2.TLabel").pack(
             anchor="w", padx=18, pady=(16, 8))
-        for key, label in (("classes", "Class unlock progress + outstanding Tests"),
-                           ("farm", "Farming list, grouped by boss"),
-                           ("all", "Both (full report)")):
+        opts = [("classes", "Sky: class unlock progress + outstanding Tests"),
+                ("farm", "Sky: farming list, grouped by boss"),
+                ("all", "Sky: both (full report)")]
+        if getattr(parent, "epics", None):
+            opts.append(("epics", "Epics: what you can collect now"))
+        for key, label in opts:
             ttk.Button(self, text=label, width=46,
                        command=lambda k=key: self._pick(k)).pack(padx=18, pady=3)
         ttk.Button(self, text="Cancel", command=self.destroy).pack(padx=18, pady=(8, 16))
