@@ -157,7 +157,10 @@ loads its own zip). The build script enforces this version floor and refuses to 
 1. A PyInstaller one-file exe spawns a **child** process that owns the GUI. Enumerating windows
    for the pid returned by `Start-Process` finds nothing. Match on the process *name* instead.
 2. "Process still alive after N seconds" passes even when the app is showing a fatal-error
-   dialog - that dialog is what keeps it alive. Assert on the window title.
+   dialog - that dialog is what keeps it alive. **Assert on the window title.** This bit twice:
+   once on the Tcl/Tk 9 crash, and again when a screenshot script reported "captured" for six
+   tabs that were all the crash dialog. Any capture or smoke tooling MUST check the title text,
+   not merely that a window exists.
 
 ```powershell
 $t = @(Get-Process VeeshansLedger | ? {$_.MainWindowTitle} | % {$_.MainWindowTitle})
