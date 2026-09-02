@@ -25,6 +25,10 @@ save it anywhere and double-click.
 
 Or browse [all releases](https://github.com/Onica5000/VeeshansLedger/releases).
 
+> **Upgrading from 1.5.0 or earlier?** Versions before 1.5.1 skipped the tradeskill depot
+> entirely and mislabelled Dragon's Hoard items as "worn", so held counts could be too low.
+> Re-run the two `/outputfile` commands and hit **Refresh**.
+
 > Completing a class's Plane of Sky Tests unlocks that class as a **Primary Class** option in
 > your loadouts. This app exists to make that grind legible.
 
@@ -87,6 +91,10 @@ Results show whether you already hold it and where. Double-click to jump to that
 - **Item names are matched loosely.** The wiki and the game disagree on punctuation constantly —
   `Cazic-Thule` vs `Cazic Thule`, `Mastery: Wind` vs `Mastery Wind` — so matching ignores it.
 - **Stacks count as stacks.** A stack of 448 Bone Chips reads as 448, not as one item.
+- **Every storage location is searched** — bank, shared bank, bags, equipment, augments, key
+  ring, the **tradeskill depot** and the **Dragon's Hoard** — and each item says which one it is
+  in. Anything the app doesn't recognise is reported under its own name rather than quietly
+  filed as "worn", so a storage type added by a future patch can't hide from you.
 
 ## Epic quests — read this before you farm
 
@@ -131,7 +139,7 @@ pip install -r requirements.txt
 python tools/build_dataset.py     # regenerate data/sky.json
 python tools/build_epics.py       # regenerate data/epics.json
 python build/build_exe.py         # -> dist/VeeshansLedger.exe
-python -m unittest discover -s tests   # 41 regression tests
+python -m unittest discover -s tests   # 45 regression tests
 ```
 
 Requires Python 3.11+. **PyInstaller must be 6.22 or newer** — Python 3.14 ships Tcl/Tk 9.0 and
