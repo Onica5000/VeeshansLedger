@@ -15,6 +15,22 @@
 has **obtained**. Rewards that were sold, merged or destroyed still count toward the unlock.
 Inventory is used *only* to work out which quest components are currently held.
 
+**Every storage location counts, with no exceptions.** Bank, Shared Bank, bags, Equipment,
+Augments, Key Ring, the **Personal Depot** and the **Dragon's Hoard**. Two ways this has
+already gone wrong, both reported by the player as "it isn't checking my inventory":
+
+| Failure | Cause |
+|---|---|
+| Depot items read as **not held** | `parse_inventory()` skipped `Personal-Depot` rows on the assumption they were only tradeskill materials. The depot also holds Metal Bits, Diamond, Jacinth and Black Sapphire — all epic components |
+| Hoard items said **"Worn"** | The hoard was counted, but its location fell through to the `Worn` fallback, so the app never named it. Found but unfindable |
+
+`CONTAINERS` and `WORN_SLOTS` in `parsers.py` are now **explicit allowlists**. Anything
+unrecognised is reported under its own raw name rather than absorbed into `Worn`, so a
+storage type added by a future patch shows up as itself. `test_core` covers all of it.
+
+> Never re-add a location filter. If an item is in the character's possession, it is held —
+> where it sits is display information, never a reason to ignore it.
+
 Deriving completion from inventory alone undercounts — that mistake cost a rewrite once already.
 
 ## Verified game facts baked into the data

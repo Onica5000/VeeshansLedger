@@ -135,6 +135,7 @@ def parse_achievements(path):
     return out
 
 
+_SLOTNUM = re.compile(r"(?:-Slot\d+|\s*\d+)+$")
 _SUFFIX = re.compile(r"\s*\+\d+$")
 _EXALT = re.compile(r"\s*\(Exaltation\)$")
 
@@ -146,12 +147,54 @@ def normalise_item(name):
     return name
 
 
+# Every storage location the game exports, mapped explicitly.
+#
+# Nothing is ever skipped: an item you own is an item you own, wherever it sits.
+# The Personal Depot was excluded once on the assumption it held only tradeskill
+# materials - it also holds Metal Bits, Diamond, Jacinth and Black Sapphire, all
+# epic components, so the exclusion was hiding items the player had.
+CONTAINERS = (
+    ("SharedBank", "Shared Bank"),
+    ("Bank", "Bank"),
+    ("General", "Bags"),
+    ("Personal-Depot", "Depot"),
+    ("Hoard", "Dragon's Hoard"),
+    ("KeyRing", "Key Ring"),
+    ("Equipment", "Equipment"),
+    ("Augmentation", "Augments"),
+)
+
+# Equipment slots, which collapse to "Worn". This is an allowlist on purpose:
+# anything NOT named here is reported under its own name rather than being
+# absorbed into "Worn", so a storage type added by a future patch shows up as
+# itself instead of silently reading as worn gear. test_core covers it.
+WORN_SLOTS = frozenset((
+    "Activated", "Ammo", "Any Slot", "Arms", "Back", "Chest", "Ear", "Face",
+    "Feet", "Fingers", "Hands", "Head", "Held", "Legs", "Neck", "Primary",
+    "Range", "Secondary", "Shoulders", "Waist", "Wrist",
+))
+
+
+def area_for(loc):
+    """Human-readable storage area for a raw export location string."""
+    for prefix, label in CONTAINERS:
+        if loc.startswith(prefix):
+            return label
+    base = _SLOTNUM.sub("", loc).strip()
+    if base in WORN_SLOTS:
+        return "Worn"
+    return base or "Worn"
+
+
 def parse_inventory(path):
     """Return {'counts': {base_item: n}, 'locations': {base_item: set(area)}}.
 
-    Counts are stack sizes, not row counts. Personal Depot rows are excluded -
-    those are tradeskill materials, never quest components, and including them
-    only creates false matches.
+    Counts are stack sizes, not row counts.
+
+    Every storage location counts. The Personal Depot used to be excluded on the
+    assumption it only held tradeskill materials - it also holds Metal Bits,
+    Diamond, Jacinth and Black Sapphire, all epic components, so that exclusion
+    was hiding items the player owns.
     """
     out = {"counts": {}, "locations": {}}
     if not path or not os.path.isfile(path):
@@ -164,8 +207,6 @@ def parse_inventory(path):
         loc, name = parts[0].strip(), parts[1].strip()
         if not name or name in ("Empty", "Name"):
             continue
-        if loc.startswith("Personal-Depot"):
-            continue
         # Column 4 is the stack size. Counting rows instead would report a stack
         # of 448 Bone Chips as one, and epic chains ask for stackable components.
         try:
@@ -175,12 +216,7 @@ def parse_inventory(path):
         qty = max(qty, 1)
         base = normalise_item(name)
         out["counts"][base] = out["counts"].get(base, 0) + qty
-        area = ("Bank" if loc.startswith("Bank")
-                else "Shared Bank" if loc.startswith("SharedBank")
-                else "Bags" if loc.startswith("General")
-                else "Equipment" if loc.startswith("Equipment")
-                else "Augments" if loc.startswith("Augmentation")
-                else "Worn")
+        area = area_for(loc)
         out["locations"].setdefault(base, set()).add(area)
     return out
 

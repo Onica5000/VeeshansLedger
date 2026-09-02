@@ -35,6 +35,12 @@ INV = "\t".join(["Location", "Name", "ID", "Count", "Slots"]) + "\n" + "\n".join
     "General2\tBone Chips\t6\t448\t0",
     "General3\tBone Chips\t7\t52\t0",
     "General4\tMystery Thing\t8\tnot-a-number\t0",
+    "Personal-Depot9\tMetal Bits\t9\t222\t0",
+    "Hoard 5\tEfreeti War Bow\t10\t1\t0",
+    "Hoard 1-Slot2\tPower of Wind\t11\t1\t0",
+    "KeyRing\tSky Key\t12\t1\t0",
+    "Any Slot-Slot7\tIdol of the Underking\t13\t1\t0",
+    "Chest\tBreastplate of Wind\t14\t1\t0",
 ])
 
 
@@ -51,6 +57,38 @@ class TestParsers(unittest.TestCase):
             with open(os.path.join(self.dir, stem + "-Inventory.txt"), "w",
                       encoding="utf-8") as fh:
                 fh.write(INV)
+
+    def test_every_storage_location_is_searched(self):
+        """Nothing is skipped. The Depot exclusion hid four real epic components."""
+        self._write("Testchar_server")
+        inv = parsers.parse_inventory(os.path.join(self.dir, "Testchar_server-Inventory.txt"))
+        self.assertEqual(inv["counts"]["Metal Bits"], 222, "Personal Depot must be searched")
+        self.assertEqual(inv["locations"]["Metal Bits"], {"Depot"})
+        self.assertEqual(inv["locations"]["Efreeti War Bow"], {"Dragon's Hoard"})
+        self.assertEqual(inv["locations"]["Power of Wind"], {"Dragon's Hoard"})
+        self.assertEqual(inv["locations"]["Sky Key"], {"Key Ring"})
+        self.assertEqual(inv["locations"]["Blue Diamond"], {"Depot"})
+
+    def test_equipment_slots_collapse_to_worn(self):
+        self.assertEqual(parsers.area_for("Chest"), "Worn")
+        self.assertEqual(parsers.area_for("Fingers2"), "Worn")
+        self.assertEqual(parsers.area_for("Any Slot-Slot7"), "Worn",
+                         "must not be truncated at the space to 'Any'")
+        self.assertEqual(parsers.area_for("Activated"), "Worn")
+
+    def test_an_unknown_location_surfaces_by_name(self):
+        """A storage type added by a future patch must not read as worn gear.
+
+        This is the guard that would have caught the Dragon's Hoard being
+        labelled "Worn" - the item was found, but the app never named the
+        place it was in, so it read as "not checking the hoard".
+        """
+        self.assertEqual(parsers.area_for("GuildVault9"), "GuildVault")
+        self.assertEqual(parsers.area_for("Mount Keeper 2"), "Mount Keeper")
+
+    def test_every_container_prefix_has_a_label(self):
+        for prefix, label in parsers.CONTAINERS:
+            self.assertEqual(parsers.area_for(prefix + "1"), label)
 
     def test_inventory_uses_stack_size_not_row_count(self):
         """A stack of 448 Bone Chips is 448, and two stacks add up."""
@@ -69,12 +107,18 @@ class TestParsers(unittest.TestCase):
         self.assertEqual(parsers.normalise_item("Orb of Tishan (Exaltation)"), "Orb of Tishan")
         self.assertEqual(parsers.normalise_item("Plain Item"), "Plain Item")
 
-    def test_inventory_excludes_depot_and_empty(self):
+    def test_inventory_skips_empty_slots_but_nothing_else(self):
+        """Only "Empty" placeholder rows are dropped.
+
+        This test used to assert the opposite for the Personal Depot. That was
+        wrong - the depot holds epic components, and skipping it hid items the
+        player owned.
+        """
         self._write("Testchar_server")
         inv = parsers.parse_inventory(os.path.join(self.dir, "Testchar_server-Inventory.txt"))
         self.assertIn("Efreeti Standard", inv["counts"])
         self.assertNotIn("Empty", inv["counts"])
-        self.assertNotIn("Blue Diamond", inv["counts"], "depot rows must be ignored")
+        self.assertEqual(inv["counts"]["Blue Diamond"], 51, "depot rows count")
         self.assertEqual(inv["locations"]["Windstriker"], {"Equipment"})
 
     def test_achievements_status_and_flags(self):
