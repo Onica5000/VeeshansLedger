@@ -1,63 +1,39 @@
 # TODO
 
-> **Done since this list was written:** search (v1.2.0), the double-click safety fix and the compact overlay (v1.5.0).
+Shipped work lives in the release notes, not here. This file is only what is **not** done.
 
-## Search — requested 2026-08-31
+**Last reviewed:** 2026-09-02, at v1.6.0.
 
-**Add search to both trackers: Plane of Sky and Epic Quests.**
+## Waiting on the game
 
-Right now the only way to find something is to know which class or island it belongs to and
-click through. With 95 Sky Tests plus 406 epic steps across 15 classes, that is the main
-usability gap.
+| Item | Trigger | Work |
+|---|---|---|
+| **Kunark flip** | Ruins of Kunark (Patch 13) goes live | `KUNARK_RELEASED = True` in `tools/build_epics.py`, rebuild dataset + exe. Nothing else. `test_flipping_kunark_flag_unblocks_everything` covers it |
+| **Epics flip** | Epics (Patch 18) goes live | `EPICS_RELEASED = True`, same rebuild. **Both flags must be true** before anything is completable |
+| **Key ring for quest keys** | If Legends ever adds one | Players keep asking in General. Today only Equipment / Activated / Illusions / Familiars / Mounts / Teleportation / Hero's Forge have rings — quest keys bind individually |
 
-### What it should answer
+## Real gaps
 
-| Question | Example |
+| Gap | Why it matters | Notes |
+|---|---|---|
+| **DPI robustness at 125% scaling** | Fixed pixel widths on the Treeview columns mean a 125% display can clip the right-hand columns. The dev machine runs at 100%, so this is unverified rather than known-broken | Fix is `ttk.PanedWindow` splits instead of fixed `width=` on the tree columns. The only item here previously called a *real* gap |
+| **Epic dataset coverage is incomplete** | Recorded honestly in the app, but still a gap | Berserker 23 of ~41 steps · Shadow Knight 25 of 34 · Necromancer 22 of 30. eqlwiki's epic pages are largely unconverted classic-EQ content |
+| **`NO DROP` / Attunable flag per component** | Would answer "can a guildmate hand me this?" | Data is not consistently published on the wiki |
+
+## Cosmetic
+
+| Item | Notes |
 |---|---|
-| Where does this item come from? | type `Mithril Bands` → I8 Eye of Veeshan, needed by Cleric Test of The Weak and Beastlord Test of Claw |
-| What does this mob drop that I need? | type `Phinigel` → Kedge Backbone (Bard epic), Blue Crystal Staff (Wizard epic), Staff of Elemental Mastery: Water (Magician epic), Robe of the Kedge (Rogue epic) |
-| What can I get in this zone? | type `Plane of Hate` → every Sky and epic component sourced there |
-| Do I already hold this? | any hit shows held / not held, and where it is |
+| **App icon** | The exe uses the default PyInstaller icon. Visible to every user; cheap to fix |
+| **Item page deep links** | Several eqlwiki titles use backticks rather than apostrophes and one is lowercase, so links need a title-normalisation map. See `docs/AUDIT-2026-08-31.md` |
 
-### Design notes
+## Settled, do not redo
 
-- **One search box, both datasets.** A player does not think in terms of "the Sky tab" versus
-  "the Epics tab" — they think "what is this item for". Results should be grouped by source
-  dataset but come from a single query.
-- Match against **item name, mob name, zone, class, and Test/step name**. Substring, case
-  insensitive. Fuzzy matching is not needed; exact spellings come from the game.
-- Show **held state** in results, since that is the point of the app.
-- Clicking a result should jump to its class in the relevant tab and select it.
-- Keyboard: `Ctrl+F` focuses the box, `Esc` clears it.
-- A zone query is the highest-value case — it answers "I am going here anyway, what should I
-  keep an eye out for", which currently requires reading the whole farming list.
-
-### Implementation sketch
-
-- Build a flat index once per reload in `model.py`: one record per
-  `(dataset, class, step/test, item, mob, zone, held)`.
-- Both `Tracker` and `EpicTracker` already expose everything needed; the index can be assembled
-  from `farm_list()` / `steps_for()` without new parsing.
-- New `Search` tab, or a search box in the toolbar that switches to a results view. A tab is
-  simpler and avoids disturbing the existing layouts.
-- Include search results in the PDF export only if asked — probably not by default.
-
----
-
-## Done
-
-- **Search** — shipped v1.2.0.
-- **Double-click meant two different things** — navigate in Search, mutate saved state in the
-  Farming List and epic pane. Mutation moved to Space and right-click in v1.5.0, so an
-  impatient double tap can no longer write to your overrides.
-- **Compact always-on-top mode** — shipped v1.5.0. Ctrl+M or the Compact button.
-
-## Other candidates, not requested
-
-- **App icon** — cosmetic; the exe currently uses the default PyInstaller icon.
-- **Item page deep links** — several eqlwiki titles use backticks rather than apostrophes and
-  one is lowercase, so links need a title-normalisation map. See `docs/AUDIT-2026-08-31.md`.
-- **NO DROP / Attunable flag per component** — would tell you whether a guildmate can hand you
-  an item. Data is not consistently published.
-- **Kunark flip** — when Kunark launches, set `KUNARK_RELEASED = True` in
-  `tools/build_epics.py`, rebuild the dataset and the exe. Nothing else changes.
+- **Settings migration from `%APPDATA%\EQLSkyTracker\`** — checked 2026-09-02. The old and new
+  `settings.json` are identical and **no `overrides.json` exists in either**, so nothing is
+  stranded. The old folder is dead weight, not lost data. Delete it or ignore it; there is
+  nothing to migrate.
+- **`app.py` size** (~1,600 lines). Splitting per tab is tidiness against the one file with no
+  automated UI coverage, where region splices have twice deleted live methods. Not worth the
+  risk without a reason beyond neatness. See `docs/AUDIT-CODE-2026-09-01.md`.
+- **`test_status` redundant work** — ~1.7x, but a full `summary()` is 0.36 ms. Nothing to win.

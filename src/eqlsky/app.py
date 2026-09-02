@@ -363,8 +363,12 @@ class App(tk.Tk):
                 path, cache.get("offset", 0), cache.get("keys", ()))
         except Exception:
             return set(cache.get("keys", ()))
-        self.settings["keyring"] = {"log": path, "offset": offset,
-                                    "keys": sorted(keys)}
+        if cache.get("offset") != offset or cache.get("log") != path:
+            # reload() saves settings before this runs, so persist here or the
+            # cache never survives a restart and every launch re-reads 450 MB.
+            self.settings["keyring"] = {"log": path, "offset": offset,
+                                        "keys": sorted(keys)}
+            self._save_settings()
         return keys
 
     def _warn_save_failed(self, what):
