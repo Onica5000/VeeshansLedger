@@ -1,6 +1,7 @@
 build/_work/
 dist/*.pdf
-dist/*.exe   # 38 MB; ships via Releases, never in the tree
+# 38 MB; ships via Releases, never in the tree
+dist/*.exe
 __pycache__/
 *.pyc
 *.spec
