@@ -439,6 +439,101 @@ class TestIndexCache(unittest.TestCase):
         self.assertEqual(tr.where("Efreeti Standard"), "Bank")
 
 
+class TestCleanup(unittest.TestCase):
+    """Cleanup tells people what to throw away. Being wrong is unrecoverable."""
+
+    def _tracker(self, obtained=(), counts=None):
+        data = {
+            "zone": {"entry": "", "zone_short": "airplane", "min_level": 1,
+                     "turnin_location": ""},
+            "islands": [], "keys": [{"key": "Key of Swords", "from": "x", "to": "I2"}],
+            "classes": [
+                {"name": "Bard", "achievement_name": "Bard", "turnin_npc": "N",
+                 "tests": [
+                     {"test": "Test of Tone", "trigger": "t", "rune": "", "reward": "Mask of Song",
+                      "components": [{"item": "Spent Thing", "source": "s", "island": "I1"}]},
+                     {"test": "Test of Wind", "trigger": "w", "rune": "", "reward": "Fae Amulet",
+                      "components": [{"item": "Wanted Thing", "source": "s", "island": "I1"},
+                                     {"item": "Shared Thing", "source": "s", "island": "I1"}]},
+                 ]},
+                {"name": "Cleric", "achievement_name": "Cleric", "turnin_npc": "N",
+                 "tests": [
+                     {"test": "Test of Weak", "trigger": "k", "rune": "", "reward": "Baton",
+                      "components": [{"item": "Shared Thing", "source": "s", "island": "I1"}]},
+                 ]},
+            ],
+        }
+        ach = {"classes": {c: {"unlocked": False, "confirmed_primary": False,
+                               "token_used": False, "obtained": set(obtained),
+                               "missing": set()} for c in ("Bard", "Cleric")},
+               "race_created": None, "races_unlocked": []}
+        counts = counts or {}
+        inv = {"counts": dict(counts),
+               "locations": {k: {"Bags"} for k in counts}}
+        return model.Tracker(data, ach, inv)
+
+    def _items(self, rows):
+        return {r["item"]: r for r in rows}
+
+    def test_a_component_an_unfinished_test_needs_is_never_listed(self):
+        tr = self._tracker(counts={"Wanted Thing": 1})
+        self.assertEqual(model.cleanup_list(tr, None), [])
+
+    def test_a_spent_component_is_listed(self):
+        tr = self._tracker(obtained=["Mask of Song"], counts={"Spent Thing": 1})
+        rows = self._items(model.cleanup_list(tr, None))
+        self.assertIn("Spent Thing", rows)
+        self.assertEqual(rows["Spent Thing"]["spare"], 1)
+        self.assertEqual(rows["Spent Thing"]["category"], model.CLEAN_SPENT)
+
+    def test_surplus_keeps_what_the_remaining_tests_need(self):
+        """Two Tests want Shared Thing; one is done. Holding 3 leaves 2 spare."""
+        tr = self._tracker(obtained=["Fae Amulet"], counts={"Shared Thing": 3})
+        rows = self._items(model.cleanup_list(tr, None))
+        self.assertEqual(rows["Shared Thing"]["spare"], 2)
+        self.assertEqual(rows["Shared Thing"]["count"], 3)
+        self.assertTrue(rows["Shared Thing"]["blockers"],
+                        "must say what still needs the copy being kept")
+
+    def test_holding_exactly_what_is_needed_is_not_spare(self):
+        tr = self._tracker(obtained=["Fae Amulet"], counts={"Shared Thing": 1})
+        self.assertEqual(model.cleanup_list(tr, None), [])
+
+    def test_an_epic_component_is_never_listed(self):
+        """No epic is completable, so an epic component is not spare - it is early."""
+        tr = self._tracker(obtained=["Mask of Song"], counts={"Spent Thing": 1})
+        epics = model.EpicTracker(
+            {"eras": {}, "classes": [{"name": "Bard", "reward": "r", "summary": "",
+                                      "steps": [{"step": "1", "item": "Spent Thing",
+                                                 "mob": "m", "zone": "z", "era": "NOW",
+                                                 "notes": ""}]}]},
+            {"counts": {"Spent Thing": 1}, "locations": {}})
+        self.assertEqual(model.cleanup_list(tr, epics), [])
+
+    def test_a_bound_key_is_listed_only_while_a_copy_is_still_held(self):
+        held = self._tracker(counts={"Key of Swords": 1})
+        rows = self._items(model.cleanup_list(held, None, ["Key of Swords"]))
+        self.assertEqual(rows["Key of Swords"]["category"], model.CLEAN_KEY)
+        gone = self._tracker(counts={})
+        self.assertEqual(model.cleanup_list(gone, None, ["Key of Swords"]), [])
+
+    def test_an_unbound_key_is_not_listed(self):
+        tr = self._tracker(counts={"Key of Swords": 1})
+        self.assertEqual(model.cleanup_list(tr, None, []), [])
+
+    def test_every_row_carries_a_reason(self):
+        tr = self._tracker(obtained=["Mask of Song", "Fae Amulet"],
+                           counts={"Spent Thing": 1, "Shared Thing": 2})
+        for r in model.cleanup_list(tr, None):
+            self.assertTrue(r["reason"], "%s has no reason" % r["item"])
+
+    def test_verdict_names_what_still_wants_an_item(self):
+        tr = self._tracker(counts={"Wanted Thing": 1})
+        v = model.item_verdict(tr, None, "Wanted Thing")
+        self.assertIn("Bard - Test of Wind", v["needed_by"])
+        self.assertEqual(v["held"], 1)
+
+
 class TestAppIntegrity(unittest.TestCase):
     """Guards against edits that splice out a method still referenced by the UI.
 

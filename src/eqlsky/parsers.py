@@ -221,6 +221,59 @@ def parse_inventory(path):
     return out
 
 
+# A key that binds to the key ring is permanent, and the copy left in your bags
+# is then redundant. The ONLY record of that binding is the chat log - the
+# inventory export writes a KeyRing header and no rows, so an empty section
+# there means "not exported", not "no keys".
+_KEYRING_LINE = " has been added to your key ring"
+
+
+def find_log(folder, character, server=None):
+    """The chat log for a character, or None. Legends names it eqlog_<Char>_<server>.txt."""
+    if not folder or not character:
+        return None
+    logs = os.path.join(folder, "Logs")
+    if not os.path.isdir(logs):
+        return None
+    names = []
+    if server:
+        names.append("eqlog_%s_%s.txt" % (character, server))
+    names.append("eqlog_%s.txt" % character)
+    for n in names:
+        full = os.path.join(logs, n)
+        if os.path.isfile(full):
+            return full
+    hits = sorted(glob.glob(os.path.join(logs, "eqlog_%s*.txt" % character)))
+    return hits[0] if hits else None
+
+
+def scan_keyring(path, offset=0, known=()):
+    """Return (keys, new_offset) for keys bound to the key ring.
+
+    Scans forward from `offset` only. These logs reach hundreds of megabytes,
+    so a full re-read on every refresh is not affordable; bindings are appended
+    and never removed, so resuming from the last byte offset is sufficient.
+    A log that shrank (deleted or rotated) is re-read from the start.
+    """
+    keys = set(known)
+    if not path or not os.path.isfile(path):
+        return keys, offset
+    size = os.path.getsize(path)
+    if offset > size:
+        offset, keys = 0, set()
+    if offset == size:
+        return keys, offset
+    with open(path, "r", encoding="utf-8", errors="replace") as fh:
+        fh.seek(offset)
+        for line in fh:
+            if _KEYRING_LINE in line:
+                name = line.split("] ", 1)[-1].split(_KEYRING_LINE)[0].strip()
+                if name:
+                    keys.add(name)
+        new_offset = fh.tell()
+    return keys, new_offset
+
+
 def file_age(path):
     """Human-readable modification time, or None."""
     if not path or not os.path.isfile(path):

@@ -33,6 +33,37 @@ storage type added by a future patch shows up as itself. `test_core` covers all 
 
 Deriving completion from inventory alone undercounts — that mistake cost a rewrite once already.
 
+## Cleanup - the one feature that can lose someone's items
+
+The Cleanup tab lists what a player no longer needs. Acting on it is irreversible, so the bar
+differs from every other tab: **being unhelpful is cheap, being wrong is not.**
+
+An item is withheld from the list if **any** of these holds:
+
+| Withheld when | Why |
+|---|---|
+| An unfinished Test needs it | `outstanding` counts per Test - turn-ins consume, so two Tests wanting one item means you need two |
+| It is the reward of an unfinished Test | Not earned yet; holding it means something else |
+| **It appears anywhere in the epic data** | Blunt on purpose. No epic is completable, so an epic component is not spare, it is *early*. "Not needed now" and "not needed" are different claims; only the second justifies discarding |
+
+| Rule | Detail |
+|---|---|
+| **Never phrase output as an instruction to destroy** | The tab says what is spare and why; the player decides. Banner and PDF both carry the caution: duplicates are merge fuel, an item can be an Exaltation source, so *not needed for a quest* is not *worthless* |
+| **Every row carries its reason and blockers** | A row holding copies back shows `Keep N for <Test>` so the arithmetic is checkable |
+| **`TestCleanup` covers the withholding rules** | Add a case before relaxing one |
+
+### Key rings - the chat log is the only source
+
+- A bound key is permanent, so the copy left in the bags is redundant.
+- **`/outputfile inventory` writes a `KeyRing` header and no rows** - an empty section means
+  *not exported*, not *no keys*. The only record is `<Key> has been added to your key ring`.
+- `parsers.scan_keyring()` resumes from a cached byte offset: these logs reach **450 MB+**, so a
+  full re-read per refresh is unaffordable. Bindings only ever append; a shrunk log is re-read.
+
+> **In Legends the window is "Alt Storage"**, not Key Rings: **EQ button > Inventory > Alt
+> Storage** (`CascadeMenu.txt`, `CMD_TOGGLE_KEYRINGS`), with **no default keybind**. Never
+> repeat the live-EQ advice of `/keyring` or the `K` key.
+
 ## Verified game facts baked into the data
 
 These were confirmed against `eqlwiki.com` raw wikitext and the in-game help files. Do not
@@ -114,7 +145,14 @@ itself. Resolve conflicts in this order:
 1. **A player who actually plays the game.** Sirran the Lunatic was in the dataset for a day
    because two wiki pages disagreed and the conflict was documented rather than resolved.
    A player settled it in one sentence.
-2. **The game's own files** - `Help\*.html` and the `/outputfile` exports.
+2. **The game's own files** - `Help\*.html`, `uifiles\default\*` (what the client actually renders), `eqstr_us.txt` / `dbstr_us.txt` (string tables), and the `/outputfile` exports.
+
+   > **`eqlsnews.txt` and `eqnews.txt` are LIVE EverQuest's patch notes**, not Legends'.
+   > They ship with the client and are dated October 2025; they describe Laurion Inn,
+   > personas and `/keyring`, none of which apply here. The client also ships the full
+   > modern string table, so a string existing proves the *client* knows the feature,
+   > **not that Legends has it enabled**. Check `CascadeMenu.txt` and the UI XML for what
+   > is actually reachable, and the player's chat log for what actually happened.
 3. **An item page's structured field** (`dropsfrom`, `Class:`).
 4. **Prose on a related page.** Weakest. The Efreeti Great Staff source was widened wrongly on
    the strength of a sentence on the Eye of Veeshan page.
@@ -154,40 +192,15 @@ a stale dataset is worse than none.
    module still imports elsewhere.
 
 
-## Build traps (both cost real time - do not rediscover)
+## Build traps
 
-**PyInstaller must be >= 6.22.** Python 3.14 ships **Tcl/Tk 9.0**, whose library lives in
-`C:\Python314\tcl\libtcl9.0.4.zip` rather than the old `tcl8.6\` directory tree.
-PyInstaller <= 6.20 emits a `_tcl_data` path it never populates, and the built exe dies at
-launch with:
+Two traps here have each cost real time. **Read `docs\build-traps.md` before debugging a build or writing smoke-test tooling.**
 
-```
-Failed to execute script 'pyi_rth__tkinter' ... Tcl data directory "...\_MEI...\_tcl_data" not found
-```
-
-6.22.2 detects Tcl 9 correctly (`tcl_data_missing: False`, zero separate data files - the DLL
-loads its own zip). The build script enforces this version floor and refuses to run below it.
-
-**Smoke-testing a one-file build: check the WINDOW, not the process.** Two traps here:
-
-1. A PyInstaller one-file exe spawns a **child** process that owns the GUI. Enumerating windows
-   for the pid returned by `Start-Process` finds nothing. Match on the process *name* instead.
-2. "Process still alive after N seconds" passes even when the app is showing a fatal-error
-   dialog - that dialog is what keeps it alive. **Assert on the window title.** This bit twice:
-   once on the Tcl/Tk 9 crash, and again when a screenshot script reported "captured" for six
-   tabs that were all the crash dialog. Any capture or smoke tooling MUST check the title text,
-   not merely that a window exists.
-
-```powershell
-$t = @(Get-Process VeeshansLedger | ? {$_.MainWindowTitle} | % {$_.MainWindowTitle})
-if ($t -match "Veeshan") { "PASS" } else { "FAIL" }
-```
-
-If a build fails mysteriously, rebuild with `--console` instead of `--windowed` - the traceback
-goes to stdout instead of a dialog.
-
-**Delete `dist\VeeshansLedger.exe` before rebuilding.** A still-running instance locks it and
-PyInstaller fails with `PermissionError: [WinError 5]`, which is easy to miss in the log tail.
+| Trap | One-line form |
+|---|---|
+| **PyInstaller must be >= 6.22** | Python 3.14 ships Tcl/Tk 9.0; older versions emit a `_tcl_data` path they never populate and the exe dies at launch. The build script enforces the floor |
+| **Smoke-test the WINDOW, not the process** | A one-file exe spawns a *child* that owns the GUI, and a fatal-error dialog keeps the process alive. **Assert on the window title**, or a broken build reads as a pass. This bit twice |
+| **Delete `dist\VeeshansLedger.exe` before rebuilding** | A running instance locks it; PyInstaller fails with `PermissionError: [WinError 5]`, easy to miss in the log tail |
 
 ## Build
 

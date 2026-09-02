@@ -58,6 +58,7 @@ and asks you to confirm what it found. If it guesses wrong, point it at the fold
 | **Farming List** | Grouped by the boss that drops it, with `x2` where an item feeds two Tests |
 | **Zone Guide** | Island progression, which boss drops which key, and the mechanics that otherwise cost you a trip |
 | **Epic Quests** | All 15 class epics, every step marked by whether its zone is reachable today |
+| **Cleanup** | What you no longer need, so you can clear your bags without guessing |
 | **Setup & Help** | The `/outputfile` commands, folder detection, file freshness |
 
 To mark something as already held, select it and press **Space**, or right-click it. Double-click
@@ -95,6 +96,28 @@ Results show whether you already hold it and where. Double-click to jump to that
   ring, the **tradeskill depot** and the **Dragon's Hoard** — and each item says which one it is
   in. Anything the app doesn't recognise is reported under its own name rather than quietly
   filed as "worn", so a storage type added by a future patch can't hide from you.
+
+## Cleaning out your bags
+
+The **Cleanup** tab lists every item you hold that nothing outstanding still wants, with the
+reason and where it is. Filter it, or print it as a checklist.
+
+It is deliberately cautious. An item stays off the list while **any** unfinished Test needs it,
+while it is the reward of a Test you have not finished, or while it appears **anywhere in the
+epic data** — no epic is completable yet, so an epic component is not spare, it is early.
+
+Where you need to keep some but not all, it says so: *"Keep 1 for Cleric — Test of The Weak.
+The Tests you have left need 1; you hold 2."*
+
+> **It will never tell you to destroy anything.** Duplicates are merge fuel in Legends, and an
+> item can be the source of an Exaltation — not needed for a quest is not the same as worthless.
+> The tab tells you what is spare and why; the decision stays yours.
+
+**Sky keys are a special case.** Once a key binds to your key ring it is permanent, and the copy
+in your bags does nothing. The inventory export doesn't list key ring contents, so the app reads
+your chat log for the binding message instead. Confirm in game under **EQ button → Inventory →
+Alt Storage** — in EverQuest Legends the window is called *Alt Storage*, not Key Rings, and it
+has no default keybind.
 
 ## Epic quests — read this before you farm
 
@@ -139,7 +162,7 @@ pip install -r requirements.txt
 python tools/build_dataset.py     # regenerate data/sky.json
 python tools/build_epics.py       # regenerate data/epics.json
 python build/build_exe.py         # -> dist/VeeshansLedger.exe
-python -m unittest discover -s tests   # 45 regression tests
+python -m unittest discover -s tests   # 54 regression tests
 ```
 
 Requires Python 3.11+. **PyInstaller must be 6.22 or newer** — Python 3.14 ships Tcl/Tk 9.0 and

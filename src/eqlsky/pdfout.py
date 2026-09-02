@@ -261,3 +261,47 @@ def export_epics(epics, path):
 
     doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
     return path
+
+
+def export_cleanup(tracker, rows, path):
+    """A printable bag-cleaning sheet. Nothing here is a destroy instruction."""
+    ss = _styles()
+    doc = SimpleDocTemplate(path, pagesize=letter,
+                            leftMargin=14 * mm, rightMargin=14 * mm,
+                            topMargin=13 * mm, bottomMargin=16 * mm,
+                            title="Plane of Sky - items no longer needed")
+    story = []
+    _header(story, ss, tracker, "Items you no longer need")
+
+    story.append(Paragraph(
+        "Nothing is listed here while any unfinished Test, or any epic step, still "
+        "wants it. <b>Not needed for a quest is not the same as worthless</b> - "
+        "duplicates are merge fuel, and an item can be the source of an Exaltation. "
+        "Check before destroying anything.", ss["Note"]))
+    story.append(Spacer(1, 6))
+
+    if not rows:
+        story.append(Paragraph("Nothing spare - everything you hold is still wanted.",
+                               ss["Cell"]))
+        doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
+        return
+
+    slots = sum(r["spare"] for r in rows)
+    story.append(Paragraph("%d item%s, %d bag slot%s"
+                           % (len(rows), "" if len(rows) == 1 else "s",
+                              slots, "" if slots == 1 else "s"), ss["H2x"]))
+
+    data = [[Paragraph(h, ss["CellB"]) for h in
+             ("Item", "Spare", "Held", "Where", "Why it is spare")]]
+    for r in rows:
+        why = r["reason"]
+        if r["blockers"]:
+            why = "<b>Keep %d</b> for %s. %s" % (r["count"] - r["spare"],
+                                                 r["blockers"][0], why)
+        data.append([Paragraph(r["item"], ss["Cell"]),
+                     Paragraph(str(r["spare"]), ss["Cell"]),
+                     Paragraph(str(r["count"]), ss["Cell"]),
+                     Paragraph(r["where"] or "-", ss["Cell"]),
+                     Paragraph(why, ss["Cell"])])
+    story.append(_table(data, [38 * mm, 12 * mm, 12 * mm, 28 * mm, 92 * mm]))
+    doc.build(story, onFirstPage=_footer, onLaterPages=_footer)

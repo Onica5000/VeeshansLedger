@@ -82,6 +82,8 @@ class App(tk.Tk):
         self.paths = {"achievements": None, "inventory": None,
                       "character": None, "server": None}
         self.index = []
+        self.cleanup = []
+        self.keyring = set()
 
         self._dark_titlebar()
         self._style()
@@ -215,12 +217,14 @@ class App(tk.Tk):
         self.tab_farm = ttk.Frame(self.nb)
         self.tab_zone = ttk.Frame(self.nb)
         self.tab_epics = ttk.Frame(self.nb)
+        self.tab_clean = ttk.Frame(self.nb)
         self.tab_setup = ttk.Frame(self.nb)
         self.nb.add(self.tab_search, text="  Search  ")
         self.nb.add(self.tab_classes, text="  Class Unlocks  ")
         self.nb.add(self.tab_farm, text="  Farming List  ")
         self.nb.add(self.tab_zone, text="  Zone Guide  ")
         self.nb.add(self.tab_epics, text="  Epic Quests  ")
+        self.nb.add(self.tab_clean, text="  Cleanup  ")
         self.nb.add(self.tab_setup, text="  Setup & Help  ")
 
         self._build_search()
@@ -231,6 +235,7 @@ class App(tk.Tk):
             self._build_epics()
         else:
             self.nb.forget(self.tab_epics)
+        self._build_cleanup()
         self._build_setup()
 
         self.nb.select(self.tab_classes)      # land on something useful, not an empty table
@@ -246,6 +251,7 @@ class App(tk.Tk):
                                 (self.tab_farm, "farming"),
                                 (self.tab_zone, "zone"),
                                 (self.tab_epics, "epics"),
+                                (self.tab_clean, "cleanup"),
                                 (self.tab_setup, "setup")):
                 if name == want and str(frame) in self.nb.tabs():
                     self.nb.select(frame)
@@ -336,6 +342,30 @@ class App(tk.Tk):
             self.overrides[key] = True
         self._save_overrides()
         self.reload()
+
+    def _scan_keyring(self):
+        """Keys bound to the key ring, from the chat log.
+
+        The inventory export writes a KeyRing header and no rows, so the log is
+        the only record that a key bound - and a bound key makes the copy in
+        your bags redundant. These logs run to hundreds of megabytes, so the
+        byte offset is cached and later refreshes read only what was appended.
+        """
+        path = parsers.find_log(self.folder, self.paths.get("character"),
+                                self.paths.get("server"))
+        if not path:
+            return set()
+        cache = self.settings.get("keyring") or {}
+        if cache.get("log") != path:
+            cache = {}
+        try:
+            keys, offset = parsers.scan_keyring(
+                path, cache.get("offset", 0), cache.get("keys", ()))
+        except Exception:
+            return set(cache.get("keys", ()))
+        self.settings["keyring"] = {"log": path, "offset": offset,
+                                    "keys": sorted(keys)}
+        return keys
 
     def _warn_save_failed(self, what):
         """Say it once. Repeating it every click would be worse than silence."""
@@ -855,6 +885,86 @@ class App(tk.Tk):
         self._save_overrides()
         self.reload()
 
+    # ---------------- tab: cleanup ----------------
+
+    def _build_cleanup(self):
+        f = self.tab_clean
+        head = ttk.Frame(f, padding=(6, 10))
+        head.pack(fill="x")
+        ttk.Label(head, text="Items you no longer need", style="H2.TLabel").pack(anchor="w")
+        ttk.Label(head, style="Dim.TLabel", justify="left", text=(
+            "Everything here is safe to let go of as far as the Plane of Sky is concerned. "
+            "Nothing is listed while any unfinished Test, or any epic step, still wants it.")
+        ).pack(anchor="w", pady=(2, 6))
+
+        warn = ttk.Label(f, style="Next.TLabel", background="#3a2f20", padding=(12, 7),
+                         wraplength=1500, justify="left", text=(
+            "Not needed for a quest is not the same as worthless. Duplicates are merge fuel, "
+            "and an item can be the source of an Exaltation. Check before you destroy anything "
+            "\u2014 this tab will not tell you to."))
+        warn.pack(fill="x", padx=10, pady=(0, 8))
+
+        row = ttk.Frame(f, padding=(6, 0))
+        row.pack(fill="x")
+        ttk.Label(row, text="Filter").pack(side="left", padx=(0, 6))
+        self.var_clean_q = tk.StringVar()
+        e = ttk.Entry(row, textvariable=self.var_clean_q, width=34)
+        e.pack(side="left")
+        e.bind("<KeyRelease>", lambda _e: self._fill_cleanup())
+        self.lbl_clean_count = ttk.Label(row, text="", style="Dim.TLabel")
+        self.lbl_clean_count.pack(side="left", padx=12)
+        ttk.Button(row, text="Export PDF...", width=14,
+                   command=self.export_cleanup_pdf).pack(side="right")
+
+        body = ttk.Frame(f, padding=(4, 8))
+        body.pack(fill="both", expand=True)
+        cols = ("spare", "held", "where", "why")
+        self.tv_clean = ttk.Treeview(body, columns=cols, show="tree headings")
+        self.tv_clean.heading("#0", text="Item")
+        self.tv_clean.heading("spare", text="Spare")
+        self.tv_clean.heading("held", text="Held")
+        self.tv_clean.heading("where", text="Where")
+        self.tv_clean.heading("why", text="Why it is spare")
+        self.tv_clean.column("#0", width=250, anchor="w")
+        self.tv_clean.column("spare", width=55, anchor="center")
+        self.tv_clean.column("held", width=55, anchor="center")
+        self.tv_clean.column("where", width=170, anchor="w")
+        self.tv_clean.column("why", width=700, anchor="w")
+        self.tv_clean.pack(fill="both", expand=True)
+        self.tv_clean.tag_configure("key", foreground=OK)
+        self.tv_clean.tag_configure("partial", foreground=WARN)
+        _stripe(self.tv_clean)
+
+    def _fill_cleanup(self):
+        tv = getattr(self, "tv_clean", None)
+        if tv is None:
+            return
+        tv.delete(*tv.get_children())
+        rows = self.cleanup or []
+        q = self.var_clean_q.get().strip().lower()
+        if q:
+            rows = [r for r in rows
+                    if q in r["item"].lower() or q in r["reason"].lower()
+                    or q in (r["where"] or "").lower()]
+
+        for r in rows:
+            tag = ("key",) if r["category"] == model.CLEAN_KEY else (
+                  ("partial",) if r["blockers"] else ())
+            why = r["reason"]
+            if r["blockers"]:
+                why = "Keep %d for %s. %s" % (r["count"] - r["spare"],
+                                              r["blockers"][0], why)
+            tv.insert("", "end", text="  " + r["item"], tags=tag,
+                      values=(r["spare"], r["count"], r["where"] or "-", why))
+        _restripe(tv)
+
+        total = len(self.cleanup or [])
+        slots = sum(r["spare"] for r in (self.cleanup or []))
+        shown = "%d of %d" % (len(rows), total) if q else "%d" % total
+        self.lbl_clean_count.configure(
+            text="%s items  \u00b7  %d bag slot%s" % (shown, slots, "" if slots == 1 else "s")
+            if total else "Nothing spare \u2014 everything you hold is still wanted.")
+
     # ---------------- tab: search ----------------
 
     def _build_search(self):
@@ -1135,6 +1245,8 @@ class App(tk.Tk):
         if self.epic_data:
             self.epics = model.EpicTracker(self.epic_data, inv, self.overrides)
 
+        self.keyring = self._scan_keyring()
+        self.cleanup = model.cleanup_list(self.tracker, self.epics, self.keyring)
         self.index = model.build_index(self.tracker, self.epics)
         if hasattr(self, "tv_search"):
             self._do_search()
@@ -1145,6 +1257,7 @@ class App(tk.Tk):
         self._fill_zone()
         if self.epics:
             self._fill_epics()
+        self._fill_cleanup()
         self._fill_status()
         self._fill_compact()
 
@@ -1414,6 +1527,25 @@ class App(tk.Tk):
                                              % (age, model.CMD_INVENTORY))
 
     # ---------------- export ----------------
+
+    def export_cleanup_pdf(self):
+        default = "Cleanup_%s_%s.pdf" % (self.paths.get("character") or "character",
+                                         datetime.date.today().isoformat())
+        path = filedialog.asksaveasfilename(
+            title="Save cleanup sheet", defaultextension=".pdf",
+            initialfile=default, filetypes=[("PDF", "*.pdf")])
+        if not path:
+            return
+        try:
+            pdfout.export_cleanup(self.tracker, self.cleanup, path)
+        except Exception as exc:
+            messagebox.showerror(APP_TITLE, "PDF export failed:\n%s" % exc)
+            return
+        if messagebox.askyesno(APP_TITLE, "Saved:\n%s\n\nOpen it now?" % path):
+            try:
+                os.startfile(path)
+            except Exception:
+                pass
 
     def export_pdf(self):
         if not self.tracker.has_achievements():

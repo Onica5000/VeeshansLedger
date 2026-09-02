@@ -226,6 +226,144 @@ class Tracker(_InventoryView):
         }
 
 
+# ---------- cleanup: what you no longer need ----------
+
+# Categories, most confident first.
+CLEAN_KEY = "key"        # bound to the key ring; the copy in your bags is a spare
+CLEAN_SPENT = "spent"    # component of a Test you have already completed
+CLEAN_SURPLUS = "surplus"  # more copies than the Tests you have left require
+
+
+def cleanup_list(tracker, epics=None, keyring=()):
+    """Items you hold that nothing outstanding still needs.
+
+    Deliberately conservative, because acting on this is destructive and a wrong
+    answer cannot be undone. An item is withheld from this list if ANY of these
+    is true:
+
+      - an incomplete Test needs it
+      - it is the reward of a Test you have not finished
+      - it appears anywhere in the epic data
+
+    That last rule is blunt on purpose. No epic is completable yet, so every
+    epic component is something you are collecting toward a future patch;
+    "not needed now" and "not needed" are different claims and only the second
+    one justifies throwing something away.
+
+    Returns rows sorted most-confident first:
+      {item, count, spare, where, category, reason, caution}
+    """
+    keep = {}          # norm name -> why it is still wanted
+    outstanding = {}   # norm name -> how many copies the remaining Tests need
+
+    for cls in tracker.data["classes"]:
+        for test in cls["tests"]:
+            status = tracker.test_status(cls, test)[0]
+            if status == DONE:
+                continue
+            label = "%s - %s" % (cls["name"], test["test"])
+            keep.setdefault(norm_item(test["reward"]), []).append(label + " reward")
+            for comp in test["components"]:
+                k = norm_item(comp["item"])
+                # Turn-ins consume the component, so two Tests wanting the same
+                # item means you genuinely need two of them.
+                outstanding[k] = outstanding.get(k, 0) + 1
+                keep.setdefault(k, []).append(label)
+
+    if epics is not None:
+        for cls in epics.data["classes"]:
+            for step in cls["steps"]:
+                if step.get("item"):
+                    keep.setdefault(norm_item(step["item"]), []).append(
+                        "%s epic - step %s" % (cls["name"], step.get("step", "?")))
+
+    bound = {norm_item(k) for k in keyring}
+    rows = []
+    seen = set()
+
+    def add(item, category, reason, caution="", spare=None):
+        k = norm_item(item)
+        if k in seen:
+            return
+        held = tracker.held_count(item)
+        if held <= 0:
+            return
+        spare = held if spare is None else spare
+        if spare <= 0:
+            return
+        seen.add(k)
+        rows.append({"item": item, "count": held, "spare": spare,
+                     "where": tracker.where(item), "category": category,
+                     "reason": reason, "caution": caution,
+                     "blockers": keep.get(k, [])})
+
+    # 1. Sky keys already bound to the key ring.
+    for entry in tracker.data.get("keys", []):
+        if norm_item(entry["key"]) in bound and norm_item(entry["key"]) not in keep:
+            add(entry["key"], CLEAN_KEY,
+                "Already on your key ring - that is permanent. The copy in your "
+                "bags does nothing.",
+                "Confirm it under Alt Storage first (EQ button > Inventory > Alt Storage).")
+
+    # 2 and 3. Components you hold beyond what the remaining Tests need.
+    for cls in tracker.data["classes"]:
+        for test in cls["tests"]:
+            done = tracker.test_status(cls, test)[0] == DONE
+            for comp in test["components"]:
+                item, k = comp["item"], norm_item(comp["item"])
+                if k in bound or k in seen:
+                    continue
+                blocked = [b for b in keep.get(k, []) if not b.endswith(" reward")]
+                epic_blocked = [b for b in keep.get(k, []) if "epic" in b]
+                if epic_blocked:
+                    continue
+                need = outstanding.get(k, 0)
+                spare = tracker.held_count(item) - need
+                if spare <= 0:
+                    continue
+                if not blocked and done:
+                    add(item, CLEAN_SPENT,
+                        "%s - %s is complete, and turning it in consumed the "
+                        "component. This is a spare." % (cls["name"], test["test"]),
+                        _MERGE_CAUTION, spare=spare)
+                elif need:
+                    add(item, CLEAN_SURPLUS,
+                        "The Tests you have left need %d; you hold %d."
+                        % (need, tracker.held_count(item)),
+                        _MERGE_CAUTION, spare=spare)
+
+    order = {CLEAN_KEY: 0, CLEAN_SPENT: 1, CLEAN_SURPLUS: 2}
+    rows.sort(key=lambda r: (order[r["category"]], r["item"]))
+    return rows
+
+
+_MERGE_CAUTION = ("Duplicates are merge fuel in Legends, and an item can be the "
+                  "source of an Exaltation. Not needed for a quest is not the "
+                  "same as worthless.")
+
+
+def item_verdict(tracker, epics, name, keyring=()):
+    """Why one item is, or is not, still needed. Powers the cleanup search box."""
+    k = norm_item(name)
+    wanted = []
+    for cls in tracker.data["classes"]:
+        for test in cls["tests"]:
+            done = tracker.test_status(cls, test)[0] == DONE
+            for comp in test["components"]:
+                if norm_item(comp["item"]) == k and not done:
+                    wanted.append("%s - %s" % (cls["name"], test["test"]))
+            if norm_item(test["reward"]) == k and not done:
+                wanted.append("%s - %s (the reward)" % (cls["name"], test["test"]))
+    if epics is not None:
+        for cls in epics.data["classes"]:
+            for step in cls["steps"]:
+                if step.get("item") and norm_item(step["item"]) == k:
+                    wanted.append("%s epic - step %s" % (cls["name"], step.get("step", "?")))
+    return {"item": name, "held": tracker.held_count(name),
+            "where": tracker.where(name), "needed_by": wanted,
+            "on_keyring": k in {norm_item(x) for x in keyring}}
+
+
 # ---------- manual overrides ----------
 
 def overrides_path():
